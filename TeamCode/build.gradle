@@ -1,15 +1,38 @@
+import java.util.regex.Pattern
 //
-// build.gradle in TeamCode
+// build.gradle in FtcRobotController
 //
-// Most of the definitions for building your module reside in a common, shared
-// file 'build.common.gradle'. Being factored in this way makes it easier to
-// integrate updates to the FTC into your code. If you really need to customize
-// the build definitions, you can place those customizations in this file, but
-// please think carefully as to whether such customizations are really necessary
-// before doing so.
+apply plugin: 'com.android.application'
+android {
 
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 19
+    }
 
-// Custom definitions may go here
+    compileSdkVersion 19
+    buildToolsVersion '24.0.1'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
 
-// Include common definitions from above.
-apply from: '../build.common.gradle'
+repositories {
+    flatDir {
+        dirs '../libs'
+    }
+}
+
+dependencies {
+    compile project(':FtcRobotController')
+    compile(name: 'Inspection-release', ext: 'aar')
+    compile(name: 'Blocks-release', ext: 'aar')
+    compile(name: 'RobotCore-release', ext: 'aar')
+    compile(name: 'Hardware-release', ext: 'aar')
+    compile(name: 'FtcCommon-release', ext: 'aar')
+    compile(name: 'ModernRobotics-release', ext: 'aar')
+    compile(name: 'Analytics-release', ext: 'aar')
+    compile(name: 'WirelessP2p-release', ext: 'aar')
+    compile(name: 'navx_ftc-release', ext: 'aar')
+}

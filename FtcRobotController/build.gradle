@@ -12,8 +12,8 @@ android {
         targetSdkVersion 19
     }
 
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 19
+    buildToolsVersion '24.0.1'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -26,4 +26,15 @@ repositories {
     }
 }
 
-apply from: 'build.release.gradle'
+dependencies {
+    compile (name:'Inspection-release', ext: 'aar')
+    compile (name:'Blocks-release', ext: 'aar')
+    compile (name:'RobotCore-release', ext: 'aar')
+    compile (name:'Hardware-release', ext: 'aar')
+    compile (name:'FtcCommon-release', ext: 'aar')
+    compile (name:'ModernRobotics-release', ext:'aar')
+    compile (name:'Analytics-release', ext:'aar')
+    compile (name:'WirelessP2p-release', ext:'aar')
+    compile (name:'navx_ftc-release', ext:'aar')
+}
+

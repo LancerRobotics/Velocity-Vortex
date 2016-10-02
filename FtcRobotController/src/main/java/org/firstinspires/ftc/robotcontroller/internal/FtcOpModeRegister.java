@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 package org.firstinspires.ftc.robotcontroller.internal;
 
 import com.google.blocks.ftcrobotcontroller.runtime.BlocksOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 import com.qualcomm.robotcore.eventloop.opmode.AnnotatedOpModeRegistrar;
@@ -61,7 +62,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * @see com.qualcomm.robotcore.eventloop.opmode.TeleOp
      * @see com.qualcomm.robotcore.eventloop.opmode.Autonomous
-     */
+    */
     public void register(OpModeManager manager) {
 
         /**

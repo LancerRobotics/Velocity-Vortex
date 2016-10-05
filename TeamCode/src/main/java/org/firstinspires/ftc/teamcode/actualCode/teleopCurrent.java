@@ -3,18 +3,17 @@ package org.firstinspires.ftc.teamcode.actualCode;
 
 
 import com.kauailabs.navx.ftc.AHRS;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 
 @TeleOp(name="Tele", group = "Teleop")  // @Autonomous(...) is the other common choice
 
-public class teleopCurrent extends OpMode
+public class teleopCurrent extends LancerOpMode
 
 {
 
@@ -220,26 +219,6 @@ public class teleopCurrent extends OpMode
 
     }
 
-    public float convertYaw (double yaw) {
-        if (yaw <= 0) {
-            yaw = 360 + yaw;
-        }
-        return (float)yaw;
-    }
-
-
-
-    /*
-
-     * Code to run ONCE after the driver hits STOP
-
-     */
-
-    @Override
-
-    public void stop() {
-
-    }
 }
 //bs
 class FPSDrive extends Thread {
@@ -277,5 +256,4 @@ class FPSDrive extends Thread {
         }
         return (float)yaw;
     }
-
 }

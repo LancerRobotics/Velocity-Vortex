@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.actualCode;
 
 import android.util.Log;
@@ -23,7 +24,7 @@ import java.text.DecimalFormat;
 public class AutonGyro extends LinearOpMode {
     //DcMotor leftMotor;
     //DcMotor rightMotor;
-    DcMotor fr,fl, br, bl;
+    DcMotor fr, fl, br, bl;
 
     /* This is the port on the Core Device Interface Module        */
     /* in which the navX-Model Device is connected.  Modify this  */
@@ -66,65 +67,63 @@ public class AutonGyro extends LinearOpMode {
         waitForStart();
 
 
-
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             gyroAngle(90);
         }
     }
-        public void gyroAngle(double angle) {
+
+    public void gyroAngle(double angle) {
                 /* Create a PID Controller which uses the Yaw Angle as input. */
-                yawPIDController = new navXPIDController( navx_device,
-                        navXPIDController.navXTimestampedDataSource.YAW);
+        yawPIDController = new navXPIDController(navx_device,
+                navXPIDController.navXTimestampedDataSource.YAW);
 
                 /* Configure the PID controller */
-                yawPIDController.setSetpoint(angle);
-                yawPIDController.setContinuous(true);
-                yawPIDController.setOutputRange(Keys.MIN_MOTOR_OUTPUT_VALUE, Keys.MAX_MOTOR_OUTPUT_VALUE);
-                yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Keys.TOLERANCE_DEGREES);
-                yawPIDController.setPID(Keys.YAW_PID_P, Keys.YAW_PID_I, Keys.YAW_PID_D);
+        yawPIDController.setSetpoint(angle);
+        yawPIDController.setContinuous(true);
+        yawPIDController.setOutputRange(Keys.MIN_MOTOR_OUTPUT_VALUE, Keys.MAX_MOTOR_OUTPUT_VALUE);
+        yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Keys.TOLERANCE_DEGREES);
+        yawPIDController.setPID(Keys.YAW_PID_P, Keys.YAW_PID_I, Keys.YAW_PID_D);
 
-                navx_device.zeroYaw();
+        navx_device.zeroYaw();
 
-                try {
-                    yawPIDController.enable(true);
+        try {
+            yawPIDController.enable(true);
 
                 /* Wait for new Yaw PID output values, then update the motors
                    with the new PID value with each new output value.
                  */
-                    navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
+            navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
 
-                    DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormat df = new DecimalFormat("#.##");
 
-                    while (!Thread.currentThread().isInterrupted()) {
-                        if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
-                            if (yawPIDResult.isOnTarget()) {
+            while (!Thread.currentThread().isInterrupted()) {
+                if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
+                    if (yawPIDResult.isOnTarget()) {
                                /* fl.setPower(0);
                                 fr.setPower(0);
                                 bl.setPower(0);
                                 br.setPower(0); */
-                                telemetry.addData("PIDOutput", df.format(0.00));
-                            } else {
-                                double output = yawPIDResult.getOutput();
+                        telemetry.addData("PIDOutput", df.format(0.00));
+                    } else {
+                        double output = yawPIDResult.getOutput();
                                /* fl.setPower(output);
                                 bl.setPower(output);
                                 fr.setPower(-output);
                                 fl.setPower(-output); */
-                                telemetry.addData("PIDOutput", df.format(output) + ", " +
-                                        df.format(-output));
-                            }
-                        } else {
-                        /* A timeout occurred */
-                            Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
-                        }
-                        telemetry.addData("Yaw", df.format(navx_device.getYaw()));
-                        telemetry.update();
+                        telemetry.addData("PIDOutput", df.format(output) + ", " +
+                                df.format(-output));
                     }
+                } else {
+                        /* A timeout occurred */
+                    Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
                 }
-                catch(InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }
-                finally {
-                    yawPIDController.close();
-                }
+                telemetry.addData("Yaw", df.format(navx_device.getYaw()));
+                telemetry.update();
             }
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        } finally {
+            yawPIDController.close();
         }
+    }
+}

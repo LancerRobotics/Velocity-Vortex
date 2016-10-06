@@ -1,19 +1,12 @@
 
 package org.firstinspires.ftc.teamcode.actualCode;
 
-import android.util.Log;
-
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
-
-import java.text.DecimalFormat;
 
 /**
  * Created by spork on 9/27/2016.

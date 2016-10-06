@@ -1,8 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
+import com.kauailabs.navx.ftc.AHRS;
+import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import java.text.DecimalFormat;
 
 /**
  * Created by spork on 10/5/2016.
@@ -10,7 +16,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static DcMotor fl, fr, br, bl;
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
 
     }
 
@@ -179,5 +185,65 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl.setPower(0);
         bl.setPower(0);
         br.setPower(0);
+    }
+
+    public void gyroAngle(double angle, AHRS navx_device,navXPIDController yawPIDController) {
+                /* Create a PID Controller which uses the Yaw Angle as input. */
+        yawPIDController = new navXPIDController(navx_device,
+                navXPIDController.navXTimestampedDataSource.YAW);
+
+                /* Configure the PID controller */
+        yawPIDController.setSetpoint(angle);
+        yawPIDController.setContinuous(true);
+        yawPIDController.setOutputRange(Keys.MIN_MOTOR_OUTPUT_VALUE, Keys.MAX_MOTOR_OUTPUT_VALUE);
+        yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Keys.TOLERANCE_DEGREES);
+        yawPIDController.setPID(Keys.YAW_PID_P, Keys.YAW_PID_I, Keys.YAW_PID_D);
+
+        navx_device.zeroYaw();
+        double stopAngle = angle;
+        double currAngle = navx_device.getYaw();
+        try {
+            yawPIDController.enable(true);
+
+                /* Wait for new Yaw PID output values, then update the motors
+                   with the new PID value with each new output value.
+                 */
+            navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
+
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            while (!Thread.currentThread().isInterrupted()) {
+                if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
+                    if (yawPIDResult.isOnTarget()) {
+                        rest();
+                        telemetry.addData("PIDOutput", df.format(0.00));
+                    } else {
+                        double output = yawPIDResult.getOutput();
+                        if(Math.abs(currAngle) <= Math.abs(stopAngle/3)) {
+                            output = output/3;
+                        }
+                        else if (Math.abs(currAngle) <= Math.abs((2 * stopAngle)/3)) {
+                            output = output * 2;
+                            output = output/3;
+                        }
+                        fl.setPower(output);
+                        bl.setPower(output);
+                        fr.setPower(-output);
+                        br.setPower(-output);
+                        telemetry.addData("PIDOutput", df.format(output) + ", " +
+                                df.format(-output));
+                    }
+                } else {
+                        /* A timeout occurred */
+                    Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
+                }
+                telemetry.addData("Yaw", df.format(navx_device.getYaw()));
+                telemetry.update();
+            }
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        } finally {
+            yawPIDController.close();
+        }
     }
 }

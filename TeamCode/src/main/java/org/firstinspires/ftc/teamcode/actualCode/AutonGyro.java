@@ -36,18 +36,18 @@ public class AutonGyro extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        /*fl = hardwareMap.dcMotor.get(Keys.fl);
+        fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         bl = hardwareMap.dcMotor.get(Keys.bl);
         br = hardwareMap.dcMotor.get(Keys.br);
-*/
+
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
 
-        /*fr.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.REVERSE); */
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.REVERSE);
 
         /* If possible, use encoders when driving, as it results in more */
         /* predictable drive system response.                           */
@@ -85,7 +85,8 @@ public class AutonGyro extends LinearOpMode {
         yawPIDController.setPID(Keys.YAW_PID_P, Keys.YAW_PID_I, Keys.YAW_PID_D);
 
         navx_device.zeroYaw();
-
+        double stopAngle = angle;
+        double currAngle = navx_device.getYaw();
         try {
             yawPIDController.enable(true);
 
@@ -99,17 +100,24 @@ public class AutonGyro extends LinearOpMode {
             while (!Thread.currentThread().isInterrupted()) {
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
-                               /* fl.setPower(0);
+                                fl.setPower(0);
                                 fr.setPower(0);
                                 bl.setPower(0);
-                                br.setPower(0); */
+                                br.setPower(0);
                         telemetry.addData("PIDOutput", df.format(0.00));
                     } else {
                         double output = yawPIDResult.getOutput();
-                               /* fl.setPower(output);
-                                bl.setPower(output);
-                                fr.setPower(-output);
-                                fl.setPower(-output); */
+                        if(Math.abs(currAngle) <= Math.abs(stopAngle/3)) {
+                            output = output/3;
+                        }
+                        else if (Math.abs(currAngle) <= Math.abs((2 * stopAngle)/3)) {
+                            output = output * 2;
+                            output = output/3;
+                        }
+                        fl.setPower(output);
+                        bl.setPower(output);
+                        fr.setPower(output);
+                        br.setPower(output);
                         telemetry.addData("PIDOutput", df.format(output) + ", " +
                                 df.format(-output));
                     }

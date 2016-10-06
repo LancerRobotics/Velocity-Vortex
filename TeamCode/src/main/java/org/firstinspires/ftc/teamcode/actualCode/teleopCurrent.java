@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 
 @TeleOp(name="Tele", group = "Teleop")  // @Autonomous(...) is the other common choice
-
+//Disabled
 public class teleopCurrent extends LancerOpMode
 
 {

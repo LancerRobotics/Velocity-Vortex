@@ -220,10 +220,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     } else {
                         double output = yawPIDResult.getOutput();
                         if(Math.abs(currAngle) <= Math.abs(stopAngle/3)) {
-                            output = output/3;
+                            output = output;
                         }
                         else if (Math.abs(currAngle) <= Math.abs((2 * stopAngle)/3)) {
-                            output = output * 2;
+                            output = (output * 2)/3;
+                        }
+                        else if (Math.abs(currAngle) <= Math.abs(stopAngle)) {
                             output = output/3;
                         }
                         fl.setPower(output);

@@ -31,6 +31,8 @@ public class teleopCurrent extends LancerOpMode
 
     public static volatile double x, y, z, trueX, trueY;
 
+    public static volatile double frPower, flPower, brPower, blPower;
+
     public static volatile FPSDrive fpsDrive;
     /*
 
@@ -192,10 +194,11 @@ public class teleopCurrent extends LancerOpMode
 
         }
 
-        fl.setPower(Range.clip(-x+y-z * 2/.86, -.86, .86));
-        fr.setPower(Range.clip(-x-y-z * 2/.86, -.86, .86));
-        bl.setPower(Range.clip(x+y-z * 2/.86, -.86, .86));
-        br.setPower(Range.clip(x-y-z * 2/.86, -.86, .86));
+
+        fl.setPower(flPower);
+        fr.setPower(frPower);
+        bl.setPower(blPower);
+        br.setPower(brPower);
 
         telemetry.addData("Status", "Running: " + runtime.toString());
 
@@ -213,9 +216,10 @@ public class teleopCurrent extends LancerOpMode
         telemetry.addData("z", z);
         telemetry.addData("true x", trueX);
         telemetry.addData("true y", trueY);
-
-
-
+        telemetry.addData("Front Right Power", frPower);
+        telemetry.addData("Front Left Power", flPower);
+        telemetry.addData("Back Right Power", brPower);
+        telemetry.addData("Back Left Power", blPower);
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
 
         // leftMotor.setPower(-gamepad1.left_stick_y);
@@ -253,6 +257,10 @@ class FPSDrive extends Thread {
         teleopCurrent.x = teleopCurrent.trueX;
         teleopCurrent.y = teleopCurrent.trueY;
 
+        teleopCurrent.flPower = Range.clip((-teleopCurrent.x+teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.frPower = Range.clip((-teleopCurrent.x-teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.blPower = Range.clip((teleopCurrent.x+teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.brPower = Range.clip((teleopCurrent.x-teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
     }
 
     public float convertYaw (double yaw) {

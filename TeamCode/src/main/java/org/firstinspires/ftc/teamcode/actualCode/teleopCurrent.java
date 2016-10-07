@@ -6,6 +6,7 @@ import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.LancerOpMode;
@@ -160,9 +161,9 @@ public class teleopCurrent extends LancerOpMode
             navx_device.zeroYaw();
         }
 
-        teleopCurrent.x = teleopCurrent.gp1_right_stick_x; //sideways
+        teleopCurrent.z = teleopCurrent.gp1_right_stick_x; //sideways
         teleopCurrent.y = teleopCurrent.gp1_left_stick_y; //forward and backward
-        teleopCurrent.z = teleopCurrent.gp1_left_stick_x; //rotation
+        teleopCurrent.x = teleopCurrent.gp1_left_stick_x; //rotation
 
 
         if (x == 0 && y == 0 && z == 0) {
@@ -191,6 +192,10 @@ public class teleopCurrent extends LancerOpMode
 
         }
 
+        fl.setPower(Range.clip(-x+y-z * 2/.86, -.86, .86));
+        fr.setPower(Range.clip(-x-y-z * 2/.86, -.86, .86));
+        bl.setPower(Range.clip(x+y-z * 2/.86, -.86, .86));
+        br.setPower(Range.clip(x-y-z * 2/.86, -.86, .86));
 
         telemetry.addData("Status", "Running: " + runtime.toString());
 

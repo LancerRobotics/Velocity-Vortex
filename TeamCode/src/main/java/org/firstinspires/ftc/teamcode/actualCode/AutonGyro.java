@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by spork on 9/27/2016.

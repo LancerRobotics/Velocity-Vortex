@@ -202,9 +202,12 @@ public class teleopCurrent extends LancerOpMode
 
         telemetry.addData("Status", "Running: " + runtime.toString());
 
-        telemetry.addData("GamePad 1 Right Stick X", gp1_right_stick_x);
-        telemetry.addData("GamePad 1 Left Stick Y", gp1_left_stick_y);
-        telemetry.addData("GamePad 1 Left Stick X", gp1_left_stick_x);
+        telemetry.addData("GamePad 1 Right Stick X Variable", gp1_right_stick_x);
+        telemetry.addData("GamePad 1 Left Stick Y Variable", gp1_left_stick_y);
+        telemetry.addData("GamePad 1 Left Stick X Variable", gp1_left_stick_x);
+        telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);
+        telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
+        telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 DPad Down", gp1_dpad_down);
         telemetry.addData("GamePad 1 DPad Up", gp1_dpad_up);
         telemetry.addData("GamePad 1 DPad Left", gp1_dpad_left);

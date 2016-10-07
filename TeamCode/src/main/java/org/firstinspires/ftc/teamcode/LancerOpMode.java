@@ -25,7 +25,7 @@ public abstract class LancerOpMode extends OpMode{
     }
 
 
-    public int[] togglePartB(boolean button, Servo servo, double[] positions, int currentPos, boolean pressed) {
+    public int[] servoToggle(boolean button, Servo servo, double[] positions, int currentPos, boolean pressed) {
         int servoPositions = positions.length;
         if(button) {
             pressed = true;

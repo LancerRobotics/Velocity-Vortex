@@ -1,18 +1,13 @@
 
 package org.firstinspires.ftc.teamcode.actualCode;
 
-import android.util.Log;
-
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Keys;
-
-import java.text.DecimalFormat;
+import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by spork on 9/27/2016.
@@ -21,6 +16,7 @@ import java.text.DecimalFormat;
 @Autonomous (name = "Test: GyroTurn", group = "Test")
 //@Disabled
 
+<<<<<<< HEAD
 public class AutonGyro extends LinearOpMode {
     private AHRS navx_device;
     DcMotor leftMotor;
@@ -28,6 +24,11 @@ public class AutonGyro extends LinearOpMode {
     DcMotor fr, fl, br, bl;
     float currPos, stopPos;
 
+=======
+public class AutonGyro extends LancerLinearOpMode {
+    //DcMotor leftMotor;
+    //DcMotor rightMotor;
+>>>>>>> cbf787b687358dd80e2de14436788c3f287419aa
     /* This is the port on the Core Device Interface Module        */
     /* in which the navX-Model Device is connected.  Modify this  */
     /* depending upon which I2C port you are using.               */
@@ -68,6 +69,7 @@ public class AutonGyro extends LinearOpMode {
 
 
         while (opModeIsActive()) {
+<<<<<<< HEAD
             gyroAngle(90);
         }
     }
@@ -129,6 +131,9 @@ public class AutonGyro extends LinearOpMode {
             Thread.currentThread().interrupt();
         } finally {
             yawPIDController.close();
+=======
+            gyroAngle(90, navx_device, yawPIDController);
+>>>>>>> cbf787b687358dd80e2de14436788c3f287419aa
         }
     }
 }

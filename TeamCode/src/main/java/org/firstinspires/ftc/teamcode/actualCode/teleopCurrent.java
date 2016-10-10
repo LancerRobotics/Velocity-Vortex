@@ -3,18 +3,18 @@ package org.firstinspires.ftc.teamcode.actualCode;
 
 
 import com.kauailabs.navx.ftc.AHRS;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 
 @TeleOp(name="Tele", group = "Teleop")  // @Autonomous(...) is the other common choice
-
-public class teleopCurrent extends OpMode
+//Disabled
+public class teleopCurrent extends LancerOpMode
 
 {
 
@@ -30,6 +30,8 @@ public class teleopCurrent extends OpMode
     public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
 
     public static volatile double x, y, z, trueX, trueY;
+
+    public static volatile double frPower, flPower, brPower, blPower;
 
     public static volatile FPSDrive fpsDrive;
     /*
@@ -161,9 +163,9 @@ public class teleopCurrent extends OpMode
             navx_device.zeroYaw();
         }
 
-        teleopCurrent.x = teleopCurrent.gp1_right_stick_x; //sideways
+        teleopCurrent.z = teleopCurrent.gp1_right_stick_x; //sideways
         teleopCurrent.y = teleopCurrent.gp1_left_stick_y; //forward and backward
-        teleopCurrent.z = teleopCurrent.gp1_left_stick_x; //rotation
+        teleopCurrent.x = teleopCurrent.gp1_left_stick_x; //rotation
 
 
         if (x == 0 && y == 0 && z == 0) {
@@ -193,11 +195,19 @@ public class teleopCurrent extends OpMode
         }
 
 
+        fl.setPower(flPower);
+        fr.setPower(frPower);
+        bl.setPower(blPower);
+        br.setPower(brPower);
+
         telemetry.addData("Status", "Running: " + runtime.toString());
 
-        telemetry.addData("GamePad 1 Right Stick X", gp1_right_stick_x);
-        telemetry.addData("GamePad 1 Left Stick Y", gp1_left_stick_y);
-        telemetry.addData("GamePad 1 Left Stick X", gp1_left_stick_x);
+        telemetry.addData("GamePad 1 Right Stick X Variable", gp1_right_stick_x);
+        telemetry.addData("GamePad 1 Left Stick Y Variable", gp1_left_stick_y);
+        telemetry.addData("GamePad 1 Left Stick X Variable", gp1_left_stick_x);
+        telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);
+        telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
+        telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 DPad Down", gp1_dpad_down);
         telemetry.addData("GamePad 1 DPad Up", gp1_dpad_up);
         telemetry.addData("GamePad 1 DPad Left", gp1_dpad_left);
@@ -209,9 +219,10 @@ public class teleopCurrent extends OpMode
         telemetry.addData("z", z);
         telemetry.addData("true x", trueX);
         telemetry.addData("true y", trueY);
-
-
-
+        telemetry.addData("Front Right Power", frPower);
+        telemetry.addData("Front Left Power", flPower);
+        telemetry.addData("Back Right Power", brPower);
+        telemetry.addData("Back Left Power", blPower);
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
 
         // leftMotor.setPower(-gamepad1.left_stick_y);
@@ -220,26 +231,6 @@ public class teleopCurrent extends OpMode
 
     }
 
-    public float convertYaw (double yaw) {
-        if (yaw <= 0) {
-            yaw = 360 + yaw;
-        }
-        return (float)yaw;
-    }
-
-
-
-    /*
-
-     * Code to run ONCE after the driver hits STOP
-
-     */
-
-    @Override
-
-    public void stop() {
-
-    }
 }
 //bs
 class FPSDrive extends Thread {
@@ -269,6 +260,10 @@ class FPSDrive extends Thread {
         teleopCurrent.x = teleopCurrent.trueX;
         teleopCurrent.y = teleopCurrent.trueY;
 
+        teleopCurrent.flPower = Range.clip((-teleopCurrent.x+teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.frPower = Range.clip((-teleopCurrent.x-teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.blPower = Range.clip((teleopCurrent.x+teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.brPower = Range.clip((teleopCurrent.x-teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
     }
 
     public float convertYaw (double yaw) {
@@ -277,5 +272,4 @@ class FPSDrive extends Thread {
         }
         return (float)yaw;
     }
-
 }

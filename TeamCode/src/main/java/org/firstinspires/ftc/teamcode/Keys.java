@@ -9,6 +9,8 @@ public class Keys {
     //Important Values
     public static final double deadzone = 0.15;
     public static final double MAX_MOTOR_SPEED = 0.86;
+    public static final double MIN_MOTOR_SPEED = 0.15;
+    public static final double WHEEL_DIAMETER = 4;
 
     //Motor Names
     public static final String fr = "front_right";
@@ -29,4 +31,5 @@ public class Keys {
     public static final double YAW_PID_D = 0.0;
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
+    public static final double SONAR_TOLERANCE = .5;
 }

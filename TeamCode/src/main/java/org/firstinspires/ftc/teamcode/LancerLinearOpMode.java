@@ -19,7 +19,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
 
     }
-
+    //Encoded movement method Distances >11.2 inches
     public void smoothMoveVol2 (DcMotor motor, double inches, boolean backwards) {
         //works best for at least 1000 ticks = 11.2 inches approx
         double rotations = inches / (Keys.WHEEL_DIAMETER * Math.PI);
@@ -75,7 +75,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         rest();
     }
-
+    //NO NEED
     public void adjustToThisDistance(double distance, AnalogInput sonar) {
         double myPosition = readSonar(sonar);
         telemetry.addData("myPos", myPosition);
@@ -107,7 +107,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         sValue = sValue / 2;
         return sValue;
     }
-
+    //Small distance <11.2 in
     public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
 
         double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
@@ -124,7 +124,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         rest();
     }
-
+    //Deprecated smooth move
     public void moveAlteredSin(DcMotor motor, double dist, boolean backwards) {
         //inches
 
@@ -169,6 +169,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         rest();
     }
 
+    public void ballShoot() {
+
+    }
+
+    public void ballKnockOff() {
+
+    }
+
+    //NO NEED for auton
     public void setMotorPowerUniform(double power, boolean backwards) {
         int direction = 1;
         if (backwards) {
@@ -179,14 +188,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setPower(direction * power);
         br.setPower(direction * power);
     }
-
+    //break
     public void rest() {
         fr.setPower(0);
         fl.setPower(0);
         bl.setPower(0);
         br.setPower(0);
     }
-
+    // Turns robot
     public void gyroAngle(double angle, AHRS navx_device,navXPIDController yawPIDController) {
                 /* Create a PID Controller which uses the Yaw Angle as input. */
         yawPIDController = new navXPIDController(navx_device,

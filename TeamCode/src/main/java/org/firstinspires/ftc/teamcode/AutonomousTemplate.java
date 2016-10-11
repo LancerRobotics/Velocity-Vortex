@@ -13,12 +13,12 @@ import java.text.DecimalFormat;
 /**
  * Created by spork on 10/5/2016.
  */
-public abstract class LancerLinearOpMode extends LinearOpMode {
-    public static DcMotor fl, fr, br, bl;
+public abstract class AutonomousTemplate extends LinearOpMode {
+    public static DcMotor fl, fr, br, bl, catapult;
+    public static AHRS navx_device;
+    public static navXPIDController yawPIDController;
 
-    public void runOpMode() throws InterruptedException{
-
-    }
+    public abstract void runOpMode();
     //Encoded movement method Distances >11.2 inches
     public void smoothMoveVol2 (DcMotor motor, double inches, boolean backwards) {
         //works best for at least 1000 ticks = 11.2 inches approx
@@ -170,7 +170,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void ballShoot() {
-
+        moveStraight(catapult,6,false,.70);
     }
 
     public void ballKnockOff() {

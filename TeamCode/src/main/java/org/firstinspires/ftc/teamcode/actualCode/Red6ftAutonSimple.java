@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.actualCode;
 
-import com.kauailabs.navx.ftc.AHRS;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
+import org.firstinspires.ftc.teamcode.AutonomousTemplate;
 
 /**
  * Created by kevin on 10/10/2016.
  */
 
-public class AutonSimple extends LancerLinearOpMode {
-    //public AHRS navx_device;
+public class Red6ftAutonSimple extends AutonomousTemplate {
 
     /*
     Start in the very middle of Alliance Station (6 feet in)
@@ -24,16 +20,18 @@ public class AutonSimple extends LancerLinearOpMode {
     Sleep
     */
 
-    public void auton() {
+    public void runOpMode() {
         smoothMoveVol2(fl, 36, false);
         ballShoot();
         ballShoot();
-        smoothMoveVol2(fl, 12, false);
-        ballKnockOff(); //Use servo arm to knock ball off
+        //smoothMoveVol2(fl, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
+        moveStraight(fl, 12, false, .70);
+        //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         gyroAngle(-90, navx_device, yawPIDController);
         smoothMoveVol2(fl, 24, false);
         gyroAngle(-45, navx_device, yawPIDController);
         smoothMoveVol2(fl, 67.88, false);
+        rest();
         //Overshoots the last move forward, can make it move a shorter distance.
         //Distance of 2 squares corner to corner is sqrt(4^2 + 4^2) = sqrt(32) = 5.66
         //                                                          5.66 * 12 = 67.88

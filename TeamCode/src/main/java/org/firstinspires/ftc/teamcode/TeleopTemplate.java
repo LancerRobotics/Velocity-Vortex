@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by spork on 10/5/2016.
  */
-public abstract class LancerOpMode extends OpMode{
+public abstract class TeleopTemplate extends OpMode{
 
     public void init() {
 

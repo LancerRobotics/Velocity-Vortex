@@ -15,10 +15,28 @@ import java.text.DecimalFormat;
  */
 public abstract class AutonomousTemplate extends LinearOpMode {
     public static DcMotor fl, fr, br, bl, catapult;
+
     public static AHRS navx_device;
     public static navXPIDController yawPIDController;
 
-    public abstract void runOpMode();
+    public abstract void runOpMode() throws InterruptedException;
+
+    public void setup() {
+        fl = hardwareMap.dcMotor.get(Keys.fl);
+
+        fr = hardwareMap.dcMotor.get(Keys.fr);
+
+        br = hardwareMap.dcMotor.get(Keys.br);
+
+        bl = hardwareMap.dcMotor.get(Keys.bl);
+
+        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
+                Keys.NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
+
+        navx_device.zeroYaw();
+    }
     //Encoded movement method Distances >11.2 inches
     public void smoothMoveVol2 (DcMotor motor, double inches, boolean backwards) {
         //works best for at least 1000 ticks = 11.2 inches approx

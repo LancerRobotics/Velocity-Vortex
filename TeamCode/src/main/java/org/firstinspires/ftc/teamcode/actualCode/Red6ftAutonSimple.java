@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.actualCode;
 
+import com.kauailabs.navx.ftc.AHRS;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.AutonomousTemplate;
-
+import org.firstinspires.ftc.teamcode.Keys;
 /**
  * Created by kevin on 10/10/2016.
  */
@@ -20,7 +22,9 @@ public class Red6ftAutonSimple extends AutonomousTemplate {
     Sleep
     */
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
+        setup();
+        waitForStart();
         smoothMoveVol2(fl, 36, false);
         ballShoot();
         ballShoot();

@@ -19,19 +19,6 @@ public class teleopCurrent extends TeleopTemplate
 {
 
     /* Declare OpMode members. */
-    public static volatile AHRS navx_device;
-
-    public static volatile ElapsedTime runtime = new ElapsedTime();
-
-    public static volatile DcMotor fl, fr, bl, br;
-
-    public static volatile float gp1_right_stick_x, gp1_left_stick_y, gp1_left_stick_x;
-
-    public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
-
-    public static volatile double x, y, z, trueX, trueY;
-
-    public static volatile double frPower, flPower, brPower, blPower;
 
     public static volatile FPSDrive fpsDrive;
     /*
@@ -44,20 +31,7 @@ public class teleopCurrent extends TeleopTemplate
 
     public void init() {
 
-        fl = hardwareMap.dcMotor.get(Keys.fl);
-
-        fr = hardwareMap.dcMotor.get(Keys.fr);
-
-        br = hardwareMap.dcMotor.get(Keys.br);
-
-        bl = hardwareMap.dcMotor.get(Keys.bl);
-
-        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
-                Keys.NAVX_DIM_I2C_PORT,
-                AHRS.DeviceDataType.kProcessedData,
-                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-
-        navx_device.zeroYaw();
+        setup();
 
         fpsDrive = new FPSDrive();
 
@@ -98,22 +72,6 @@ public class teleopCurrent extends TeleopTemplate
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
 
      */
-
-    @Override
-
-    public void init_loop() {
-
-    }
-
-
-
-    /*
-
-     * Code to run ONCE when the driver hits PLAY
-
-     */
-
-    @Override
 
     public void start() {
 

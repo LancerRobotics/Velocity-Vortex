@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.actualCode;
 
+import com.kauailabs.navx.ftc.AHRS;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.AutonomousTemplate;
+import org.firstinspires.ftc.teamcode.Keys;
+
 /**
  * Created by spork on 10/11/2016.
  */
+@Autonomous (name = "Red5ftCornersideAutonSimple", group = "Autonomous")
 public class Red5ftCornersideAutonSimple extends AutonomousTemplate {
 
 
@@ -19,7 +24,9 @@ public class Red5ftCornersideAutonSimple extends AutonomousTemplate {
     Sleep
     */
 
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException{
+        setup();
+        waitForStart();
         smoothMoveVol2(fl, 36, false);
         ballShoot();
         ballShoot();
@@ -27,7 +34,7 @@ public class Red5ftCornersideAutonSimple extends AutonomousTemplate {
         moveStraight(fl, 12, false, .70);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         gyroAngle(-90, navx_device, yawPIDController);
-        smoothMoveVol2(fl, 24, false);
+        smoothMoveVol2(fl, 12, false);
         gyroAngle(-45, navx_device, yawPIDController);
         smoothMoveVol2(fl, 67.88, false);
         rest();

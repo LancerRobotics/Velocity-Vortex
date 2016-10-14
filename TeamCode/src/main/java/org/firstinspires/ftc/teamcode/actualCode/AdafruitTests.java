@@ -42,7 +42,7 @@ import org.firstinspires.ftc.teamcode.I2CSensor;
 import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
 
-@Autonomous(name = "Sensor: AdafruitRGB", group = "Sensor")
+@Autonomous(name = "Sensor: AdafruitRGBTest 2", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
 public class AdafruitTests extends LinearOpMode {
     private ColorSensorAdafruitDriver color;
@@ -53,8 +53,12 @@ public class AdafruitTests extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         this.color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        while(!this.color.ready()) {
+            telemetry.addData("Ready?", "NO");
+        }
         this.color.startReadingColor();
         this.color.startReadingClear();
+        telemetry.addData("Ready?", "YES");
         waitForStart();
         while(opModeIsActive()) {
             getRGB();
@@ -62,6 +66,7 @@ public class AdafruitTests extends LinearOpMode {
             telemetry.addData("Green: ",green);
             telemetry.addData("Blue: ",blue);
         }
+        this.color.stopReading();
 
     }
     public void getRGB() throws InterruptedException {

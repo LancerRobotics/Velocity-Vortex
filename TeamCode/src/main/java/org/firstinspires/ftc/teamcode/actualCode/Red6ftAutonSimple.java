@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.actualCode;
 
-import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.teamcode.AutonomousTemplate;
-import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
+
 /**
  * Created by kevin on 10/10/2016.
  */
 @Autonomous (name = "Red6ftAutonSimple", group = "Autonomous")
-public class Red6ftAutonSimple extends AutonomousTemplate {
+public class Red6ftAutonSimple extends LancerLinearOpMode {
 
     /*
     Start in the very middle of Alliance Station (6 feet in)

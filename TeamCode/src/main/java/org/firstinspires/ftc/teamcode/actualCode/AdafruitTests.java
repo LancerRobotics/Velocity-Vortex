@@ -38,15 +38,35 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 
+import org.firstinspires.ftc.teamcode.I2CSensor;
 import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
 
 @Autonomous(name = "Sensor: AdafruitRGB", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
 public class AdafruitTests extends LinearOpMode {
-
+    private ColorSensorAdafruitDriver color;
+    int red;
+    int green;
+    int blue;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        this.color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        this.color.startReadingColor();
+        this.color.startReadingClear();
+        waitForStart();
+        while(opModeIsActive()) {
+            getRGB();
+            telemetry.addData("Red: ",red);
+            telemetry.addData("Green: ",green);
+            telemetry.addData("Blue: ",blue);
+        }
 
+    }
+    public void getRGB() throws InterruptedException {
+        red = color.getRed();
+        blue = color.getBlue();
+        green = color.getGreen();
     }
 }

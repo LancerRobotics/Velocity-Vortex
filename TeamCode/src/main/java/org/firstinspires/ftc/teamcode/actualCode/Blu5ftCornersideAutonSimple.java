@@ -1,16 +1,14 @@
 package org.firstinspires.ftc.teamcode.actualCode;
 
-import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.AutonomousTemplate;
-import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by spork on 10/11/2016.
  */
 @Autonomous (name = "Blu5ftCornersideAutonSimple", group = "Autonomous")
-public class Blu5ftCornersideAutonSimple extends AutonomousTemplate {
+public class Blu5ftCornersideAutonSimple extends LancerLinearOpMode {
 
 
     /*

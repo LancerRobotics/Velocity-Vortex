@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 /**
  * Created by spork on 10/5/2016.
  */
-public abstract class AutonomousTemplate extends LinearOpMode {
+public abstract class LancerLinearOpMode extends LinearOpMode {
     public static DcMotor fl, fr, br, bl, catapult;
 
     public static AHRS navx_device;

@@ -2,19 +2,16 @@ package org.firstinspires.ftc.teamcode.actualCode;
 
 
 
-import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.TeleopTemplate;
+import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 
 @TeleOp(name="Tele", group = "Teleop")  // @Autonomous(...) is the other common choice
 //Disabled
-public class teleopCurrent extends TeleopTemplate
+public class teleopCurrent extends LancerOpMode
 
 {
 

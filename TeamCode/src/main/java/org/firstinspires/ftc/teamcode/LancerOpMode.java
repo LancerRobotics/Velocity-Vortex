@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Created by spork on 10/5/2016.
  */
-public abstract class TeleopTemplate extends OpMode{
+public abstract class LancerOpMode extends OpMode{
 
     public static volatile AHRS navx_device;
 

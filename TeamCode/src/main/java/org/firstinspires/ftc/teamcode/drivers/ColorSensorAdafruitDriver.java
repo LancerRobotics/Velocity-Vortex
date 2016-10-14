@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.drivers;
 
 import com.qualcomm.robotcore.hardware.I2cDevice;
+
+import org.firstinspires.ftc.teamcode.I2CSensor;
 
 import java.nio.ByteBuffer;
 /**
@@ -8,7 +10,7 @@ import java.nio.ByteBuffer;
  *
  * CREDIT TO GEARTICKS
  */
-public class ColorSensorAdafruitDriver {
+public class ColorSensorAdafruitDriver extends I2CSensor {
     protected final int getAddress() {
         return 0x29;
     }
@@ -131,6 +133,6 @@ public class ColorSensorAdafruitDriver {
     }
     //Sets the integration time
     public void setIntegrationTime(double time) {
-        this.integrationTime.setWriteData(new byte[]{TCS34725.getIntegrationRequestValue(time)});
+        this.integrationTime.setWriteData(new byte[]{ColorSensorAdafruitDriver.getIntegrationRequestValue(time)});
     }
 }

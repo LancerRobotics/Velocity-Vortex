@@ -1,3 +1,13 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cController;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Queue;
+
 public abstract class I2CSensor implements I2cController.I2cPortReadyCallback {
 	//The maximum number of registers that a ReadRequest or WriteRequest can have
 	private static final int MAX_LENGTH = 26;
@@ -20,7 +30,7 @@ public abstract class I2CSensor implements I2cController.I2cPortReadyCallback {
 			this.resetActionTimer();
 		}
 
-		protected int getRegister() {
+		public int getRegister() {
 			return this.register;
 		}
 		protected int getLength() {

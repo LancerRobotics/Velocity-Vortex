@@ -44,76 +44,9 @@ import org.firstinspires.ftc.teamcode.Keys;
 //@Disabled                            // Comment this out to add to the opmode list
 public class AdafruitTests extends LinearOpMode {
 
-    public ColorSensor sensorRGB;
-    DeviceInterfaceModule cdim;
-
-    // we assume that the LED pin of the RGB sensor is connected to
-    // digital port 5 (zero indexed).
-
-    float red;
-    float blue;
-    float green;
-
-    boolean bPrevState = false;
-    boolean bCurrState = false;
-    boolean bLedOn = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        // get a reference to the RelativeLayout so we can change the background
-        // color of the Robot Controller app to match the hue detected by the RGB sensor.
-
-        // bPrevState and bCurrState represent the previous and current state of the button.
-
-
-        // bLedOn represents the state of the LED.
-
-        // get a reference to our DeviceInterfaceModule object.
-        cdim = hardwareMap.deviceInterfaceModule.get(Keys.cdim);
-
-        // set the digital channel to output mode.
-        // remember, the Adafruit sensor is actually two devices.
-        // It's an I2C sensor and it's also an LED that can be turned on or off.
-        cdim.setDigitalChannelMode(Keys.LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
-
-        // get a reference to our ColorSensor object.
-        sensorRGB = hardwareMap.colorSensor.get("color");
-
-        // turn the LED on in the beginning, just so user will know that the sensor is active.
-        cdim.setDigitalChannelState(Keys.LED_CHANNEL, bLedOn);
-
-        // wait for the start button to be pressed.
-        waitForStart();
-
-
-        while (opModeIsActive()) {
-            rgbColorSensor();
-            ledOnOff();
-            telemetry.addData("Red ", red);
-            telemetry.addData("Green ", green);
-            telemetry.addData("Blue ", blue);
-            telemetry.update();
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-        }
-    }
-
-    public void rgbColorSensor() {
-        red = sensorRGB.red();
-        blue = sensorRGB.blue();
-        green = sensorRGB.green();
-    }
-    public void ledOnOff() {
-        bCurrState = gamepad1.x;
-        // check for button-press state transitions.
-        if ((bCurrState == true) && (bCurrState != bPrevState)) {
-
-            // button is transitioning to a pressed state. Toggle the LED.
-            bLedOn = !bLedOn;
-            cdim.setDigitalChannelState(Keys.LED_CHANNEL, bLedOn);
-        }
-
-        // update previous state variable.
-        bPrevState = bCurrState;
     }
 }

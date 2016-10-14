@@ -7,6 +7,7 @@ import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.text.DecimalFormat;
 
@@ -30,6 +31,10 @@ public abstract class AutonomousTemplate extends LinearOpMode {
 
         bl = hardwareMap.dcMotor.get(Keys.bl);
 
+        fr.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        br.setDirection(DcMotorSimple.Direction.REVERSE);
+
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
@@ -37,55 +42,54 @@ public abstract class AutonomousTemplate extends LinearOpMode {
 
         navx_device.zeroYaw();
     }
+
     //Encoded movement method Distances >11.2 inches
-    public void smoothMoveVol2 (DcMotor motor, double inches, boolean backwards) {
+    public void smoothMoveVol2(DcMotor motor, double inches, boolean backwards) {
         //works best for at least 1000 ticks = 11.2 inches approx
         double rotations = inches / (Keys.WHEEL_DIAMETER * Math.PI);
         double totalTicks = rotations * 1120 * 3 / 2;
         int positionBeforeMovement = motor.getCurrentPosition();
-        double ticksToGo = positionBeforeMovement+totalTicks;
+        double ticksToGo = positionBeforeMovement + totalTicks;
         //p;us one because make the first tick 1, not 0, so fxn will never be 0
-        double savedPower=0;
-        double savedTick=0;
-        while (motor.getCurrentPosition() < ticksToGo+1) {
+        double savedPower = 0;
+        double savedTick = 0;
+        while (motor.getCurrentPosition() < ticksToGo + 1) {
             telemetry.addData("front left encoder: ", motor.getCurrentPosition());
             telemetry.addData("ticksFor", totalTicks);
             //convert to radians
-            int currentTick = motor.getCurrentPosition() - positionBeforeMovement +1 ;
-            if (currentTick<ticksToGo/2) {
+            int currentTick = motor.getCurrentPosition() - positionBeforeMovement + 1;
+            if (currentTick < ticksToGo / 2) {
                 //use an inv tan function as acceleration
                 //power = ((2/pi)*.86) arctan (x/totalticks*.1)
-                double power = ((2/Math.PI)*Keys.MAX_MOTOR_SPEED) * Math.atan(currentTick/totalTicks/2*10);
-                telemetry.addData("power","accel"+power);
-                if (power<Keys.MIN_MOTOR_SPEED) {
-                    telemetry.addData("bool",power<Keys.MIN_MOTOR_SPEED);
+                double power = ((2 / Math.PI) * Keys.MAX_MOTOR_SPEED) * Math.atan(currentTick / totalTicks / 2 * 10);
+                telemetry.addData("power", "accel" + power);
+                if (power < Keys.MIN_MOTOR_SPEED) {
+                    telemetry.addData("bool", power < Keys.MIN_MOTOR_SPEED);
                     power = Keys.MIN_MOTOR_SPEED;
-                    telemetry.addData("power","adjusted"+power);
+                    telemetry.addData("power", "adjusted" + power);
                 }
                 telemetry.addData("power", power);
                 setMotorPowerUniform(power, backwards);
-                savedPower=power;
-                savedTick=currentTick;
-            }
-            else {
+                savedPower = power;
+                savedTick = currentTick;
+            } else {
                 //decelerate using
-                double newCurrentCount = currentTick+1-savedTick;
+                double newCurrentCount = currentTick + 1 - savedTick;
                 //current tick changes, savedTick is constant
-                double horizontalStretch = totalTicks/2*.2;
-                if (newCurrentCount<horizontalStretch) {
+                double horizontalStretch = totalTicks / 2 * .2;
+                if (newCurrentCount < horizontalStretch) {
                     //becuase of domain restrictions
-                    setMotorPowerUniform(savedPower,backwards);
-                }
-                else {
+                    setMotorPowerUniform(savedPower, backwards);
+                } else {
                     //in the domain
 
-                    double power = (2/Math.PI)*savedPower*Math.asin(horizontalStretch/newCurrentCount);
-                    telemetry.addData("power","decel"+power);
-                    if (power<Keys.MIN_MOTOR_SPEED) {
+                    double power = (2 / Math.PI) * savedPower * Math.asin(horizontalStretch / newCurrentCount);
+                    telemetry.addData("power", "decel" + power);
+                    if (power < Keys.MIN_MOTOR_SPEED) {
                         power = Keys.MIN_MOTOR_SPEED;
-                        telemetry.addData("power","adjusted"+power);
+                        telemetry.addData("power", "adjusted" + power);
                     }
-                    setMotorPowerUniform(power,backwards);
+                    setMotorPowerUniform(power, backwards);
                 }
 
             }
@@ -93,6 +97,7 @@ public abstract class AutonomousTemplate extends LinearOpMode {
         }
         rest();
     }
+
     //NO NEED
     public void adjustToThisDistance(double distance, AnalogInput sonar) {
         double myPosition = readSonar(sonar);
@@ -120,11 +125,13 @@ public abstract class AutonomousTemplate extends LinearOpMode {
         telemetry.addData("sonar", "done");
         rest();
     }
+
     public double readSonar(AnalogInput sonar) {
         double sValue = sonar.getVoltage();
         sValue = sValue / 2;
         return sValue;
     }
+
     //Small distance <11.2 in
     public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
 
@@ -142,6 +149,7 @@ public abstract class AutonomousTemplate extends LinearOpMode {
         }
         rest();
     }
+
     //Deprecated smooth move
     public void moveAlteredSin(DcMotor motor, double dist, boolean backwards) {
         //inches
@@ -188,7 +196,7 @@ public abstract class AutonomousTemplate extends LinearOpMode {
     }
 
     public void ballShoot() {
-        moveStraight(catapult,6,false,.70);
+        moveStraight(catapult, 6, false, .70);
     }
 
     public void ballKnockOff() {
@@ -206,6 +214,7 @@ public abstract class AutonomousTemplate extends LinearOpMode {
         bl.setPower(direction * power);
         br.setPower(direction * power);
     }
+
     //break
     public void rest() {
         fr.setPower(0);
@@ -213,8 +222,9 @@ public abstract class AutonomousTemplate extends LinearOpMode {
         bl.setPower(0);
         br.setPower(0);
     }
+
     // Turns robot
-    public void gyroAngle(double angle, AHRS navx_device,navXPIDController yawPIDController) {
+    public void gyroAngle(double angle, AHRS navx_device, navXPIDController yawPIDController) {
                 /* Create a PID Controller which uses the Yaw Angle as input. */
         yawPIDController = new navXPIDController(navx_device,
                 navXPIDController.navXTimestampedDataSource.YAW);
@@ -246,14 +256,12 @@ public abstract class AutonomousTemplate extends LinearOpMode {
                         telemetry.addData("PIDOutput", df.format(0.00));
                     } else {
                         double output = yawPIDResult.getOutput();
-                        if(Math.abs(currAngle) <= Math.abs(stopAngle/3)) {
+                        if (Math.abs(currAngle) <= Math.abs(stopAngle / 3)) {
                             output = output;
-                        }
-                        else if (Math.abs(currAngle) <= Math.abs((2 * stopAngle)/3)) {
-                            output = (output * 2)/3;
-                        }
-                        else if (Math.abs(currAngle) <= Math.abs(stopAngle)) {
-                            output = output/3;
+                        } else if (Math.abs(currAngle) <= Math.abs((2 * stopAngle) / 3)) {
+                            output = (output * 2) / 3;
+                        } else if (Math.abs(currAngle) <= Math.abs(stopAngle)) {
+                            output = output / 3;
                         }
                         fl.setPower(output);
                         bl.setPower(output);
@@ -275,4 +283,17 @@ public abstract class AutonomousTemplate extends LinearOpMode {
             yawPIDController.close();
         }
     }
+
+    public void getBeaconColor() {
+
+    }
+
+    public void followWhiteLine() {
+
+    }
+
+    public void pushBeacon() {
+
+    }
 }
+

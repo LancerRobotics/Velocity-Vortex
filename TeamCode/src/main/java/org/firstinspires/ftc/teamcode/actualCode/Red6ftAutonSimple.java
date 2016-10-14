@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Keys;
 /**
  * Created by kevin on 10/10/2016.
  */
-
+@Autonomous (name = "Red6ftAutonSimple", group = "Autonomous")
 public class Red6ftAutonSimple extends AutonomousTemplate {
 
     /*

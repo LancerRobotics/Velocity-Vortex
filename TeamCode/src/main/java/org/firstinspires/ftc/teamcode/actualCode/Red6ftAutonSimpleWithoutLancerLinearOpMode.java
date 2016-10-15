@@ -1,29 +1,32 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.actualCode;
 
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.Keys;
+
 import java.text.DecimalFormat;
 
 /**
- * Created by spork on 10/5/2016.
+ * Created by kevin on 10/15/2016.
  */
-public abstract class LancerLinearOpMode extends LinearOpMode {
+@Autonomous(name= "Red Auton Test", group= "Test")
+//@Disabled
+public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
     public static DcMotor fl, fr, br, bl, catapult;
 
     public static AHRS navx_device;
 
     public static boolean turnComplete = false;
 
-    public abstract void runOpMode() throws InterruptedException;
-
-    public void setup() {
+    public void runOpMode() throws InterruptedException{
         fl = hardwareMap.dcMotor.get(Keys.fl);
 
         fr = hardwareMap.dcMotor.get(Keys.fr);
@@ -40,21 +43,52 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-
+        telemetry.addData("Step", "Setup");
+        telemetry.update();
+        while(navx_device.isCalibrating()) {
+            sleep(1);
+        }
         navx_device.zeroYaw();
+        waitForStart();
+        telemetry.addData("Step" , "Movement 1");
+        telemetry.update();
+        smoothMoveVol2(fl, 36, false);
+        rest();
+        telemetry.addData("Step", "Ball Shooting");
+        telemetry.update();
+        sleep(10000);
+        ballShoot();
+        ballShoot();
+        //smoothMoveVol2(fl, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
+        telemetry.addData("Step", "Movement 2");
+        telemetry.update();
+        moveStraight(fl, 12, false, .50);
+        //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
+        telemetry.addData("Step", "Turn 1");
+        telemetry.update();
+        gyroAngle(-90, navx_device);
+        telemetry.addData("Step", "Movement 3");
+        telemetry.update();
+        smoothMoveVol2(fl, 24, false);
+        telemetry.addData("Step", "Turn 2");
+        telemetry.update();
+        gyroAngle(-45, navx_device);
+        telemetry.addData("Step", "Movement 4");
+        telemetry.update();
+        smoothMoveVol2(fl, 67.88, false);
+        rest();
     }
 
-    //Encoded movement method Distances >11.2 inches
     public void smoothMoveVol2(DcMotor motor, double inches, boolean backwards) {
         //works best for at least 1000 ticks = 11.2 inches approx
         double rotations = inches / (Keys.WHEEL_DIAMETER * Math.PI);
-        double totalTicks = rotations * 1120 * 3 / 2;
+        double totalTicks = rotations * 1120;
         int positionBeforeMovement = motor.getCurrentPosition();
         double ticksToGo = positionBeforeMovement + totalTicks;
         //p;us one because make the first tick 1, not 0, so fxn will never be 0
         double savedPower = 0;
         double savedTick = 0;
-        while (motor.getCurrentPosition() < ticksToGo + 1) {
+        while (motor.getCurrentPosition() < ticksToGo + 1 && opModeIsActive()) {
             telemetry.addData("front left encoder: ", motor.getCurrentPosition());
             telemetry.addData("ticksFor", totalTicks);
             //convert to radians
@@ -94,7 +128,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 }
 
             }
-
+            telemetry.update();
+            try {
+                waitForNextHardwareCycle();
+            }
+            catch(InterruptedException e) {
+                telemetry.addData("UH OH", "UH OH");
+            }
         }
         rest();
     }
@@ -137,7 +177,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
 
         double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
-        double totalTicks = rotations * 1120 * 3 / 2;
+        double totalTicks = rotations * 1120;
         int positionBeforeMovement = motor.getCurrentPosition();
         if (backwards) {
             while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks) {
@@ -300,4 +340,3 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     }
 }
-

@@ -57,8 +57,10 @@ public class ColorSensorAdafruitDriver extends I2CSensor {
         this.enableRequest = new SensorWriteRequest(Register.ENABLE.getRegister(), 1);
         this.enableRequest.setWriteData(new byte[]{POWER_ON});
         this.state = StartupState.POWER;
-        this.clearRequest = this.makeReadRequest(Register.CLEAR_LOW.getRegister(), Register.CLEAR_HIGH.getRegister());
-        this.colorRequest = this.makeReadRequest(Register.CLEAR_LOW.getRegister(), Register.BLUE_HIGH.getRegister());
+        this.clearRequest = this.makeReadRequest(Register.CLEAR_LOW.getRegister(),
+                            Register.CLEAR_HIGH.getRegister());
+        this.colorRequest = this.makeReadRequest(Register.CLEAR_LOW.getRegister(),
+                            Register.BLUE_HIGH.getRegister());
         this.integrationTime = new SensorWriteRequest(Register.INTEGRATION_TIME.getRegister(), 1);
     }
 

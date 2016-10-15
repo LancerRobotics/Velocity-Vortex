@@ -23,16 +23,29 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         setup();
+        telemetry.addData("Step", "Setup");
+        while(navx_device.isCalibrating()) {
+            sleep(1);
+        }
         waitForStart();
+        telemetry.addData("Step" , "Movement 1");
         smoothMoveVol2(fl, 36, false);
+        rest();
+        telemetry.addData("Step", "Ball Shooting");
+        sleep(1000);
         ballShoot();
         ballShoot();
         //smoothMoveVol2(fl, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
-        moveStraight(fl, 12, false, .70);
+        telemetry.addData("Step", "Movement 2");
+        moveStraight(fl, 12, false, .50);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
-        gyroAngle(-90, navx_device, yawPIDController);
+        telemetry.addData("Step", "Turn 1");
+        gyroAngle(-90, navx_device);
+        telemetry.addData("Step", "Movement 3");
         smoothMoveVol2(fl, 24, false);
-        gyroAngle(-45, navx_device, yawPIDController);
+        telemetry.addData("Step", "Turn 2");
+        gyroAngle(-45, navx_device);
+        telemetry.addData("Step", "Movement 4");
         smoothMoveVol2(fl, 67.88, false);
         rest();
         //Overshoots the last move forward, can make it move a shorter distance.

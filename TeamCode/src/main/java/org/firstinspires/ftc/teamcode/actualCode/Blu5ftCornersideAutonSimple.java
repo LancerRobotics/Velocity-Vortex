@@ -25,6 +25,7 @@ public class Blu5ftCornersideAutonSimple extends LancerLinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         setup();
+        waitForStart();
         smoothMoveVol2(fl, 36, false);
         ballShoot();
         ballShoot();

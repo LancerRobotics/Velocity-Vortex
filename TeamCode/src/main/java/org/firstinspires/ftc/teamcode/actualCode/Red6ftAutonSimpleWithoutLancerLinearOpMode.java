@@ -113,11 +113,10 @@ public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
                 //current tick changes, savedTick is constant
                 double horizontalStretch = totalTicks / 2 * .2;
                 if (newCurrentCount < horizontalStretch) {
-                    //becuase of domain restrictions
+                    //because of domain restrictions
                     setMotorPowerUniform(savedPower, backwards);
                 } else {
                     //in the domain
-
                     double power = (2 / Math.PI) * savedPower * Math.asin(horizontalStretch / newCurrentCount);
                     telemetry.addData("power", "decel" + power);
                     if (power < Keys.MIN_MOTOR_SPEED) {
@@ -130,7 +129,7 @@ public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
             }
             telemetry.update();
             try {
-                waitForNextHardwareCycle();
+                idle();
             }
             catch(InterruptedException e) {
                 telemetry.addData("UH OH", "UH OH");

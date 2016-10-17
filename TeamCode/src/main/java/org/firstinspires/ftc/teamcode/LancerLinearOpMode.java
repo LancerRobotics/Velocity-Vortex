@@ -55,7 +55,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double savedPower = 0;
         double savedTick = 0;
         while (motor.getCurrentPosition() < ticksToGo + 1) {
-            telemetry.addData("front left encoder: ", motor.getCurrentPosition());
+            telemetry.addData("motor encoder: ", motor.getCurrentPosition());
             telemetry.addData("ticksFor", totalTicks);
             //convert to radians
             int currentTick = motor.getCurrentPosition() - positionBeforeMovement + 1;
@@ -94,7 +94,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 }
 
             }
-
+            telemetry.update();
+            try {
+                idle();
+            }
+            catch (InterruptedException e) {
+                telemetry.addData("Exception", e);
+                telemetry.update();
+            }
         }
         rest();
     }

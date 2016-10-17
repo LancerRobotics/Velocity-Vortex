@@ -5,6 +5,7 @@ import android.util.Log;
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,7 +19,7 @@ import java.text.DecimalFormat;
  * Created by kevin on 10/15/2016.
  */
 @Autonomous(name= "Red Auton Test", group= "Test")
-//@Disabled
+@Disabled
 public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
     public static DcMotor fl, fr, br, bl, catapult;
 

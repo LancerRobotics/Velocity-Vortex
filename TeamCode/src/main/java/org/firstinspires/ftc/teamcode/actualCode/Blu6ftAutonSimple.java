@@ -25,16 +25,17 @@ public class Blu6ftAutonSimple extends LancerLinearOpMode {
     public void runOpMode()throws InterruptedException {
         setup();
         waitForStart();
-        smoothMoveVol2(fl, 36, false);
+        smoothMoveVol2(br, 36, false);
         ballShoot();
         ballShoot();
-        //smoothMoveVol2(fl, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
-        moveStraight(fl, 12, false, .70);
+        //smoothMoveVol2(br
+        //, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
+        moveStraight(br, 12, false, .70);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         gyroAngle(90, navx_device);
-        smoothMoveVol2(fl, 24, false);
+        smoothMoveVol2(br, 24, false);
         gyroAngle(45, navx_device);
-        smoothMoveVol2(fl, 67.88, false);
+        smoothMoveVol2(br, 67.88, false);
         rest();
         //Overshoots the last move forward, can make it move a shorter distance.
         //Distance of 2 squares corner to corner is sqrt(4^2 + 4^2) = sqrt(32) = 5.66

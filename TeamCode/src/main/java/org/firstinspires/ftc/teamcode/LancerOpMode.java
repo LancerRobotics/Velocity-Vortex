@@ -25,6 +25,7 @@ public abstract class LancerOpMode extends OpMode{
 
     public static volatile double frPower, flPower, brPower, blPower;
 
+
     public void init() {
 
     }
@@ -60,8 +61,7 @@ public abstract class LancerOpMode extends OpMode{
         navx_device.zeroYaw();
     }
 
-
-    public int[] servoToggle(boolean button, Servo servo, double[] positions, int currentPos, boolean pressed) {
+    public int[] servoTogglePart2 (boolean button, Servo servo, double[] positions, int currentPos, boolean pressed) {
         int servoPositions = positions.length;
         if(button) {
             pressed = true;

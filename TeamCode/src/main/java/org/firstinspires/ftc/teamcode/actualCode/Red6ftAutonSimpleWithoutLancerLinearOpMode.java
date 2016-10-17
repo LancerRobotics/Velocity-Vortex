@@ -91,6 +91,7 @@ public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
         while (motor.getCurrentPosition() < ticksToGo + 1 && opModeIsActive()) {
             telemetry.addData("front left encoder: ", motor.getCurrentPosition());
             telemetry.addData("ticksFor", totalTicks);
+            telemetry.update();
             //convert to radians
             int currentTick = motor.getCurrentPosition() - positionBeforeMovement + 1;
             if (currentTick < ticksToGo / 2) {
@@ -107,6 +108,7 @@ public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
                 setMotorPowerUniform(power, backwards);
                 savedPower = power;
                 savedTick = currentTick;
+                telemetry.update();
             } else {
                 //decelerate using
                 double newCurrentCount = currentTick + 1 - savedTick;
@@ -125,9 +127,8 @@ public class Red6ftAutonSimpleWithoutLancerLinearOpMode extends LinearOpMode {
                     }
                     setMotorPowerUniform(power, backwards);
                 }
-
+                telemetry.update();
             }
-            telemetry.update();
             try {
                 idle();
             }

@@ -34,8 +34,8 @@ public abstract class TimeBasedAutonSimple extends LancerLinearOpMode {
         br.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
-        setMotorPowerUniform(.6, false);
-        sleep(4000);
+        setMotorPowerUniform(.86, false);
+        sleep(3000);
         rest();
     }
 

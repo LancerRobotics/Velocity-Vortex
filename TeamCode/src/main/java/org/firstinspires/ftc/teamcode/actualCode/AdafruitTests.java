@@ -52,21 +52,24 @@ public class AdafruitTests extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        this.color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
-        while(!this.color.ready()) {
+        color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        while(!color.ready()) {
             telemetry.addData("Ready?", "NO");
+            telemetry.update();
         }
-        this.color.startReadingColor();
-        this.color.startReadingClear();
+        color.startReadingColor();
+        color.startReadingClear();
         telemetry.addData("Ready?", "YES");
+        telemetry.update();
         waitForStart();
         while(opModeIsActive()) {
             getRGB();
             telemetry.addData("Red: ",red);
             telemetry.addData("Green: ",green);
             telemetry.addData("Blue: ",blue);
+            telemetry.update();
         }
-        this.color.stopReading();
+        color.stopReading();
 
     }
     public void getRGB() throws InterruptedException {

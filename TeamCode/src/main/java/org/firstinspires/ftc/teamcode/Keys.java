@@ -32,4 +32,9 @@ public class Keys {
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
     public static final double SONAR_TOLERANCE = .5;
+
+    //Servo Values and Names
+    public static final String servo = "servo";
+    public static final double servo_INITIAL_STATE = 0;
+    public static final double servo_FINAL_STATE = 1;
 }

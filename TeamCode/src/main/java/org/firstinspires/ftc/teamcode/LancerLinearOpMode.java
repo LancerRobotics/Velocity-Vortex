@@ -32,9 +32,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
         bl = hardwareMap.dcMotor.get(Keys.bl);
 
-        fr.setDirection(DcMotorSimple.Direction.REVERSE);
+        fl.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        br.setDirection(DcMotorSimple.Direction.REVERSE);
+        bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -204,7 +204,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void ballShoot() {
-        moveStraight(catapult, 6, false, .70);
+        telemetry.addData("ShootBall?", "Yes");
+        telemetry.update();
+        try {
+            sleep(2000);
+        }
+        catch (InterruptedException e) {
+            telemetry.addData("Exception", e);
+        }
+        finally {
+            telemetry.addData("Auton Failed", "Start Again");
+        }
     }
 
     public void ballKnockOff() {

@@ -51,7 +51,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double totalTicks = rotations * 1120 * 3 / 2;
         int positionBeforeMovement = motor.getCurrentPosition();
         double ticksToGo = positionBeforeMovement + totalTicks;
-        //p;us one because make the first tick 1, not 0, so fxn will never be 0
+        //plus one because make the first tick 1, not 0, so fxn will never be 0
         double savedPower = 0;
         double savedTick = 0;
         while (motor.getCurrentPosition() < ticksToGo + 1) {
@@ -112,21 +112,37 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.addData("myPos", myPosition);
         if (readSonar(sonar) < distance - Keys.SONAR_TOLERANCE) {
             telemetry.addData("if", "readSonar<distance");
-            while (readSonar(sonar) < distance - Keys.SONAR_TOLERANCE) {
+            while (readSonar(sonar) < distance - Keys.SONAR_TOLERANCE && opModeIsActive()) {
                 telemetry.addData("while", "looping3");
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
                 setMotorPowerUniform(.25, true);
                 telemetry.addData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
+                telemetry.update();
+                try {
+                    idle();
+                }
+                catch (InterruptedException e) {
+                    telemetry.addData("Exception", e);
+                    telemetry.update();
+                }
             }
         } else if (myPosition > distance + Keys.SONAR_TOLERANCE) {
             telemetry.addData("if", "readSonar<distance");
-            while (readSonar(sonar) > distance + Keys.SONAR_TOLERANCE) {
+            while (readSonar(sonar) > distance + Keys.SONAR_TOLERANCE && opModeIsActive()) {
                 telemetry.addData("while", "looping");
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
                 setMotorPowerUniform(.25, false);
                 telemetry.addData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
+                telemetry.update();
+                try {
+                    idle();
+                }
+                catch (InterruptedException e) {
+                    telemetry.addData("Exception", e);
+                    telemetry.update();
+                }
             }
         }
         rest();
@@ -147,12 +163,26 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double totalTicks = rotations * 1120 * 3 / 2;
         int positionBeforeMovement = motor.getCurrentPosition();
         if (backwards) {
-            while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks) {
+            while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
                 setMotorPowerUniform(power, backwards);
+                try {
+                    idle();
+                }
+                catch (InterruptedException e) {
+                    telemetry.addData("Exception", e);
+                    telemetry.update();
+                }
             }
         } else {
-            while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks) {
+            while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
                 setMotorPowerUniform(power, backwards);
+                try {
+                    idle();
+                }
+                catch (InterruptedException e) {
+                    telemetry.addData("Exception", e);
+                    telemetry.update();
+                }
             }
         }
         rest();
@@ -165,7 +195,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
         double totalTicks = rotations * 1120 * 3 / 2;
         int positionBeforeMovement = motor.getCurrentPosition();
-        while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks) {
+        while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
             telemetry.addData("front left encoder: ", "sin" + motor.getCurrentPosition());
             telemetry.addData("ticksFor", totalTicks);
             //convert to radians
@@ -199,6 +229,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             telemetry.addData("power", power);
             setMotorPowerUniform(power, backwards);
+            try {
+                idle();
+            }
+            catch (InterruptedException e) {
+                telemetry.addData("Exception", e);
+                telemetry.update();
+            }
         }
         rest();
     }
@@ -267,7 +304,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             DecimalFormat df = new DecimalFormat("#.##");
 
-            while (!Thread.currentThread().isInterrupted() || turnComplete) {
+            while (!Thread.currentThread().isInterrupted() || turnComplete && opModeIsActive()) {
+                telemetry.addData("Angle To Turn To", yawPIDController.getSetpoint());
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
                         rest();
@@ -295,6 +333,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 }
                 telemetry.addData("Yaw", df.format(navx_device.getYaw()));
                 telemetry.update();
+                idle();
             }
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();

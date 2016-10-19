@@ -20,6 +20,8 @@ public abstract class TimeBasedAutonSimple extends LancerLinearOpMode {
 
     public static boolean turnComplete = false;
 
+    public static long time = 3000;
+
     public void runOpMode() throws InterruptedException {
         fl = hardwareMap.dcMotor.get(Keys.fl);
 
@@ -35,7 +37,11 @@ public abstract class TimeBasedAutonSimple extends LancerLinearOpMode {
 
         waitForStart();
         setMotorPowerUniform(.86, false);
-        sleep(3000);
+        sleep(time);
+        rest();
+        //turn
+        setMotorPowerUniform(.86, false);
+        sleep(time);
         rest();
     }
 

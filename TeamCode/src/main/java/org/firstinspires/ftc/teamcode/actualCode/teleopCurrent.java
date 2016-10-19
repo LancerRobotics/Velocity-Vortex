@@ -90,37 +90,13 @@ public class teleopCurrent extends LancerOpMode
 
         fpsDrive.start();
 
-        if(gamepad1.right_stick_x > Keys.deadzone) {
-            gp1_right_stick_x = gamepad1.right_stick_x;
-        }
-        else {
-            gp1_right_stick_x = 0;
-        }
-        if(gamepad1.left_stick_y > Keys.deadzone) {
-            gp1_left_stick_y = gamepad1.left_stick_y;
-        }
-        else {
-            gp1_right_stick_x = 0;
-        }
-        if(gamepad1.left_stick_x > Keys.deadzone) {
-            gp1_left_stick_x = gamepad1.left_stick_x;
-        }
-        else {
-            gp1_right_stick_x = 0;
-        }
-        gp1_dpad_down = gamepad1.dpad_down;
-        gp1_dpad_left = gamepad1.dpad_left;
-        gp1_dpad_right = gamepad1.dpad_right;
-        gp1_dpad_up = gamepad1.dpad_up;
-        gp1_x = gamepad1.x;
-
-        if(gp1_x) {
+        if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
 
-        teleopCurrent.z = teleopCurrent.gp1_right_stick_x; //sideways
-        teleopCurrent.y = teleopCurrent.gp1_left_stick_y; //forward and backward
-        teleopCurrent.x = teleopCurrent.gp1_left_stick_x; //rotation
+        teleopCurrent.z = gamepad1.right_stick_x; //sideways
+        teleopCurrent.y = gamepad1.left_stick_y; //forward and backward
+        teleopCurrent.x = gamepad1.left_stick_x; //rotation
 
 
         if (x == 0 && y == 0 && z == 0) {
@@ -209,16 +185,16 @@ class FPSDrive extends Thread {
 
     public void run() {
 
-        teleopCurrent.trueX = (Math.cos(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())) * teleopCurrent.x)) - (Math.sin(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())) * teleopCurrent.y)); //sets trueX to rotated value
-        teleopCurrent.trueY = (Math.sin(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())) * teleopCurrent.x)) + (Math.cos(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())) * teleopCurrent.y));
+        teleopCurrent.trueX = (Math.cos(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x - (Math.sin(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y; //sets trueX to rotated value
+        teleopCurrent.trueY = (Math.sin(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x + (Math.cos(Math.toRadians(360-convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y;
 
         teleopCurrent.x = teleopCurrent.trueX;
         teleopCurrent.y = teleopCurrent.trueY;
 
-        teleopCurrent.flPower = Range.clip((-teleopCurrent.x+teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
-        teleopCurrent.frPower = Range.clip((-teleopCurrent.x-teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
-        teleopCurrent.blPower = Range.clip((teleopCurrent.x+teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
-        teleopCurrent.brPower = Range.clip((teleopCurrent.x-teleopCurrent.y-teleopCurrent.z) * 2/.86, -.86, .86);
+        teleopCurrent.flPower = Range.scale((-teleopCurrent.x+teleopCurrent.y-teleopCurrent.z)/2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        teleopCurrent.frPower = Range.scale((-teleopCurrent.x-teleopCurrent.y-teleopCurrent.z)/2,  -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        teleopCurrent.blPower = Range.scale((teleopCurrent.x+teleopCurrent.y-teleopCurrent.z)/2,  -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        teleopCurrent.brPower = Range.scale((teleopCurrent.x-teleopCurrent.y-teleopCurrent.z)/2,  -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
     }
 
     public float convertYaw (double yaw) {

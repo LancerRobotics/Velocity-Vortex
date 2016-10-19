@@ -90,8 +90,36 @@ public class teleopCurrent extends LancerOpMode
 
         fpsDrive.start();
 
+        //Perspective Drive: Gamepad 1 Joysticks (DONE)
+        //Collecting: Gamepad 1 Triggers (DONE)
+        //Beacon Arms: Gamepad 2 Buttons (2/TOGGLE) (DONE)
+        //Shooter: Gamepad 2 Triggers (DONE)
+        //Resovoir Open/Close: Gamepad 2 Button (TOGGLE) (DONE)
+
+
         if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
+        }
+
+
+        if(gamepad1.right_trigger > Keys.deadzone) {
+            collector.setPower(-Keys.MAX_MOTOR_SPEED);
+        }
+        else if(gamepad1.left_trigger > Keys.deadzone) {
+            collector.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+        else {
+            collector.setPower(0);
+        }
+
+        if(gamepad2.right_trigger > Keys.deadzone) {
+            catapult.setPower(-Keys.MAX_MOTOR_SPEED);
+        }
+        else if(gamepad2.left_trigger > Keys.deadzone) {
+            catapult.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+        else {
+            catapult.setPower(0);
         }
 
         teleopCurrent.z = gamepad1.right_stick_x; //sideways
@@ -131,29 +159,40 @@ public class teleopCurrent extends LancerOpMode
         bl.setPower(blPower);
         br.setPower(brPower);
 
-        telemetry.addData("Status", "Running: " + runtime.toString());
+        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
+        beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
+        if(beaconPushLeftToggleReturnArray[1] == 1) {
+            beaconPushLeftButtonPressed = true;
+        }
+        else {
+            beaconPushLeftButtonPressed = false;
+        }
 
-        telemetry.addData("GamePad 1 Right Stick X Variable", gp1_right_stick_x);
-        telemetry.addData("GamePad 1 Left Stick Y Variable", gp1_left_stick_y);
-        telemetry.addData("GamePad 1 Left Stick X Variable", gp1_left_stick_x);
+        beaconPushRightToggleReturnArray = servoToggle(gamepad2.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
+        beaconPushRightPos = beaconPushRightToggleReturnArray[0];
+        if(beaconPushRightToggleReturnArray[1] == 1) {
+            beaconPushRightButtonPressed = true;
+        }
+        else {
+            beaconPushRightButtonPressed = false;
+        }
+
+        reservoirToggleReturnArray = servoToggle(gamepad2.y, reservoir, reservoirPositions, reservoirPos, reservoirButtonPressed);
+        reservoirPos = reservoirToggleReturnArray[0];
+        if(reservoirToggleReturnArray[1] == 1) {
+            reservoirButtonPressed = true;
+        }
+        else {
+            reservoirButtonPressed = false;
+        }
+
+        telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
         telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
-        telemetry.addData("GamePad 1 DPad Down", gp1_dpad_down);
-        telemetry.addData("GamePad 1 DPad Up", gp1_dpad_up);
-        telemetry.addData("GamePad 1 DPad Left", gp1_dpad_left);
-        telemetry.addData("GamePad 1 DPad Right", gp1_dpad_right);
-        telemetry.addData("GamePad 1 X", gp1_x);
+        telemetry.addData("GamePad 1 X", gamepad1.x);
         telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
-        telemetry.addData("x", x);
-        telemetry.addData("y", y);
-        telemetry.addData("z", z);
-        telemetry.addData("true x", trueX);
-        telemetry.addData("true y", trueY);
-        telemetry.addData("Front Right Power", frPower);
-        telemetry.addData("Front Left Power", flPower);
-        telemetry.addData("Back Right Power", brPower);
-        telemetry.addData("Back Left Power", blPower);
+
         // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
 
         // leftMotor.setPower(-gamepad1.left_stick_y);

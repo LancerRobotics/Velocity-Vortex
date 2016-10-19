@@ -17,6 +17,8 @@ public class Keys {
     public static final String fl = "front_left";
     public static final String br = "back_right";
     public static final String bl = "back_left";
+    public static final String catapult = "shooter";
+    public static final String collector = "collector";
 
     //Sensor and Module Names and Values
     public static final String cdim = "dim";
@@ -37,4 +39,13 @@ public class Keys {
     public static final String servo = "servo";
     public static final double servo_INITIAL_STATE = 0;
     public static final double servo_FINAL_STATE = 1;
+    public static final String beaconPushLeft = "left_beacon";
+    public static final String beaconPushRight = "right_beacon";
+    public static final String reservoir = "reservoir";
+    public static final double LEFT_BEACON_INITIAL_STATE = 0;
+    public static final double LEFT_BEACON_PUSH = 1;
+    public static final double RIGHT_BEACON_INITIAL_STATE = 1;
+    public static final double RIGHT_BEACON_PUSH = 0;
+    public static final double RESERVOIR_OPEN = .25;
+    public static final double RESERVOIR_CLOSE = .75;
 }

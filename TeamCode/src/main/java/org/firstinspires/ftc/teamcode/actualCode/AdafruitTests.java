@@ -49,6 +49,7 @@ public class AdafruitTests extends LinearOpMode {
     int red;
     int green;
     int blue;
+    boolean beaconBlue = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -76,5 +77,17 @@ public class AdafruitTests extends LinearOpMode {
         red = color.getRed();
         blue = color.getBlue();
         green = color.getGreen();
+    }
+    public void detectColor(){
+        if(blue < red){
+            beaconBlue = false;
+            telemetry.addData("'The object is blue' is",beaconBlue);
+
+            telemetry.update();
+        }
+        else {
+            telemetry.addData("'The object is blue' is", beaconBlue);
+            telemetry.update();
+        }
     }
 }

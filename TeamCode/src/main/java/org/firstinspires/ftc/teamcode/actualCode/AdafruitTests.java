@@ -54,31 +54,37 @@ public class AdafruitTests extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
-        while(!color.ready()) {
+        while (!color.ready()) {
             telemetry.addData("Ready?", "NO");
             telemetry.update();
+            //Change this method to the updated one
         }
         color.startReadingColor();
         color.startReadingClear();
         telemetry.addData("Ready?", "YES");
         telemetry.update();
+        //Update method ^
         waitForStart();
-        while(opModeIsActive()) {
+        while (opModeIsActive()) {
             getRGB();
-            telemetry.addData("Red: ",red);
-            telemetry.addData("Green: ",green);
-            telemetry.addData("Blue: ",blue);
+            detectColor();
+            telemetry.addData("Red: ", red);
+            telemetry.addData("Green: ", green);
+            telemetry.addData("Blue: ", blue);
             telemetry.update();
+            //Update ^
         }
         color.stopReading();
 
     }
+
     public void getRGB() throws InterruptedException {
         red = color.getRed();
         blue = color.getBlue();
         green = color.getGreen();
     }
-    public void detectColor(){
+
+    /*public void detectColor() {
         if(blue < red){
             beaconBlue = false;
             telemetry.addData("'The object is blue' is",beaconBlue);
@@ -89,5 +95,13 @@ public class AdafruitTests extends LinearOpMode {
             telemetry.addData("'The object is blue' is", beaconBlue);
             telemetry.update();
         }
+    } */
+    public void detectColor() {
+
+        int[] rgb = new int{red, green, blue};
+
+        if(rgb[0] <  )
+
     }
+
 }

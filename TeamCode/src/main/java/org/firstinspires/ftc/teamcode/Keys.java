@@ -35,6 +35,11 @@ public class Keys {
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
     public static final double SONAR_TOLERANCE = .5;
+    // RGB Values: { RED, GREEN, BLUE }
+    public static final int[] BLUE_BEACON_LOWER_THRESHOLD = {0,0,150};
+    public static final int[] BLUE_BEACON_UPPER_THRESHOLD = {60,60,255};
+    public static final int[] RED_BEACON_LOWER_THRESHOLD = {150,0,0};
+    public static final int[] RED_BEACON_UPPER_THRSHOLD = {255,60,60};
 
     //Servo Values and Names
     public static final String servo = "servo";

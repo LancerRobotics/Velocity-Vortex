@@ -98,13 +98,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             }
             telemetry.update();
-            try {
-                idle();
-            }
-            catch (InterruptedException e) {
-                telemetry.addData("Exception", e);
-                telemetry.update();
-            }
+            noProblemIdle();
         }
         rest();
     }
@@ -120,15 +114,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
                 setMotorPowerUniform(.25, true);
-                telemetry.addData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
-                telemetry.update();
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                telemetryAddData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
+                noProblemIdle();
             }
         } else if (myPosition > distance + Keys.SONAR_TOLERANCE) {
             telemetry.addData("if", "readSonar<distance");
@@ -137,19 +124,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
                 setMotorPowerUniform(.25, false);
-                telemetry.addData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
-                telemetry.update();
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                telemetryAddData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
+                noProblemIdle();
             }
         }
         rest();
-        telemetry.addData("sonar", "done");
+        telemetryAddData("sonar", "done");
         rest();
     }
 
@@ -168,24 +148,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (backwards) {
             while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
                 setMotorPowerUniform(power, backwards);
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                noProblemIdle();
             }
         } else {
             while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
                 setMotorPowerUniform(power, backwards);
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                noProblemIdle();
             }
         }
         rest();
@@ -230,35 +198,18 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 power = .4 * Math.cos((ticksLeft) * Math.PI / totalTicks) + .4;
             }
 
-            telemetry.addData("power", power);
+            telemetryAddData("power", power);
             setMotorPowerUniform(power, backwards);
-            try {
-                idle();
-            }
-            catch (InterruptedException e) {
-                telemetry.addData("Exception", e);
-                telemetry.update();
-            }
+            noProblemIdle();
         }
         rest();
     }
 
     public void ballShoot() {
-        telemetry.addData("ShootBall?", "Yes");
-        telemetry.update();
-        try {
-            shoot(0.6, false);
-            sleep(2000);
-            shoot(0, false);
-        }
-        catch (InterruptedException e) {
-            telemetry.addData("Exception", e);
-            telemetry.update();
-        }
-        finally {
-            telemetry.addData("Auton Failed", "Start Again");
-            telemetry.update();
-        }
+        telemetryAddData("ShootBall?", "Yes");
+        shoot(0.6, false);
+        noProblemSleep(2000);
+        shoot(0, false);
     }
 
     public void ballKnockOff() {
@@ -313,11 +264,16 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
+    public void telemetryAddData(String text, Boolean bool) {
+        telemetry.addData(text, bool);
+        telemetry.update();
+    }
+
     // Turns robot
     public void gyroAngle(double angle, AHRS navx_device) {
                 /* Create a PID Controller which uses the Yaw Angle as input. */
         navx_device.zeroYaw();
-        telemetry.addData("Turning?", "About to turn");
+        telemetryAddData("Turning?", "About to turn");
         navXPIDController yawPIDController = new navXPIDController(navx_device,
                 navXPIDController.navXTimestampedDataSource.YAW);
 
@@ -332,9 +288,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         try {
             yawPIDController.enable(true);
             while(opModeIsActive() && !yawPIDController.isEnabled()) {
-                sleep(1);
-                telemetry.addLine("Waiting On yawPIDController");
-                idle();
+                noProblemSleep(1);
+                telemetryAddLine("Waiting On yawPIDController");
+                noProblemIdle();
             }
                 /* Wait for new Yaw PID output values, then update the motors
                    with the new PID value with each new output value.
@@ -371,9 +327,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                         /* A timeout occurred */
                     Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
                 }
-                telemetry.addData("Yaw", df.format(navx_device.getYaw()));
-                telemetry.update();
-                idle();
+                telemetryAddData("Yaw", df.format(navx_device.getYaw()));
+                noProblemIdle();
             }
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -411,6 +366,18 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public void noProblemSleep(long time) {
         try {
             sleep(time);
+        }
+        catch (InterruptedException e) {
+            telemetryAddData("Exception", e);
+        }
+        finally {
+            telemetryAddLine("Auton Failed, Try Again");
+        }
+    }
+
+    public void noProblemIdle() {
+        try {
+            idle();
         }
         catch (InterruptedException e) {
             telemetryAddData("Exception", e);

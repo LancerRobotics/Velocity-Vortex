@@ -139,4 +139,29 @@ public abstract class LancerOpMode extends OpMode{
         catapult1.setPower(power);
         catapult2.setPower(power);
     }
+
+    public void telemetryAddData(String Title, String Data) {
+        telemetry.addData(Title, Data);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String Title, double Data) {
+        telemetry.addData(Title, Data);
+        telemetry.update();
+    }
+
+    public void telemetryAddLine(String text) {
+        telemetry.addLine(text);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String text, InterruptedException e) {
+        telemetry.addData(text, e);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String text, Boolean bool) {
+        telemetry.addData(text, bool);
+        telemetry.update();
+    }
 }

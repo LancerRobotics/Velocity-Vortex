@@ -26,8 +26,10 @@ public class Red5ftCornersideAutonSimple extends LancerLinearOpMode {
         setup();
         noProblemWaitForStart();
         smoothMoveVol2(br, 36, false);
+        noProblemSleep(1000);
         ballShoot();
-        ballShoot();
+        noProblemSleep(1000);
+        //ballShoot();
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         moveStraight(br, 12, false, .70);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off

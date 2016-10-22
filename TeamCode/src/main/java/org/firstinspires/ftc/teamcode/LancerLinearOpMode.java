@@ -361,9 +361,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             waitForStart();
         }
         catch (InterruptedException e) {
-            AlertDialog ad = adb.create();
-            ad.setMessage("Failed to Launch");
-            ad.show();
+            Log.e("Exception", e.toString());
         }
         finally {
             telemetryAddLine("Auton Failed From WaitForStart Exception, Try Again");
@@ -375,7 +373,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             sleep(time);
         }
         catch (InterruptedException e) {
-            telemetryAddData("Exception", e);
+            Log.e("Exception", e.toString());
         }
         finally {
             telemetryAddLine("Auton Failed From Sleep Exception, Try Again");
@@ -387,7 +385,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             idle();
         }
         catch (InterruptedException e) {
-            telemetryAddData("Exception", e);
+            Log.e("Exception", e.toString());
         }
         finally {
             telemetryAddLine("Auton Failed From Idle Exception, Try Again");

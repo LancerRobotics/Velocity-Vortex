@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 /**
  * Created by spork on 10/17/2016.
  */
-@Autonomous (name = "TimeBasedAutonSimple", group = "Autonomous")
+@Autonomous (name = "Back Up Back Up", group = "Autonomous")
 public abstract class TimeBasedAutonSimple extends LancerLinearOpMode {
 
     public static DcMotor fl, fr, br, bl, catapult;

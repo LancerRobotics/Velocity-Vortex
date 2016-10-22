@@ -336,6 +336,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 noProblemIdle();
             }
         } catch (InterruptedException ex) {
+            Log.e("Exception", ex.toString());
             Thread.currentThread().interrupt();
         } finally {
             yawPIDController.close();
@@ -362,6 +363,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         catch (InterruptedException e) {
             Log.e("Exception", e.toString());
+            Thread.currentThread().interrupt();
         }
         finally {
             telemetryAddLine("Auton Failed From WaitForStart Exception, Try Again");
@@ -374,6 +376,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         catch (InterruptedException e) {
             Log.e("Exception", e.toString());
+            Thread.currentThread().interrupt();
         }
         finally {
             telemetryAddLine("Auton Failed From Sleep Exception, Try Again");
@@ -386,6 +389,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         catch (InterruptedException e) {
             Log.e("Exception", e.toString());
+            Thread.currentThread().interrupt();
         }
         finally {
             telemetryAddLine("Auton Failed From Idle Exception, Try Again");

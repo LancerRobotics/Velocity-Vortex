@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import java.text.DecimalFormat;
 
@@ -15,11 +16,13 @@ import java.text.DecimalFormat;
  * Created by spork on 10/5/2016.
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
-    public static DcMotor fl, fr, br, bl, catapult;
+    public static volatile DcMotor fl, fr, bl, br, catapult1, catapult2, collector;
 
     public static AHRS navx_device;
 
     public static boolean turnComplete = false;
+
+    public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
 
     public abstract void runOpMode() throws InterruptedException;
 
@@ -35,6 +38,18 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
 
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        catapult1 = hardwareMap.dcMotor.get(Keys.catapult1);
+
+        catapult2 = hardwareMap.dcMotor.get(Keys.catapult2);
+
+        collector = hardwareMap.dcMotor.get(Keys.collector);
+
+        beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
+
+        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
+
+        reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -244,13 +259,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.addData("ShootBall?", "Yes");
         telemetry.update();
         try {
+            shoot(0.6, false);
             sleep(2000);
+            shoot(0, false);
         }
         catch (InterruptedException e) {
             telemetry.addData("Exception", e);
+            telemetry.update();
         }
         finally {
             telemetry.addData("Auton Failed", "Start Again");
+            telemetry.update();
         }
     }
 
@@ -270,12 +289,35 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setPower(direction * power);
     }
 
+    public void shoot(double power, boolean backwards) {
+        if(backwards) {
+            power = power * -1;
+        }
+        catapult1.setPower(power);
+        catapult2.setPower(power);
+    }
+
     //break
     public void rest() {
         fr.setPower(0);
         fl.setPower(0);
         bl.setPower(0);
         br.setPower(0);
+    }
+
+    public void telemetryAddData(String Title, String Data) {
+        telemetry.addData(Title, Data);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String Title, double Data) {
+        telemetry.addData(Title, Data);
+        telemetry.update();
+    }
+
+    public void telemetryAddLine(String text) {
+        telemetry.addLine(text);
+        telemetry.update();
     }
 
     // Turns robot
@@ -359,6 +401,34 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public void pushBeacon() {
 
+    }
+
+    public void noProblemWaitForStart() {
+        try {
+            waitForStart();
+        }
+        catch (InterruptedException e) {
+            telemetry.addData("Exception", e);
+            telemetry.update();
+        }
+        finally {
+            telemetry.addLine("Auton Failed, Try Again");
+            telemetry.update();
+        }
+    }
+
+    public void noProblemSleep(long time) {
+        try {
+            sleep(time);
+        }
+        catch (InterruptedException e) {
+            telemetry.addData("Exception", e);
+            telemetry.update();
+        }
+        finally {
+            telemetry.addLine("Auton Failed, Try Again");
+            telemetry.update();
+        }
     }
 }
 

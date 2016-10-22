@@ -37,7 +37,7 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
         telemetry.update();
         sleep(1000);
         ballShoot();
-        ballShoot();
+        //ballShoot();
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         telemetry.addData("Step", "Movement 2");
         telemetry.update();

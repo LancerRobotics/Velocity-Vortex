@@ -113,13 +113,13 @@ public class teleopCurrent extends LancerOpMode
         }
 
         if(gamepad2.right_trigger > Keys.deadzone) {
-            catapult.setPower(-Keys.MAX_MOTOR_SPEED);
+            shoot(Keys.MAX_MOTOR_SPEED, true);
         }
         else if(gamepad2.left_trigger > Keys.deadzone) {
-            catapult.setPower(Keys.MAX_MOTOR_SPEED);
+            shoot(Keys.MAX_MOTOR_SPEED, false);
         }
         else {
-            catapult.setPower(0);
+            shoot(0, false);
         }
 
         teleopCurrent.z = gamepad1.right_stick_x; //sideways

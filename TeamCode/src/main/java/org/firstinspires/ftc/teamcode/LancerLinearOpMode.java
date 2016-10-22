@@ -296,7 +296,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double currAngle = navx_device.getYaw();
         try {
             yawPIDController.enable(true);
-
+            while(opModeIsActive() && !yawPIDController.isEnabled()) {
+                sleep(1);
+                telemetry.addLine("Waiting On yawPIDController");
+                idle();
+            }
                 /* Wait for new Yaw PID output values, then update the motors
                    with the new PID value with each new output value.
                  */
@@ -306,6 +310,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             while (!Thread.currentThread().isInterrupted() || turnComplete && opModeIsActive()) {
                 telemetry.addData("Angle To Turn To", yawPIDController.getSetpoint());
+                telemetry.addData("Angle Inputed", angle);
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
                         rest();

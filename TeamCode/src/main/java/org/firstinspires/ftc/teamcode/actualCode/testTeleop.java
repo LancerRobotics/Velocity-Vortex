@@ -47,23 +47,18 @@ import java.util.Date;
 /**
  * Demonstrates empty OpMode
  */
-@TeleOp(name = "Emergency Test", group = "Teleop")
+@TeleOp(name = "Shooter Test", group = "Teleop")
 //@Disabled
 public class testTeleop extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    DcMotor fr;
-    DcMotor fl;
-    DcMotor br;
-    DcMotor bl;
+    DcMotor shooter1, shooter2;
 
     @Override
     public void init() {
-        fr = hardwareMap.dcMotor.get(Keys.fr);
-        fl = hardwareMap.dcMotor.get(Keys.fl);
-        br = hardwareMap.dcMotor.get(Keys.br);
-        bl = hardwareMap.dcMotor.get(Keys.bl);
+        shooter1 = hardwareMap.dcMotor.get("shooter_one");
+        shooter2 = hardwareMap.dcMotor.get("shooter_two");
         telemetry.addData("Status", "Initialized");
     }
 
@@ -90,10 +85,9 @@ public class testTeleop extends OpMode {
      */
     @Override
     public void loop() {
-        fr.setPower(Range.clip(gamepad1.right_stick_y, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-        fl.setPower(Range.clip(gamepad1.left_stick_y, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-        br.setPower(Range.clip(gamepad1.right_stick_y, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-        bl.setPower(Range.clip(gamepad1.left_stick_y, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        if(gamepad1.right_trigger > .15) {
+            shooter1.setPower(.86);
+            shooter2.setPower(.86);
+        }
     }
 }

@@ -15,7 +15,7 @@ public abstract class LancerOpMode extends OpMode{
 
     public static volatile ElapsedTime runtime = new ElapsedTime();
 
-    public static volatile DcMotor fl, fr, bl, br, catapult, collector;
+    public static volatile DcMotor fl, fr, bl, br, catapult1, catapult2, collector;
 
     public static volatile float gp1_right_stick_x, gp1_left_stick_y, gp1_left_stick_x;
 
@@ -70,7 +70,9 @@ public abstract class LancerOpMode extends OpMode{
 
         bl = hardwareMap.dcMotor.get(Keys.bl);
 
-        catapult = hardwareMap.dcMotor.get(Keys.catapult);
+        catapult1 = hardwareMap.dcMotor.get(Keys.catapult1);
+
+        catapult2 = hardwareMap.dcMotor.get(Keys.catapult2);
 
         collector = hardwareMap.dcMotor.get(Keys.collector);
 
@@ -157,5 +159,13 @@ public abstract class LancerOpMode extends OpMode{
         returnArray[0] = currentPos;
         returnArray[1] = bool;
         return returnArray;
+    }
+
+    public void shoot(double power, boolean backwards) {
+        if(backwards) {
+            power = power * -1;
+        }
+        catapult1.setPower(power);
+        catapult2.setPower(power);
     }
 }

@@ -20,12 +20,7 @@ public class GoToRightBeacon extends LancerLinearOpMode{
     public void goRight(double power){
         fl.setPower(power);
         br.setPower(power);
-        try {
-            Thread.sleep(3000);
-        }
-        catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
+        noProblemSleep(3000);
         fl.setPower(0);
         br.setPower(0);
     }

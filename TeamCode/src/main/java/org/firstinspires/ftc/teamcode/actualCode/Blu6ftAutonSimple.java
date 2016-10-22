@@ -24,7 +24,7 @@ public class Blu6ftAutonSimple extends LancerLinearOpMode {
 
     public void runOpMode()throws InterruptedException {
         setup();
-        waitForStart();
+        noProblemWaitForStart();
         smoothMoveVol2(br, 36, false);
         ballShoot();
         ballShoot();

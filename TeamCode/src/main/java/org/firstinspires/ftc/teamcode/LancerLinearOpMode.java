@@ -17,45 +17,33 @@ import java.text.DecimalFormat;
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, catapult1, catapult2, collector;
-
     public static AHRS navx_device;
-
     public static boolean turnComplete = false;
-
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
 
     public abstract void runOpMode() throws InterruptedException;
 
     public void setup() {
         fl = hardwareMap.dcMotor.get(Keys.fl);
-
         fr = hardwareMap.dcMotor.get(Keys.fr);
-
         br = hardwareMap.dcMotor.get(Keys.br);
-
         bl = hardwareMap.dcMotor.get(Keys.bl);
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
-
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
         catapult1 = hardwareMap.dcMotor.get(Keys.catapult1);
-
         catapult2 = hardwareMap.dcMotor.get(Keys.catapult2);
-
         collector = hardwareMap.dcMotor.get(Keys.collector);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
-
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-
         reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-
         navx_device.zeroYaw();
     }
 
@@ -320,6 +308,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
+    public void telemetryAddData(String text, InterruptedException e) {
+        telemetry.addData(text, e);
+        telemetry.update();
+    }
+
     // Turns robot
     public void gyroAngle(double angle, AHRS navx_device) {
                 /* Create a PID Controller which uses the Yaw Angle as input. */
@@ -408,12 +401,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             waitForStart();
         }
         catch (InterruptedException e) {
-            telemetry.addData("Exception", e);
-            telemetry.update();
+            telemetryAddData("Exception", e);
         }
         finally {
-            telemetry.addLine("Auton Failed, Try Again");
-            telemetry.update();
+            telemetryAddLine("Auton Failed, Try Again");
         }
     }
 
@@ -422,12 +413,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             sleep(time);
         }
         catch (InterruptedException e) {
-            telemetry.addData("Exception", e);
-            telemetry.update();
+            telemetryAddData("Exception", e);
         }
         finally {
-            telemetry.addLine("Auton Failed, Try Again");
-            telemetry.update();
+            telemetryAddLine("Auton Failed, Try Again");
         }
     }
 }

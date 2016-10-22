@@ -49,7 +49,7 @@ import java.util.Date;
  */
 @TeleOp(name = "Shooter Test", group = "Teleop")
 //@Disabled
-public class testTeleop extends OpMode {
+public class testShooter extends OpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
 

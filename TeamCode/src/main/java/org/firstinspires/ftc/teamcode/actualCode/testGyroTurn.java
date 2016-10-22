@@ -21,5 +21,6 @@ public class testGyroTurn extends LancerLinearOpMode {
         telemetryAddData("Turn", "-90 degrees");
         gyroAngle(-90, navx_device);
         telemetryAddData("Turn", "Two Is Done");
+        rest();
     }
 }

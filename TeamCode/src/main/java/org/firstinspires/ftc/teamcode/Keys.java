@@ -17,8 +17,8 @@ public class Keys {
     public static final String fl = "front_left";
     public static final String br = "back_right";
     public static final String bl = "back_left";
-    public static final String catapult1 = "shooter_one";
-    public static final String catapult2 = "shooter_two";
+    public static final String shooterRight = "shooter_right";
+    public static final String shooterLeft = "shooter_left";
     public static final String collector = "collector";
 
     //Sensor and Module Names and Values

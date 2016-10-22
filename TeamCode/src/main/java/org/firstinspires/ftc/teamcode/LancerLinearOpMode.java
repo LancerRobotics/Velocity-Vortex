@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.AlertDialog;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.AHRS;
@@ -10,13 +11,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+
 import java.text.DecimalFormat;
 
 /**
  * Created by spork on 10/5/2016.
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
-    public static volatile DcMotor fl, fr, bl, br, catapult1, catapult2, collector;
+    public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;
     public static boolean turnComplete = false;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
@@ -32,9 +35,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        catapult1 = hardwareMap.dcMotor.get(Keys.catapult1);
-        catapult2 = hardwareMap.dcMotor.get(Keys.catapult2);
+        shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
+        shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
         collector = hardwareMap.dcMotor.get(Keys.collector);
+
+        shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
@@ -232,8 +237,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if(backwards) {
             power = power * -1;
         }
-        catapult1.setPower(power);
-        catapult2.setPower(power);
+        shooterRight.setPower(power);
+        shooterLeft.setPower(power);
     }
 
     //break
@@ -356,10 +361,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             waitForStart();
         }
         catch (InterruptedException e) {
-            telemetryAddData("Exception", e);
+            AlertDialog ad = adb.create();
+            ad.setMessage("Failed to Launch");
+            ad.show();
         }
         finally {
-            telemetryAddLine("Auton Failed, Try Again");
+            telemetryAddLine("Auton Failed From WaitForStart Exception, Try Again");
         }
     }
 
@@ -371,7 +378,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             telemetryAddData("Exception", e);
         }
         finally {
-            telemetryAddLine("Auton Failed, Try Again");
+            telemetryAddLine("Auton Failed From Sleep Exception, Try Again");
         }
     }
 
@@ -383,7 +390,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             telemetryAddData("Exception", e);
         }
         finally {
-            telemetryAddLine("Auton Failed, Try Again");
+            telemetryAddLine("Auton Failed From Idle Exception, Try Again");
         }
     }
 }

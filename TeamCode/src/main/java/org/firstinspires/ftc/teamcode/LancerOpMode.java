@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class LancerOpMode extends OpMode{
     public static volatile AHRS navx_device;
     public static volatile ElapsedTime runtime = new ElapsedTime();
-    public static volatile DcMotor fl, fr, bl, br, catapult1, catapult2, collector;
+    public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static volatile float gp1_right_stick_x, gp1_left_stick_y, gp1_left_stick_x;
     public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
     public static volatile double x, y, z, trueX, trueY;
@@ -51,9 +52,10 @@ public abstract class LancerOpMode extends OpMode{
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
-        catapult1 = hardwareMap.dcMotor.get(Keys.catapult1);
-        catapult2 = hardwareMap.dcMotor.get(Keys.catapult2);
+        shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
+        shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
         collector = hardwareMap.dcMotor.get(Keys.collector);
+        shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
@@ -136,8 +138,8 @@ public abstract class LancerOpMode extends OpMode{
         if(backwards) {
             power = power * -1;
         }
-        catapult1.setPower(power);
-        catapult2.setPower(power);
+        shooterRight.setPower(power);
+        shooterLeft.setPower(power);
     }
 
     public void telemetryAddData(String Title, String Data) {

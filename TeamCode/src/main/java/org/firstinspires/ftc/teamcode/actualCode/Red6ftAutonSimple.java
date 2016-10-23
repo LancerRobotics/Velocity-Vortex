@@ -21,21 +21,21 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
     Sleep
     */
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         setup();
         telemetry.addData("Step", "Setup");
         telemetry.update();
         while(navx_device.isCalibrating()) {
-            noProblemSleep(1);
+            sleep(1);
         }
-        noProblemWaitForStart();
+        waitForStart();
         telemetryAddData("Step" , "Movement 1");
         smoothMoveVol2(br, 36, false);
         rest();
         telemetryAddData("Step", "Ball Shooting");
-        noProblemSleep(1000);
+        sleep(1000);
         ballShoot();
-        noProblemSleep(1000);
+        sleep(1000);
         //ballShoot();
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         telemetryAddData("Step", "Movement 2");

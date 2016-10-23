@@ -24,7 +24,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public static boolean turnComplete = false;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
 
-    public abstract void runOpMode() throws InterruptedException;
+    public abstract void runOpMode();
 
     public void setup() {
         fl = hardwareMap.dcMotor.get(Keys.fl);
@@ -103,7 +103,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             }
             telemetry.update();
-            noProblemIdle();
         }
         rest();
     }
@@ -120,7 +119,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("dist", distance);
                 setMotorPowerUniform(.25, true);
                 telemetryAddData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
-                noProblemIdle();
             }
         } else if (myPosition > distance + Keys.SONAR_TOLERANCE) {
             telemetry.addData("if", "readSonar<distance");
@@ -130,7 +128,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("dist", distance);
                 setMotorPowerUniform(.25, false);
                 telemetryAddData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
-                noProblemIdle();
             }
         }
         rest();
@@ -153,12 +150,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (backwards) {
             while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
                 setMotorPowerUniform(power, backwards);
-                noProblemIdle();
             }
         } else {
             while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
                 setMotorPowerUniform(power, backwards);
-                noProblemIdle();
             }
         }
         rest();
@@ -205,7 +200,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             telemetryAddData("power", power);
             setMotorPowerUniform(power, backwards);
-            noProblemIdle();
         }
         rest();
     }
@@ -213,7 +207,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
         shoot(0.6, false);
-        noProblemSleep(2000);
+        sleep(2000);
         shoot(0, false);
     }
 
@@ -293,9 +287,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         try {
             yawPIDController.enable(true);
             while(opModeIsActive() && !yawPIDController.isEnabled()) {
-                noProblemSleep(1);
+                sleep(1);
                 telemetryAddLine("Waiting On yawPIDController");
-                noProblemIdle();
             }
                 /* Wait for new Yaw PID output values, then update the motors
                    with the new PID value with each new output value.
@@ -333,7 +326,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
                 }
                 telemetryAddData("Yaw", df.format(navx_device.getYaw()));
-                noProblemIdle();
             }
         } catch (InterruptedException ex) {
             Log.e("Exception", ex.toString());
@@ -355,45 +347,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public void pushBeacon() {
 
-    }
-
-    public void noProblemWaitForStart() {
-        try {
-            waitForStart();
-        }
-        catch (InterruptedException e) {
-            Log.e("Exception", e.toString());
-            Thread.currentThread().interrupt();
-        }
-        finally {
-            telemetryAddLine("Auton Failed From WaitForStart Exception, Try Again");
-        }
-    }
-
-    public void noProblemSleep(long time) {
-        try {
-            sleep(time);
-        }
-        catch (InterruptedException e) {
-            Log.e("Exception", e.toString());
-            Thread.currentThread().interrupt();
-        }
-        finally {
-            telemetryAddLine("Auton Failed From Sleep Exception, Try Again");
-        }
-    }
-
-    public void noProblemIdle() {
-        try {
-            idle();
-        }
-        catch (InterruptedException e) {
-            Log.e("Exception", e.toString());
-            Thread.currentThread().interrupt();
-        }
-        finally {
-            telemetryAddLine("Auton Failed From Idle Exception, Try Again");
-        }
     }
 }
 

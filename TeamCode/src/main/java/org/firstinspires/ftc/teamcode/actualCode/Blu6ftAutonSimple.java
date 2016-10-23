@@ -22,9 +22,9 @@ public class Blu6ftAutonSimple extends LancerLinearOpMode {
     Sleep
     */
 
-    public void runOpMode()throws InterruptedException {
+    public void runOpMode() {
         setup();
-        noProblemWaitForStart();
+        waitForStart();
         smoothMoveVol2(br, 36, false);
         ballShoot();
         ballShoot();

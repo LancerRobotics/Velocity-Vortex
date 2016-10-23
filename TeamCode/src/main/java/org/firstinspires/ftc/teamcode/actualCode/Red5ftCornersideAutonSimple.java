@@ -22,13 +22,13 @@ public class Red5ftCornersideAutonSimple extends LancerLinearOpMode {
     Sleep
     */
 
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode() {
         setup();
-        noProblemWaitForStart();
+        waitForStart();
         smoothMoveVol2(br, 36, false);
-        noProblemSleep(1000);
+        sleep(1000);
         ballShoot();
-        noProblemSleep(1000);
+        sleep(1000);
         //ballShoot();
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         moveStraight(br, 12, false, .70);

@@ -22,7 +22,7 @@ public abstract class TimeBasedAutonSimple extends LancerLinearOpMode {
 
     public static long time = 3000;
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         fl = hardwareMap.dcMotor.get(Keys.fl);
 
         fr = hardwareMap.dcMotor.get(Keys.fr);

@@ -1,36 +1,20 @@
 package org.firstinspires.ftc.teamcode.actualCode;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.LancerOpMode;
 
-import static org.firstinspires.ftc.teamcode.LancerOpMode.convertYaw;
-
-
-@TeleOp(name = "Teleop Multithreaded", group = "Teleop")  // @Autonomous(...) is the other common choice
-//Disabled
-public class teleopCurrent extends LancerOpMode
-
-{
-    public static volatile FPSDrive fpsDrive;
-
-    @Override
+/**
+ * Created by spork on 10/22/2016.
+ */
+@TeleOp(name="Teleop No Multithreading", group = "Teleop")
+public class teleopNotMultithreaded extends LancerOpMode {
     public void init() {
         setup();
-        fpsDrive = new FPSDrive();
-        telemetry.addData("Status", "Initialized");
     }
-
-    public void start() {
-        runtime.reset();
-    }
-
-    @Override
     public void loop() {
-        fpsDrive.start();
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
@@ -54,6 +38,18 @@ public class teleopCurrent extends LancerOpMode
         teleopCurrent.z = gamepad1.right_stick_x; //sideways
         teleopCurrent.y = gamepad1.left_stick_y; //forward and backward
         teleopCurrent.x = gamepad1.left_stick_x; //rotation
+
+        teleopCurrent.trueX = ((Math.cos(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x) - ((Math.sin(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y); //sets trueX to rotated value
+        teleopCurrent.trueY = ((Math.sin(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x) + ((Math.cos(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y);
+
+        teleopCurrent.x = teleopCurrent.trueX;
+        teleopCurrent.y = teleopCurrent.trueY;
+
+        teleopCurrent.flPower = Range.scale((-teleopCurrent.x + teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        teleopCurrent.frPower = Range.scale((-teleopCurrent.x - teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        teleopCurrent.blPower = Range.scale((teleopCurrent.x + teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        teleopCurrent.brPower = Range.scale((teleopCurrent.x - teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+
 
         if (x == 0 && y == 0 && z == 0) {
             if (gp1_dpad_right) {
@@ -107,29 +103,5 @@ public class teleopCurrent extends LancerOpMode
         telemetry.addData("GamePad 1 X", gamepad1.x);
         telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
         telemetry.update();
-    }
-}
-
-class FPSDrive extends Thread {
-    private Thread fpsDrive;
-
-    public void start() {
-        if (fpsDrive == null) {
-            fpsDrive = new Thread(this, "FPSDrive");
-            fpsDrive.start();
-        }
-    }
-
-    public void run() {
-        teleopCurrent.trueX = ((Math.cos(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x) - ((Math.sin(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y); //sets trueX to rotated value
-        teleopCurrent.trueY = ((Math.sin(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x) + ((Math.cos(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y);
-
-        teleopCurrent.x = teleopCurrent.trueX;
-        teleopCurrent.y = teleopCurrent.trueY;
-
-        teleopCurrent.flPower = Range.scale((-teleopCurrent.x + teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
-        teleopCurrent.frPower = Range.scale((-teleopCurrent.x - teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
-        teleopCurrent.blPower = Range.scale((teleopCurrent.x + teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
-        teleopCurrent.brPower = Range.scale((teleopCurrent.x - teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
     }
 }

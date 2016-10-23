@@ -12,13 +12,13 @@ public class testGyroTurn extends LancerLinearOpMode {
 
     public void runOpMode() {
         setup();
-        noProblemWaitForStart();
+        waitForStart();
         telemetry.addData("Turn", "90 degrees");
         gyroAngle(90, navx_device);
         telemetry.addData("Turn", "One Is Done");
         telemetry.update();
         rest();
-        noProblemSleep(2000);
+        sleep(2000);
         telemetry.addData("Turn", "-90 degrees");
         gyroAngle(-90, navx_device);
         telemetry.addData("Turn", "Two Is Done");

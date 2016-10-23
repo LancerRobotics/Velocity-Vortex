@@ -18,13 +18,7 @@ public class testEncoder extends LinearOpMode {
     DcMotor testMotor;
     public void runOpMode() {
         testMotor = hardwareMap.dcMotor.get(Keys.fr);
-        try {
-            waitForStart();
-        }
-        catch (InterruptedException e){
-            telemetry.addData("Exception Occurred", "Exception Occurred");
-            telemetry.update();
-        }
+        waitForStart();
         smoothMoveVol2(testMotor, 60, false);
     }
 
@@ -78,14 +72,6 @@ public class testEncoder extends LinearOpMode {
 
             }
             telemetry.update();
-            try {
-                idle();
-            }
-            catch (InterruptedException e) {
-                telemetry.addData("Exception Occurred", "Exception Occurred");
-                telemetry.update();
-            }
-
         }
         rest();
     }

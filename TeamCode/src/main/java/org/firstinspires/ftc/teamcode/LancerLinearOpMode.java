@@ -23,6 +23,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public static AHRS navx_device;
     public static boolean turnComplete = false;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
+    public static volatile AnalogInput sonarBack;
 
     public abstract void runOpMode();
 

@@ -84,7 +84,7 @@ public class AdafruitTests extends LinearOpMode {
             telemetry.addData("'The object is blue' is",beaconBlue);
 
             telemetry.update();
-        }
+   n      }
         else {
             telemetry.addData("'The object is blue' is", beaconBlue);
             telemetry.update();

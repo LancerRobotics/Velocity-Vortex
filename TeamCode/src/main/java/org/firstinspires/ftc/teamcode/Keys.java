@@ -25,6 +25,7 @@ public class Keys {
     //Sensor and Module Names and Values
     public static final String cdim = "dim";
     public static final String colorSensor = "color";
+    public static final String sonarBack = "sonar_back";
     public static final int LED_CHANNEL = 5;
     public static final int NAVX_DIM_I2C_PORT = 0;
     public static final double TOLERANCE_DEGREES = 2.0;

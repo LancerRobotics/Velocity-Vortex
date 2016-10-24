@@ -144,21 +144,42 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     //Small distance <11.2 in
-    public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
-        dist = dist/Keys.ConversionFactorForEncodedMove;
-        double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
-        double totalTicks = rotations * 1120 * 3 / 2;
-        int positionBeforeMovement = motor.getCurrentPosition();
-        if (backwards) {
-            while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
-                fullSetMotorPowerUniform(power, backwards);
+    public void moveStraight(DcMotor motor, double inches, boolean backwards, double power) { //motors must be set to RUN _USING_ENCODERS
+         // Changing the distance given to the actual distance
+        double rotations = inches / (Keys.WHEEL_DIAMETER * Math.PI); // === # of rotations
+        double totalTicks = rotations * 1120.0;
+        int positionBeforeMovement = motor.getCurrentPosition(); // It tells the current position of the encoder before movement occured
+         // if we want to go forward or backwards
+            while(opModeIsActive() && (motor.getCurrentPosition()>positionBeforeMovement-totalTicks)){
+               // fullSetMotorPowerUniform(power, backwards); // Check this method
+                if(backwards){
+                    power = -power;
+                fr.setPower(power);
+                br.setPower(power);
+                fl.setPower(power);
+                bl.setPower(power);
+            } else{
+                fr.setPower(power);
+                br.setPower(power);
+                fl.setPower(power);
+                bl.setPower(power);
+                }
             }
-        } else {
-            while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
-                fullSetMotorPowerUniform(power, backwards);
-            }
+        rest(); // stops all motors
+    }
+    public void moveStraightBackup (DcMotor motor, double inches, boolean backwards, double power){ //SET MOTORS TO Dcmotor.RunMode.RUN_TO_POSITION
+        double rotations = inches/(Keys.WHEEL_DIAMETER*Math.PI);
+        double totalTicks = rotations*1120.0;
+        motor.setTargetPosition((int)(totalTicks));
+        if(motor.isBusy()){
+            fr.setPower(motor.getPower());
+            br.setPower(motor.getPower());
+            bl.setPower(motor.getPower());
+            fl.setPower(motor.getPower());
         }
-        rest();
+        else{
+            rest();
+        }
     }
 
     //Deprecated smooth move

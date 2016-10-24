@@ -53,7 +53,7 @@ public class AdafruitTests extends LinearOpMode{
     int detectedColorResult;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode(){
         color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
         while (!color.ready()) {
             telemetry.addData("Ready?", "NO");
@@ -85,7 +85,7 @@ public class AdafruitTests extends LinearOpMode{
 
     }
 
-    public void getRGB() throws InterruptedException {
+    public void getRGB() {
         red = color.getRed();
         blue = color.getBlue();
         green = color.getGreen();

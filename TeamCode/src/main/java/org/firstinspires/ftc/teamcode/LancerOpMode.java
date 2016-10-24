@@ -55,7 +55,7 @@ public abstract class LancerOpMode extends OpMode{
         shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
         shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
         collector = hardwareMap.dcMotor.get(Keys.collector);
-        shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooterRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);

@@ -11,55 +11,26 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 /**
  * Created by spork on 10/17/2016.
  */
-@Autonomous (name = "Back Up Back Up", group = "Autonomous")
-public abstract class TimeBasedAutonSimple extends LancerLinearOpMode {
+@Autonomous (name = "Time Based", group = "Autonomous")
+public class TimeBasedAutonSimple extends LancerLinearOpMode {
 
     public static DcMotor fl, fr, br, bl, catapult;
 
     public static AHRS navx_device;
 
-    public static boolean turnComplete = false;
-
     public static long time = 3000;
 
     public void runOpMode() {
-        fl = hardwareMap.dcMotor.get(Keys.fl);
-
-        fr = hardwareMap.dcMotor.get(Keys.fr);
-
-        br = hardwareMap.dcMotor.get(Keys.br);
-
-        bl = hardwareMap.dcMotor.get(Keys.bl);
-
-        fr.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        br.setDirection(DcMotorSimple.Direction.REVERSE);
-
+        setup();
         waitForStart();
-        setMotorPowerUniform(.86, false);
-        sleep(time);
-        rest();
+        fullSetMotorPowerUniform(.6, false);
+        sleep(3000);
+        fullRest();
         //turn
-        setMotorPowerUniform(.86, false);
-        sleep(time);
-        rest();
+        fullSetMotorPowerUniform(.6, false);
+        sleep(3000);
+        fullSetMotorPowerUniform(0, false);
+        fullRest();
     }
 
-    public void setMotorPowerUniform(double power, boolean backwards) {
-        int direction = 1;
-        if (backwards) {
-            direction = -1;
-        }
-        fr.setPower(direction * power);
-        fl.setPower(direction * power);
-        bl.setPower(direction * power);
-        br.setPower(direction * power);
-    }
-
-    public void rest() {
-        fr.setPower(0);
-        fl.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
-    }
 }

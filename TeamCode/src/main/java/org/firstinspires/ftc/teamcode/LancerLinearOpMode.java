@@ -35,11 +35,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
         shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
         collector = hardwareMap.dcMotor.get(Keys.collector);
 
-        shooterLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooterRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
@@ -78,7 +80,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     telemetry.addData("power", "adjusted" + power);
                 }
                 telemetry.addData("power", power);
-                setMotorPowerUniform(power, backwards);
+                fullSetMotorPowerUniform(power, backwards);
                 savedPower = power;
                 savedTick = currentTick;
             } else {
@@ -88,7 +90,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 double horizontalStretch = totalTicks / 2 * .2;
                 if (newCurrentCount < horizontalStretch) {
                     //becuase of domain restrictions
-                    setMotorPowerUniform(savedPower, backwards);
+                    fullSetMotorPowerUniform(savedPower, backwards);
                 } else {
                     //in the domain
 
@@ -98,13 +100,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                         power = Keys.MIN_MOTOR_SPEED;
                         telemetry.addData("power", "adjusted" + power);
                     }
-                    setMotorPowerUniform(power, backwards);
+                    fullSetMotorPowerUniform(power, backwards);
                 }
 
             }
             telemetry.update();
         }
-        rest();
+        fullRest();
     }
 
     //NO NEED
@@ -117,7 +119,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("while", "looping3");
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
-                setMotorPowerUniform(.25, true);
+                fullSetMotorPowerUniform(.25, true);
                 telemetryAddData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
             }
         } else if (myPosition > distance + Keys.SONAR_TOLERANCE) {
@@ -126,13 +128,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("while", "looping");
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
-                setMotorPowerUniform(.25, false);
+                fullSetMotorPowerUniform(.25, false);
                 telemetryAddData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
             }
         }
-        rest();
+        fullRest();
         telemetryAddData("sonar", "done");
-        rest();
+        fullRest();
     }
 
     public double readSonar(AnalogInput sonar) {
@@ -143,17 +145,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Small distance <11.2 in
     public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
-
+        dist = dist/Keys.ConversionFactorForEncodedMove;
         double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
         double totalTicks = rotations * 1120 * 3 / 2;
         int positionBeforeMovement = motor.getCurrentPosition();
         if (backwards) {
             while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
-                setMotorPowerUniform(power, backwards);
+                fullSetMotorPowerUniform(power, backwards);
             }
         } else {
             while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
-                setMotorPowerUniform(power, backwards);
+                fullSetMotorPowerUniform(power, backwards);
             }
         }
         rest();
@@ -199,14 +201,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             }
 
             telemetryAddData("power", power);
-            setMotorPowerUniform(power, backwards);
+            fullSetMotorPowerUniform(power, backwards);
         }
-        rest();
+        fullRest();
     }
 
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
-        shoot(0.6, false);
+        shoot(Keys.MAX_MOTOR_SPEED , false);
         sleep(2000);
         shoot(0, false);
     }
@@ -215,7 +217,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     }
 
-    //NO NEED for auton
+    //NO NEED for auton unless being used for time
     public void setMotorPowerUniform(double power, boolean backwards) {
         int direction = 1;
         if (backwards) {
@@ -228,7 +230,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void shoot(double power, boolean backwards) {
-        if(backwards) {
+        if(!backwards) {
             power = power * -1;
         }
         shooterRight.setPower(power);
@@ -302,7 +304,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("Angle Inputed", angle);
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
-                        rest();
+                        fullRest();
                         turnComplete = true;
                         telemetry.addData("PIDOutput", df.format(0.00));
                     } else {
@@ -332,7 +334,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             Thread.currentThread().interrupt();
         } finally {
             yawPIDController.close();
-            rest();
+            fullRest();
             turnComplete = false;
         }
     }
@@ -347,6 +349,20 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public void pushBeacon() {
 
+    }
+
+    public void fullRest() {
+        rest();
+        rest();
+        rest();
+        rest();
+    }
+
+    public void fullSetMotorPowerUniform(double power, boolean backwards) {
+        setMotorPowerUniform(power, backwards);
+        setMotorPowerUniform(power, backwards);
+        setMotorPowerUniform(power, backwards);
+        setMotorPowerUniform(power, backwards);
     }
 }
 

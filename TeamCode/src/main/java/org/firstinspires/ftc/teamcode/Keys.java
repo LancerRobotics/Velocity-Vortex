@@ -11,6 +11,7 @@ public class Keys {
     public static final double MAX_MOTOR_SPEED = 0.86;
     public static final double MIN_MOTOR_SPEED = 0.15;
     public static final double WHEEL_DIAMETER = 4;
+    public static final double ConversionFactorForEncodedMove = 5.1;
 
     //Motor Names
     public static final String fr = "front_right";
@@ -35,12 +36,12 @@ public class Keys {
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
     public static final double SONAR_TOLERANCE = .5;
-    // RGB Values: { RED, GREEN, BLUE }
+    /* RGB Values: { RED, GREEN, BLUE }
     public static final int[] BLUE_BEACON_LOWER_THRESHOLD = {0,0,150};
     public static final int[] BLUE_BEACON_UPPER_THRESHOLD = {60,60,255};
     public static final int[] RED_BEACON_LOWER_THRESHOLD = {150,0,0};
     public static final int[] RED_BEACON_UPPER_THRSHOLD = {255,60,60};
-
+    */
     //Servo Values and Names
     public static final String servo = "servo";
     public static final double servo_INITIAL_STATE = 0;
@@ -48,10 +49,10 @@ public class Keys {
     public static final String beaconPushLeft = "left_beacon";
     public static final String beaconPushRight = "right_beacon";
     public static final String reservoir = "reservoir";
-    public static final double LEFT_BEACON_INITIAL_STATE = 0;
-    public static final double LEFT_BEACON_PUSH = 1;
+    public static final double LEFT_BEACON_INITIAL_STATE = 20/255;
+    public static final double LEFT_BEACON_PUSH = 140/255;
     public static final double RIGHT_BEACON_INITIAL_STATE = 1;
-    public static final double RIGHT_BEACON_PUSH = 0;
+    public static final double RIGHT_BEACON_PUSH = 0.5;
     public static final double RESERVOIR_OPEN = .25;
     public static final double RESERVOIR_CLOSE = .75;
 }

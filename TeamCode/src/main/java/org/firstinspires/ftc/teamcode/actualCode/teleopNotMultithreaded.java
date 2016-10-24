@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 /**
  * Created by spork on 10/22/2016.
  */
-@TeleOp(name="Teleop No Multithreading", group = "Teleop")
+@TeleOp(name="Teleop No Multithreading With Perspective Drive", group = "Teleop")
 public class teleopNotMultithreaded extends LancerOpMode {
     public void init() {
         setup();
@@ -35,33 +35,33 @@ public class teleopNotMultithreaded extends LancerOpMode {
             shoot(0, false);
         }
 
-        teleopCurrent.z = gamepad1.right_stick_x; //sideways
-        teleopCurrent.y = gamepad1.left_stick_y; //forward and backward
-        teleopCurrent.x = gamepad1.left_stick_x; //rotation
+        z = gamepad1.right_stick_x; //sideways
+        y = gamepad1.left_stick_y; //forward and backward
+        x = gamepad1.left_stick_x; //rotation
 
-        teleopCurrent.trueX = ((Math.cos(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x) - ((Math.sin(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y); //sets trueX to rotated value
-        teleopCurrent.trueY = ((Math.sin(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.x) + ((Math.cos(Math.toRadians(360 - convertYaw(teleopCurrent.navx_device.getYaw())))) * teleopCurrent.y);
+        trueX = ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y); //sets trueX to rotated value
+        trueY = ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y);
 
-        teleopCurrent.x = teleopCurrent.trueX;
-        teleopCurrent.y = teleopCurrent.trueY;
+        x = trueX;
+        y = trueY;
 
-        teleopCurrent.flPower = Range.scale((-teleopCurrent.x + teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
-        teleopCurrent.frPower = Range.scale((-teleopCurrent.x - teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
-        teleopCurrent.blPower = Range.scale((teleopCurrent.x + teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
-        teleopCurrent.brPower = Range.scale((teleopCurrent.x - teleopCurrent.y - teleopCurrent.z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        flPower = Range.scale((-x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        frPower = Range.scale((-x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        blPower = Range.scale((x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
+        brPower = Range.scale((x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
 
 
         if (x == 0 && y == 0 && z == 0) {
-            if (gp1_dpad_right) {
+            if (gamepad1.dpad_right) {
                 bl.setPower(Keys.MAX_MOTOR_SPEED);
                 fl.setPower(Keys.MAX_MOTOR_SPEED);
-            } else if (gp1_dpad_up) {
+            } else if (gamepad1.dpad_up) {
                 bl.setPower(-Keys.MAX_MOTOR_SPEED);
                 fl.setPower(-Keys.MAX_MOTOR_SPEED);
-            } else if (gp1_dpad_down) {
+            } else if (gamepad1.dpad_down) {
                 br.setPower(Keys.MAX_MOTOR_SPEED);
                 fr.setPower(Keys.MAX_MOTOR_SPEED);
-            } else if (gp1_dpad_left) {
+            } else if (gamepad1.dpad_left) {
                 br.setPower(-Keys.MAX_MOTOR_SPEED);
                 fr.setPower(-Keys.MAX_MOTOR_SPEED);
             }

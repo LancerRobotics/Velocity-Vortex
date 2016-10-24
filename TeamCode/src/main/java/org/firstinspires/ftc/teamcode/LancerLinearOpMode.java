@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.AlertDialog;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.AHRS;
@@ -8,6 +9,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 
 import java.text.DecimalFormat;
 
@@ -15,32 +19,38 @@ import java.text.DecimalFormat;
  * Created by spork on 10/5/2016.
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
-    public static DcMotor fl, fr, br, bl, catapult;
-
+    public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;
-
     public static boolean turnComplete = false;
+    public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
 
-    public abstract void runOpMode() throws InterruptedException;
+    public abstract void runOpMode();
 
     public void setup() {
         fl = hardwareMap.dcMotor.get(Keys.fl);
-
         fr = hardwareMap.dcMotor.get(Keys.fr);
-
         br = hardwareMap.dcMotor.get(Keys.br);
-
         bl = hardwareMap.dcMotor.get(Keys.bl);
 
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
-
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
+        shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
+        collector = hardwareMap.dcMotor.get(Keys.collector);
+
+        shooterRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
+        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
+        reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-
         navx_device.zeroYaw();
     }
 
@@ -70,7 +80,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     telemetry.addData("power", "adjusted" + power);
                 }
                 telemetry.addData("power", power);
-                setMotorPowerUniform(power, backwards);
+                fullSetMotorPowerUniform(power, backwards);
                 savedPower = power;
                 savedTick = currentTick;
             } else {
@@ -80,7 +90,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 double horizontalStretch = totalTicks / 2 * .2;
                 if (newCurrentCount < horizontalStretch) {
                     //becuase of domain restrictions
-                    setMotorPowerUniform(savedPower, backwards);
+                    fullSetMotorPowerUniform(savedPower, backwards);
                 } else {
                     //in the domain
 
@@ -90,20 +100,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                         power = Keys.MIN_MOTOR_SPEED;
                         telemetry.addData("power", "adjusted" + power);
                     }
-                    setMotorPowerUniform(power, backwards);
+                    fullSetMotorPowerUniform(power, backwards);
                 }
 
             }
             telemetry.update();
-            try {
-                idle();
-            }
-            catch (InterruptedException e) {
-                telemetry.addData("Exception", e);
-                telemetry.update();
-            }
         }
-        rest();
+        fullRest();
     }
 
     //NO NEED
@@ -116,16 +119,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("while", "looping3");
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
-                setMotorPowerUniform(.25, true);
-                telemetry.addData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
-                telemetry.update();
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                fullSetMotorPowerUniform(.25, true);
+                telemetryAddData("bool read<dist+tol", readSonar(sonar) < distance - Keys.SONAR_TOLERANCE);
             }
         } else if (myPosition > distance + Keys.SONAR_TOLERANCE) {
             telemetry.addData("if", "readSonar<distance");
@@ -133,21 +128,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("while", "looping");
                 telemetry.addData("mySonar", readSonar(sonar));
                 telemetry.addData("dist", distance);
-                setMotorPowerUniform(.25, false);
-                telemetry.addData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
-                telemetry.update();
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                fullSetMotorPowerUniform(.25, false);
+                telemetryAddData("bool read>dist+tol", readSonar(sonar) > distance + Keys.SONAR_TOLERANCE);
             }
         }
-        rest();
-        telemetry.addData("sonar", "done");
-        rest();
+        fullRest();
+        telemetryAddData("sonar", "done");
+        fullRest();
     }
 
     public double readSonar(AnalogInput sonar) {
@@ -158,31 +145,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Small distance <11.2 in
     public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
-
+        dist = dist/Keys.ConversionFactorForEncodedMove;
         double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
         double totalTicks = rotations * 1120 * 3 / 2;
         int positionBeforeMovement = motor.getCurrentPosition();
         if (backwards) {
             while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
-                setMotorPowerUniform(power, backwards);
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                fullSetMotorPowerUniform(power, backwards);
             }
         } else {
             while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
-                setMotorPowerUniform(power, backwards);
-                try {
-                    idle();
-                }
-                catch (InterruptedException e) {
-                    telemetry.addData("Exception", e);
-                    telemetry.update();
-                }
+                fullSetMotorPowerUniform(power, backwards);
             }
         }
         rest();
@@ -227,38 +200,24 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 power = .4 * Math.cos((ticksLeft) * Math.PI / totalTicks) + .4;
             }
 
-            telemetry.addData("power", power);
-            setMotorPowerUniform(power, backwards);
-            try {
-                idle();
-            }
-            catch (InterruptedException e) {
-                telemetry.addData("Exception", e);
-                telemetry.update();
-            }
+            telemetryAddData("power", power);
+            fullSetMotorPowerUniform(power, backwards);
         }
-        rest();
+        fullRest();
     }
 
     public void ballShoot() {
-        telemetry.addData("ShootBall?", "Yes");
-        telemetry.update();
-        try {
-            sleep(2000);
-        }
-        catch (InterruptedException e) {
-            telemetry.addData("Exception", e);
-        }
-        finally {
-            telemetry.addData("Auton Failed", "Start Again");
-        }
+        telemetryAddData("ShootBall?", "Yes");
+        shoot(Keys.MAX_MOTOR_SPEED , false);
+        sleep(2000);
+        shoot(0, false);
     }
 
     public void ballKnockOff() {
 
     }
 
-    //NO NEED for auton
+    //NO NEED for auton unless being used for time
     public void setMotorPowerUniform(double power, boolean backwards) {
         int direction = 1;
         if (backwards) {
@@ -270,6 +229,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setPower(direction * power);
     }
 
+    public void shoot(double power, boolean backwards) {
+        if(!backwards) {
+            power = power * -1;
+        }
+        shooterRight.setPower(power);
+        shooterLeft.setPower(power);
+    }
+
     //break
     public void rest() {
         fr.setPower(0);
@@ -278,11 +245,36 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setPower(0);
     }
 
+    public void telemetryAddData(String Title, String Data) {
+        telemetry.addData(Title, Data);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String Title, double Data) {
+        telemetry.addData(Title, Data);
+        telemetry.update();
+    }
+
+    public void telemetryAddLine(String text) {
+        telemetry.addLine(text);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String text, InterruptedException e) {
+        telemetry.addData(text, e);
+        telemetry.update();
+    }
+
+    public void telemetryAddData(String text, Boolean bool) {
+        telemetry.addData(text, bool);
+        telemetry.update();
+    }
+
     // Turns robot
     public void gyroAngle(double angle, AHRS navx_device) {
                 /* Create a PID Controller which uses the Yaw Angle as input. */
         navx_device.zeroYaw();
-        telemetry.addData("Turning?", "About to turn");
+        telemetryAddData("Turning?", "About to turn");
         navXPIDController yawPIDController = new navXPIDController(navx_device,
                 navXPIDController.navXTimestampedDataSource.YAW);
 
@@ -296,7 +288,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double currAngle = navx_device.getYaw();
         try {
             yawPIDController.enable(true);
-
+            while(opModeIsActive() && !yawPIDController.isEnabled()) {
+                sleep(1);
+                telemetryAddLine("Waiting On yawPIDController");
+            }
                 /* Wait for new Yaw PID output values, then update the motors
                    with the new PID value with each new output value.
                  */
@@ -306,9 +301,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             while (!Thread.currentThread().isInterrupted() || turnComplete && opModeIsActive()) {
                 telemetry.addData("Angle To Turn To", yawPIDController.getSetpoint());
+                telemetry.addData("Angle Inputed", angle);
                 if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
                     if (yawPIDResult.isOnTarget()) {
-                        rest();
+                        fullRest();
                         turnComplete = true;
                         telemetry.addData("PIDOutput", df.format(0.00));
                     } else {
@@ -331,15 +327,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                         /* A timeout occurred */
                     Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
                 }
-                telemetry.addData("Yaw", df.format(navx_device.getYaw()));
-                telemetry.update();
-                idle();
+                telemetryAddData("Yaw", df.format(navx_device.getYaw()));
             }
         } catch (InterruptedException ex) {
+            Log.e("Exception", ex.toString());
             Thread.currentThread().interrupt();
         } finally {
             yawPIDController.close();
-            rest();
+            fullRest();
             turnComplete = false;
         }
     }
@@ -354,6 +349,20 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public void pushBeacon() {
 
+    }
+
+    public void fullRest() {
+        rest();
+        rest();
+        rest();
+        rest();
+    }
+
+    public void fullSetMotorPowerUniform(double power, boolean backwards) {
+        setMotorPowerUniform(power, backwards);
+        setMotorPowerUniform(power, backwards);
+        setMotorPowerUniform(power, backwards);
+        setMotorPowerUniform(power, backwards);
     }
 }
 

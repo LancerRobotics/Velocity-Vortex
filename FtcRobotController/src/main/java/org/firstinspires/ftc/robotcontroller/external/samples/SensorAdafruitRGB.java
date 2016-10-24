@@ -1,16 +1,22 @@
 /* Copyright (c) 2015 Qualcomm Technologies Inc
+
 All rights reserved.
+
 Redistribution and use in source and binary forms, with or without modification,
 are permitted (subject to the limitations in the disclaimer below) provided that
 the following conditions are met:
+
 Redistributions of source code must retain the above copyright notice, this list
 of conditions and the following disclaimer.
+
 Redistributions in binary form must reproduce the above copyright notice, this
 list of conditions and the following disclaimer in the documentation and/or
 other materials provided with the distribution.
+
 Neither the name of Qualcomm Technologies Inc nor the names of its contributors
 may be used to endorse or promote products derived from this software without
 specific prior written permission.
+
 NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
 LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -54,7 +60,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannelController;
  *
  * The op mode assumes that the Core Device Interface Module
  * is configured with a name of "dim" and that the Adafruit color sensor
- * is configured as an I2C device with a name of "color".
+ * is configured as an I2C device with a name of "sensor_color".
  *
  * It also assumes that the LED pin of the RGB sensor
  * is connected to the signal pin of digital port #5 (zero indexed)
@@ -77,7 +83,7 @@ public class SensorAdafruitRGB extends LinearOpMode {
   static final int LED_CHANNEL = 5;
 
   @Override
-  public void runOpMode() throws InterruptedException {
+  public void runOpMode() {
 
     // hsvValues is an array that will hold the hue, saturation, and value information.
     float hsvValues[] = {0F,0F,0F};
@@ -105,7 +111,7 @@ public class SensorAdafruitRGB extends LinearOpMode {
     cdim.setDigitalChannelMode(LED_CHANNEL, DigitalChannelController.Mode.OUTPUT);
 
     // get a reference to our ColorSensor object.
-    sensorRGB = hardwareMap.colorSensor.get("color");
+    sensorRGB = hardwareMap.colorSensor.get("sensor_color");
 
     // turn the LED on in the beginning, just so user will know that the sensor is active.
     cdim.setDigitalChannelState(LED_CHANNEL, bLedOn);
@@ -152,7 +158,6 @@ public class SensorAdafruitRGB extends LinearOpMode {
       });
 
       telemetry.update();
-      idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
     }
   }
 }

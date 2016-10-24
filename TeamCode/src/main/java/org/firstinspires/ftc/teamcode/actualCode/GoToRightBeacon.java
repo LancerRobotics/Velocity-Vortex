@@ -14,18 +14,13 @@ public class GoToRightBeacon extends LancerLinearOpMode{
     DcMotor fr;
     DcMotor br;
     DcMotor bl;
-    public void runOpMode() throws InterruptedException{
+    public void runOpMode(){
         goRight(.86);
     }
     public void goRight(double power){
         fl.setPower(power);
         br.setPower(power);
-        try {
-            Thread.sleep(3000);
-        }
-        catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
+        sleep(3000);
         fl.setPower(0);
         br.setPower(0);
     }

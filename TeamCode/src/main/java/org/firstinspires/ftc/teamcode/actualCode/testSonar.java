@@ -16,7 +16,9 @@ public class testSonar extends LancerLinearOpMode {
         sonarBack = hardwareMap.analogInput.get(Keys.sonarBack);
         waitForStart();
         while(opModeIsActive()) {
-            telemetryAddData("Sonar Value", readSonar(sonarBack));
+            double sonarValue = readSonar(sonarBack);
+            telemetry.addData("Sonar Value", sonarValue);
+            telemetry.update();
         }
     }
 }

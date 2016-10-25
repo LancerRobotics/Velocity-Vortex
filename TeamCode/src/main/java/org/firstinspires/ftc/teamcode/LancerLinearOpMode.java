@@ -386,5 +386,54 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         setMotorPowerUniform(power, backwards);
         setMotorPowerUniform(power, backwards);
     }
+    
+    public void turn(double power) {
+        if(power < 0) {
+            power = power * -1;
+        }
+        fr.setPower(power);
+        br.setPower(power);
+        fl.setPower(-power);
+        bl.setPower(-power);
+    }
+    
+    public void gyroTurn(double degrees) {
+        //degrees=degrees*-1;
+        int DEVICE_TIMEOUT_MS = 500;
+        navx_device.zeroYaw();
+        double degreesNow = navx_device.getYaw();
+        double degreesToGo = degreesNow + degrees;
+        telemetry.addData("boolean", navx_device.getYaw() > degreesToGo);
+        if (navx_device.getYaw() > degreesToGo) {
+             while (!(degreesToGo - Keys.TOLERANCE_LEVEL_1 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_1)) {
+                double turnPower = .8;
+                turn(-turnPower);
+            }
+            while (navx_device.getYaw() > degreesToGo + Keys.TOLERANCE_LEVEL_2) {
+                double turnPower = .7;
+                turn(-turnPower);
+            }
+            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_3 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_3)) {
+                double turnPower = .6;
+                turn(-turnPower);
+            }
+        } else if (navx_device.getYaw() < degreesToGo) {
+            telemetry.addData("if", "getYaw<degrees");
+            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_1 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_1)) {
+                double turnPower = .8;
+                turn(turnPower);
+            }
+            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_2 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_2)) {
+                double turnPower = .7;
+                turn(turnPower);
+            }
+            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_3 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_3)) {
+                collector.setPower(Keys.COLLECTOR_POWER*-1);
+                double turnPower = .6;
+                turn(turnPower);
+            }
+        }
+        rest();
+    }
 }
 

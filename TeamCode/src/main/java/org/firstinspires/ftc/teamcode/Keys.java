@@ -37,6 +37,9 @@ public class Keys {
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
     public static final double SONAR_TOLERANCE = .5;
+    public static final double TOLERANCE_LEVEL_1 = 11;
+    public static final double TOLERANCE_LEVEL_2 = 6;
+    public static final double TOLERANCE_LEVEL_3 = .5;
     /* RGB Values: { RED, GREEN, BLUE }
     public static final int[] BLUE_BEACON_LOWER_THRESHOLD = {0,0,150};
     public static final int[] BLUE_BEACON_UPPER_THRESHOLD = {60,60,255};

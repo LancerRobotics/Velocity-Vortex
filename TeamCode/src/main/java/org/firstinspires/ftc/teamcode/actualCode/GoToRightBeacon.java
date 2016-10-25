@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode.actualCode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by AMAMbI4 on 10/8/2016.
  */
 
-public class GoToRightBeacon extends LancerLinearOpMode{
+public class GoToRightBeacon extends LancerLinearOpMode {
     DcMotor fl;
     DcMotor fr;
     DcMotor br;

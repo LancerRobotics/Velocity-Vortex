@@ -3,9 +3,7 @@ package org.firstinspires.ftc.teamcode.actualCode;
 import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**

@@ -138,6 +138,44 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fullRest();
     }
 
+    public void moveStraightFixed( double inches, boolean backwards, double power){
+        double inches_per_rev = 2240.0/(Keys.WHEEL_DIAMETER*Math.PI);
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        if(backwards) {
+            fl.setTargetPosition(fl.getCurrentPosition()+(int)(inches_per_rev*inches));
+            br.setTargetPosition(br.getCurrentPosition()+(int)(inches_per_rev*inches));
+            power = power * -1;
+        }
+        else {
+            fl.setTargetPosition(fl.getCurrentPosition()+(int)(inches_per_rev*inches));
+            br.setTargetPosition(br.getCurrentPosition()+(int)(inches_per_rev*inches));
+        }
+
+
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        fr.setPower(power);
+        fl.setPower(power);
+        br.setPower(power);
+        bl.setPower(power);
+
+        while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
+            telemetry.addData("Moving Left", fl.isBusy());
+            telemetry.addData("Moving Right", br.isBusy());
+            telemetry.update();
+        }
+
+        rest();
+
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public double readSonar(AnalogInput sonar) {
         double sValue = sonar.getVoltage();
         sValue = sValue / 2;
@@ -399,37 +437,35 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     
     public void gyroTurn(double degrees) {
         //degrees=degrees*-1;
-        int DEVICE_TIMEOUT_MS = 500;
         navx_device.zeroYaw();
         double degreesNow = navx_device.getYaw();
         double degreesToGo = degreesNow + degrees;
         telemetry.addData("boolean", navx_device.getYaw() > degreesToGo);
         if (navx_device.getYaw() > degreesToGo) {
-             while (!(degreesToGo - Keys.TOLERANCE_LEVEL_1 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_1)) {
+             while (opModeIsActive() && !(degreesToGo - Keys.TOLERANCE_LEVEL_1 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_1)) {
                 double turnPower = .8;
                 turn(-turnPower);
             }
-            while (navx_device.getYaw() > degreesToGo + Keys.TOLERANCE_LEVEL_2) {
-                double turnPower = .7;
+            while (opModeIsActive() && navx_device.getYaw() > degreesToGo + Keys.TOLERANCE_LEVEL_2) {
+                double turnPower = .65;
                 turn(-turnPower);
             }
-            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_3 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_3)) {
-                double turnPower = .6;
+            while (opModeIsActive() && !(degreesToGo - Keys.TOLERANCE_LEVEL_3 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_3)) {
+                double turnPower = .5;
                 turn(-turnPower);
             }
         } else if (navx_device.getYaw() < degreesToGo) {
             telemetry.addData("if", "getYaw<degrees");
-            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_1 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_1)) {
+            while (opModeIsActive() && !(degreesToGo - Keys.TOLERANCE_LEVEL_1 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_1)) {
                 double turnPower = .8;
                 turn(turnPower);
             }
-            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_2 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_2)) {
-                double turnPower = .7;
+            while (opModeIsActive() && !(degreesToGo - Keys.TOLERANCE_LEVEL_2 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_2)) {
+                double turnPower = .65;
                 turn(turnPower);
             }
-            while (!(degreesToGo - Keys.TOLERANCE_LEVEL_3 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_3)) {
-                collector.setPower(Keys.COLLECTOR_POWER*-1);
-                double turnPower = .6;
+            while (opModeIsActive() && !(degreesToGo - Keys.TOLERANCE_LEVEL_3 < navx_device.getYaw() && navx_device.getYaw() < degreesToGo + Keys.TOLERANCE_LEVEL_3)) {
+                double turnPower = .5;
                 turn(turnPower);
             }
         }

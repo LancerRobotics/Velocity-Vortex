@@ -9,20 +9,17 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name="Gyro Test", group = "Test")
 public class testGyroTurn extends LancerLinearOpMode {
-
     public void runOpMode() {
         setup();
         waitForStart();
-        telemetry.addData("Turn", "90 degrees");
-        gyroAngle(90, navx_device);
-        telemetry.addData("Turn", "One Is Done");
-        telemetry.update();
+        telemetryAddData("Turn", "90 degrees");
+        gyroTurn(90);
+        telemetryAddData("Turn", "One Is Done");
         rest();
-        sleep(2000);
-        telemetry.addData("Turn", "-90 degrees");
-        gyroAngle(-90, navx_device);
-        telemetry.addData("Turn", "Two Is Done");
-        telemetry.update();
+        sleep(10000);
+        telemetryAddData("Turn", "-90 degrees");
+        gyroTurn(-90);
+        telemetryAddData("Turn", "Two Is Done");
         rest();
     }
 }

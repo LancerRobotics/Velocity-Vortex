@@ -140,7 +140,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fullRest();
     }
 
-    public void moveStraightFixed( double inches, boolean backwards, double power){
+    public void moveStraight( double inches, boolean backwards, double power){
         double inches_per_rev = 560.0/(Keys.WHEEL_DIAMETER*Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -183,45 +183,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         sValue = sValue * 2;
         sValue = sValue/0.00976;
         return sValue;
-    }
-
-    //Small distance <11.2 in
-    public void moveStraight(DcMotor motor, double inches, boolean backwards, double power) { //motors must be set to RUN _USING_ENCODERS
-         // Changing the distance given to the actual distance
-        double rotations = inches / (Keys.WHEEL_DIAMETER * Math.PI); // === # of rotations
-        double totalTicks = rotations * 1120.0;
-        int positionBeforeMovement = motor.getCurrentPosition(); // It tells the current position of the encoder before movement occured
-         // if we want to go forward or backwards
-            while(opModeIsActive() && (motor.getCurrentPosition()>positionBeforeMovement-totalTicks)){
-               // fullSetMotorPowerUniform(power, backwards); // Check this method
-                if(backwards){
-                    power = -power;
-                fr.setPower(power);
-                br.setPower(power);
-                fl.setPower(power);
-                bl.setPower(power);
-            } else{
-                fr.setPower(power);
-                br.setPower(power);
-                fl.setPower(power);
-                bl.setPower(power);
-                }
-            }
-        rest(); // stops all motors
-    }
-    public void moveStraightBackup (DcMotor motor, double inches, boolean backwards, double power){ //SET MOTORS TO Dcmotor.RunMode.RUN_TO_POSITION
-        double rotations = inches/(Keys.WHEEL_DIAMETER*Math.PI);
-        double totalTicks = rotations*1120.0;
-        motor.setTargetPosition((int)(totalTicks));
-        if(motor.isBusy()){
-            fr.setPower(motor.getPower());
-            br.setPower(motor.getPower());
-            bl.setPower(motor.getPower());
-            fl.setPower(motor.getPower());
-        }
-        else{
-            rest();
-        }
     }
 
     //Deprecated smooth move

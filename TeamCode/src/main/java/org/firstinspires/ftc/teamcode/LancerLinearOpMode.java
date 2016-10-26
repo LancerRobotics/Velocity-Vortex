@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode;
 
 import android.app.AlertDialog;
@@ -12,14 +13,16 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.teamcode.Keys;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
+import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
 
 import java.text.DecimalFormat;
 
 /**
  * Created by spork on 10/5/2016.
- */
+     */
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;
@@ -30,6 +33,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public abstract void runOpMode();
 
     public void setup() {
+
+
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
@@ -140,7 +145,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fullRest();
     }
 
-    public void moveStraight( double inches, boolean backwards, double power){
+    public void moveStraight(double inches, boolean backwards, double power){
         inches = inches - 5; //Conversion rate due to drift/high speed
         double inches_per_rev = 560.0/(Keys.WHEEL_DIAMETER*Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -492,5 +497,63 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
+    public int detectColor() {
+        int[] rgb = {Keys.red, Keys.green, Keys.blue};
+
+        if(rgb[0] > rgb[2]) {
+            Keys.beaconBlue = false;
+            telemetry.addLine("detected red");
+            return 1;
+        }
+        else if(rgb[0] < rgb[2]) {
+            Keys.beaconBlue = true;
+            telemetry.addLine("detected blue");
+            return 2;
+        }
+        else {
+            telemetry.addLine("unable to determine beacon color");
+            return 3;
+        }
+
+    }
+
+    public void ColorTester(){
+        Keys.color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        while (!Keys.color.ready()) {
+            telemetry.addData("Ready?", "NO");
+            telemetry.update();
+            //Change this method to the updated one
+        }
+        Keys.color.startReadingColor();
+        Keys.color.startReadingClear();
+        telemetry.addData("Ready?", "YES");
+        telemetry.update();
+        //Update method ^
+        waitForStart();
+        while (opModeIsActive()) {
+            getRGB();
+            Keys.detectedColorResult=detectColor();
+            while(Keys.detectedColorResult == 3 && opModeIsActive()) {
+                Keys.detectedColorResult = detectColor();
+                idle();
+            }
+            telemetry.addData("Red: ", Keys.red);
+            telemetry.addData("Green: ", Keys.green);
+            telemetry.addData("Blue: ", Keys.blue);
+            telemetry.addData("Detected Color Result" , Keys.detectedColorResult);
+            telemetry.update();
+            idle();
+            //Update ^
+        }
+        Keys.color.stopReading();
+
+    }
+
+    public void getRGB() {
+        Keys.red = Keys.color.getRed();
+        Keys.blue = Keys.color.getBlue();
+        Keys.green = Keys.color.getGreen();
+    }
+
 }
 

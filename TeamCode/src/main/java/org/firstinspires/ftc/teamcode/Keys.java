@@ -1,6 +1,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
+
 /**
  * Created by spork on 10/1/2016.
  */
@@ -62,4 +64,11 @@ public class Keys {
     public static final double RIGHT_BEACON_PUSH = 0.5;
     public static final double RESERVOIR_OPEN = .25;
     public static final double RESERVOIR_CLOSE = .75;
+
+    //Adafruit Color Sensor
+    public static  int red , green , blue, detectedColorResult ;
+    public static  boolean beaconBlue ;
+    public static ColorSensorAdafruitDriver color;
+
+
 }

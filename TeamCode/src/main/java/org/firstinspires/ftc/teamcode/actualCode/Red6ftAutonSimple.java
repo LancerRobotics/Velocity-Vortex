@@ -40,7 +40,7 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
         //ballShoot();
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         telemetryAddData("Step", "Movement 2");
-        moveStraight(br, 12, false, .50);
+        //moveStraight(br, 12, false, .50); This went bye bye
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         telemetryAddData("Step", "Turn 1");
         gyroAngle(.15, -90);

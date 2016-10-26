@@ -141,6 +141,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void moveStraight( double inches, boolean backwards, double power){
+        inches = inches - 5; //Conversion rate due to drift/high speed
         double inches_per_rev = 560.0/(Keys.WHEEL_DIAMETER*Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

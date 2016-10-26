@@ -34,9 +34,9 @@ public class Red5ftCornersideAutonSimple extends LancerLinearOpMode {
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         moveStraight(br, 12, false, .70);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
-        gyroAngle(-90, navx_device);
+        gyroAngle(.15, -90);
         smoothMoveVol2(br, 12, false);
-        gyroAngle(-45, navx_device);
+        gyroAngle(.15, -45);
         smoothMoveVol2(br, 67.88, false);
         rest();
         //Overshoots the last move forward, can make it move a shorter distance.

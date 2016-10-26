@@ -10,7 +10,7 @@ public class Keys {
     public static final double deadzone = 0.15;
     public static final double MAX_MOTOR_SPEED = 0.86;
     public static final double MIN_MOTOR_SPEED = 0.15;
-    public static final double WHEEL_DIAMETER = 4;
+    public static final double WHEEL_DIAMETER = 3.93701;
     public static final double ConversionFactorForEncodedMove = 5.1;
 
     //Motor Names
@@ -37,9 +37,12 @@ public class Keys {
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
     public static final double SONAR_TOLERANCE = .5;
-    public static final double TOLERANCE_LEVEL_1 = 11;
+    public static final double TOLERANCE_LEVEL_1 = 5;
     public static final double TOLERANCE_LEVEL_2 = 6;
     public static final double TOLERANCE_LEVEL_3 = .5;
+    public static final double     HEADING_THRESHOLD       = 5;      // As tight as we can make it with an integer gyro
+    public static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
+    public static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
     /* RGB Values: { RED, GREEN, BLUE }
     public static final int[] BLUE_BEACON_LOWER_THRESHOLD = {0,0,150};
     public static final int[] BLUE_BEACON_UPPER_THRESHOLD = {60,60,255};

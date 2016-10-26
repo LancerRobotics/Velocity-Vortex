@@ -43,11 +43,11 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
         moveStraight(br, 12, false, .50);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         telemetryAddData("Step", "Turn 1");
-        gyroAngle(-90, navx_device);
+        gyroAngle(.15, -90);
         telemetryAddData("Step", "Movement 3");
         smoothMoveVol2(br, 24, false);
         telemetryAddData("Step", "Turn 2");
-        gyroAngle(-45, navx_device);
+        gyroAngle(.15, -45);
         telemetryAddData("Step", "Movement 4");
         smoothMoveVol2(br, 67.88, false);
         rest();

@@ -13,12 +13,12 @@ public class testGyroTurn extends LancerLinearOpMode {
         setup();
         waitForStart();
         telemetryAddData("Turn", "90 degrees");
-        gyroTurn(90);
+        gyroAngle(90, .15);
         telemetryAddData("Turn", "One Is Done");
         rest();
         sleep(10000);
         telemetryAddData("Turn", "-90 degrees");
-        gyroTurn(-90);
+        gyroAngle(-90, .15);
         telemetryAddData("Turn", "Two Is Done");
         rest();
     }

@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.drivers;
 
 import com.qualcomm.robotcore.hardware.I2cDevice;
 
-import org.firstinspires.ftc.teamcode.I2CSensor;
-
 import java.nio.ByteBuffer;
 /**
  * Created by spork on 10/14/2016.

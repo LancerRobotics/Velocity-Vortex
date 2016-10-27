@@ -258,10 +258,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         shoot(0, false);
     }
 
-    public void ballKnockOff() {
-
-    }
-
     //NO NEED for auton unless being used for time
     public void setMotorPowerUniform(double power, boolean backwards) {
         int direction = 1;
@@ -321,18 +317,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         gyroTurn(speed, angle);
         //gyroHold(speed, 0, 1000);
         rest();
-    }
-
-    public void getBeaconColor() {
-
-    }
-
-    public void followWhiteLine() {
-
-    }
-
-    public void pushBeacon() {
-
     }
 
     public void fullRest() {
@@ -542,6 +526,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             telemetryAddData("Confirmed Hit?", "No");
             //Hit opposing button
         }
+    }
+
+    public void restAndSleep() {
+        rest();
+        sleep(100);
     }
 }
 

@@ -55,7 +55,7 @@ public abstract class TestEncoderStrafe extends LancerLinearOpMode{
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void runOpMode {
+    public void runOpMode() {
         //moveLeft
         moveSideToSide(10,true,.1);
         //moveRight

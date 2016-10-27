@@ -1,44 +1,33 @@
+package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.SimpleAutons;
 
-package org.firstinspires.ftc.teamcode;
-
-import android.app.AlertDialog;
 import android.util.Log;
 
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
-
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
 
 import java.text.DecimalFormat;
 
 /**
- * Created by spork on 10/5/2016.
+ * Created by spork on 10/22/2016.
  */
-public abstract class LancerLinearOpMode extends LinearOpMode {
+
+@Autonomous(name="Turning Auton", group="Autonomous")
+public class RampAuton extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;
     public static boolean turnComplete = false;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
-    public static volatile AnalogInput sonarBack;
-    public static int red, green, blue, detectedColorResult;
-    public static boolean beaconBlue;
-    public static ColorSensorAdafruitDriver color;
-
-    public abstract void runOpMode();
-
-    public void setup() {
-
-
+    navXPIDController yawPIDController = new navXPIDController(navx_device,
+            navXPIDController.navXTimestampedDataSource.YAW);
+    public void runOpMode() {
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
@@ -63,19 +52,46 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
-        while (!color.ready() && navx_device.isCalibrating()) {
-            telemetryAddData("Ready?", "NO");
-        }
         navx_device.zeroYaw();
-        color.startReadingColor();
-        color.startReadingClear();
-        telemetryAddData("Ready?", "Yes");
+        waitForStart();
+        telemetryAddData("Step" , "Movement 1");
+        moveStraight(br, 60, false, .50);
+        yawPIDController.setSetpoint(135);
+        yawPIDController.setContinuous(true);
+        yawPIDController.setOutputRange(Keys.MIN_MOTOR_OUTPUT_VALUE, Keys.MAX_MOTOR_OUTPUT_VALUE);
+        yawPIDController.setTolerance(navXPIDController.ToleranceType.ABSOLUTE, Keys.TOLERANCE_DEGREES);
+        yawPIDController.setPID(Keys.YAW_PID_P, Keys.YAW_PID_I, Keys.YAW_PID_D);
+        gyroAngle(135, navx_device);
+        fullRest();
+        moveStraight(br, 60, false, .86);
     }
 
-    public void end() {
-        navx_device.close();
-        color.stopReading();
+    public void setup() {
+        fl = hardwareMap.dcMotor.get(Keys.fl);
+        fr = hardwareMap.dcMotor.get(Keys.fr);
+        br = hardwareMap.dcMotor.get(Keys.br);
+        bl = hardwareMap.dcMotor.get(Keys.bl);
+
+        fl.setDirection(DcMotorSimple.Direction.REVERSE);
+        bl.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
+        shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
+        collector = hardwareMap.dcMotor.get(Keys.collector);
+
+        shooterRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
+        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
+        reservoir = hardwareMap.servo.get(Keys.reservoir);
+
+        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
+                Keys.NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
+        navx_device.zeroYaw();
     }
 
     //Encoded movement method Distances >11.2 inches
@@ -161,49 +177,28 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fullRest();
     }
 
-    public void moveStraight(double inches, boolean backwards, double power) {
-        inches = inches - 5; //Conversion rate due to drift/high speed
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        if (backwards) {
-            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
-            power = power * -1.0;
-        } else {
-            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
-        }
-
-
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        fr.setPower(power);
-        fl.setPower(power);
-        br.setPower(power);
-        bl.setPower(power);
-
-        while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
-            telemetry.addData("Moving Left", fl.isBusy());
-            telemetry.addData("Moving Right", br.isBusy());
-            telemetry.update();
-        }
-
-        rest();
-
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
     public double readSonar(AnalogInput sonar) {
         double sValue = sonar.getVoltage();
-        sValue = sValue * 2;
-        sValue = sValue / 0.00976;
+        sValue = sValue / 2;
         return sValue;
+    }
+
+    //Small distance <11.2 in
+    public void moveStraight(DcMotor motor, double dist, boolean backwards, double power) {
+        dist = dist/Keys.ConversionFactorForEncodedMove;
+        double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
+        double totalTicks = rotations * 1120 * 3 / 2;
+        int positionBeforeMovement = motor.getCurrentPosition();
+        if (backwards) {
+            while (motor.getCurrentPosition() > positionBeforeMovement - totalTicks && opModeIsActive()) {
+                fullSetMotorPowerUniform(power, backwards);
+            }
+        } else {
+            while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
+                fullSetMotorPowerUniform(power, backwards);
+            }
+        }
+        rest();
     }
 
     //Deprecated smooth move
@@ -253,9 +248,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
-        shoot(Keys.MAX_MOTOR_SPEED, false);
+        shoot(Keys.MAX_MOTOR_SPEED , false);
         sleep(2000);
         shoot(0, false);
+    }
+
+    public void ballKnockOff() {
+
     }
 
     //NO NEED for auton unless being used for time
@@ -271,7 +270,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void shoot(double power, boolean backwards) {
-        if (!backwards) {
+        if(!backwards) {
             power = power * -1;
         }
         shooterRight.setPower(power);
@@ -312,11 +311,74 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     // Turns robot
-    public void gyroAngle(double angle, double speed) {
-        navx_device.zeroYaw();
-        gyroTurn(speed, angle);
-        //gyroHold(speed, 0, 1000);
-        rest();
+    public void gyroAngle(double angle, AHRS navx_device) {
+                /* Create a PID Controller which uses the Yaw Angle as input. */
+        telemetryAddData("Turning?", "About to turn");
+        double stopAngle = angle;
+        double currAngle = navx_device.getYaw();
+        try {
+            yawPIDController.enable(true);
+            while(opModeIsActive() && !yawPIDController.isEnabled()) {
+                sleep(1);
+                telemetryAddLine("Waiting On yawPIDController");
+            }
+                /* Wait for new Yaw PID output values, then update the motors
+                   with the new PID value with each new output value.
+                 */
+            navXPIDController.PIDResult yawPIDResult = new navXPIDController.PIDResult();
+
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            while (!Thread.currentThread().isInterrupted() || turnComplete && opModeIsActive()) {
+                telemetry.addData("Angle To Turn To", yawPIDController.getSetpoint());
+                telemetry.addData("Angle Inputed", angle);
+                if (yawPIDController.waitForNewUpdate(yawPIDResult, Keys.DEVICE_TIMEOUT_MS)) {
+                    if (yawPIDResult.isOnTarget()) {
+                        fullRest();
+                        turnComplete = true;
+                        telemetry.addData("PIDOutput", df.format(0.00));
+                    } else {
+                        double output = yawPIDResult.getOutput();
+                        if (Math.abs(currAngle) <= Math.abs(stopAngle / 3)) {
+                            output = output;
+                        } else if (Math.abs(currAngle) <= Math.abs((2 * stopAngle) / 3)) {
+                            output = (output * 2) / 3;
+                        } else if (Math.abs(currAngle) <= Math.abs(stopAngle)) {
+                            output = output / 3;
+                        }
+                        fl.setPower(output);
+                        bl.setPower(output);
+                        fr.setPower(-output);
+                        br.setPower(-output);
+                        telemetry.addData("PIDOutput", df.format(output) + ", " +
+                                df.format(-output));
+                    }
+                } else {
+                        /* A timeout occurred */
+                    Log.w("navXRotateOp", "Yaw PID waitForNewUpdate() TIMEOUT.");
+                }
+                telemetryAddData("Yaw", df.format(navx_device.getYaw()));
+            }
+        } catch (InterruptedException ex) {
+            Log.e("Exception", ex.toString());
+            Thread.currentThread().interrupt();
+        } finally {
+            yawPIDController.close();
+            fullRest();
+            turnComplete = false;
+        }
+    }
+
+    public void getBeaconColor() {
+
+    }
+
+    public void followWhiteLine() {
+
+    }
+
+    public void pushBeacon() {
+
     }
 
     public void fullRest() {
@@ -333,194 +395,4 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         setMotorPowerUniform(power, backwards);
     }
 
-    public void fullTurn(double power) {
-        turn(power);
-        turn(power);
-        turn(power);
-        turn(power);
-    }
-
-    public void turn(double power) {
-        fr.setPower(power);
-        br.setPower(power);
-        fl.setPower(-power);
-        bl.setPower(-power);
-    }
-
-    public void gyroTurn(double speed, double angle) {
-        navx_device.zeroYaw();
-        // keep looping while we are still active, and not on heading.
-        while (opModeIsActive() && !onHeading(speed, angle, Keys.P_TURN_COEFF)) {
-            // Update telemetry & Allow time for other processes to run.
-            telemetry.update();
-        }
-    }
-
-    public void gyroHold(double speed, double angle, double holdTime) {
-
-        ElapsedTime holdTimer = new ElapsedTime();
-
-        // keep looping while we have time remaining.
-        holdTimer.reset();
-        navx_device.zeroYaw();
-        while (opModeIsActive() && (holdTimer.time() < holdTime)) {
-            // Update telemetry & Allow time for other processes to run.
-            onHeading(speed, angle, Keys.P_TURN_COEFF);
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        rest();
-    }
-
-    public boolean onHeading(double speed, double angle, double PCoeff) {
-        double error;
-        double steer;
-        boolean onTarget = false;
-        double leftSpeed;
-        double rightSpeed;
-
-        // determine turn power based on +/- error
-        error = getError(angle);
-
-        if (180 - Math.abs(error) <= 1) {
-            rest();
-            steer = 0.0;
-            leftSpeed = 0.0;
-            rightSpeed = 0.0;
-            onTarget = true;
-        } else {
-            steer = getSteer(error, PCoeff);
-            rightSpeed = speed * steer;
-            leftSpeed = -rightSpeed;
-        }
-
-        // Send desired speeds to motors.
-        fullTurn(rightSpeed);
-
-        // Display it for the driver.
-        telemetry.addData("Target", "%5.2f", angle);
-        telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
-        telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-        telemetry.addData("Yaw", navx_device.getYaw());
-        telemetry.update();
-        return onTarget;
-    }
-
-    public double getError(double targetAngle) {
-
-        double robotError;
-
-        // calculate error in -179 to +180 range  (
-        robotError = targetAngle - navx_device.getYaw();
-        while (robotError > 180) robotError -= 360;
-        while (robotError <= -180) robotError += 360;
-        return robotError;
-    }
-
-    public double getSteer(double error, double PCoeff) {
-        return Range.clip(error * PCoeff, -1, 1);
-    }
-
-    public void gyroDrive(double speed,
-                          double distance,
-                          double angle) {
-
-        int newLeftTarget;
-        int newRightTarget;
-        int moveCounts;
-        double max;
-        double error;
-        double steer;
-        double leftSpeed;
-        double rightSpeed;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            moveCounts = (int) (distance * 560);
-            newLeftTarget = fl.getCurrentPosition() + moveCounts;
-            newRightTarget = br.getCurrentPosition() + moveCounts;
-
-            // Set Target and Turn On RUN_TO_POSITION
-            fl.setTargetPosition(newLeftTarget);
-            br.setTargetPosition(newRightTarget);
-
-            fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // start motion.
-            speed = Range.clip(Math.abs(speed), 0.0, Keys.MAX_MOTOR_OUTPUT_VALUE);
-
-            // keep looping while we are still active, and BOTH motors are running.
-            while (opModeIsActive() &&
-                    (fl.isBusy() && br.isBusy())) {
-
-                // adjust relative speed based on heading error.
-                error = getError(angle);
-                steer = getSteer(error, Keys.P_DRIVE_COEFF);
-
-                // if driving in reverse, the motor correction also needs to be reversed
-                if (distance < 0)
-                    steer *= -1.0;
-
-                leftSpeed = speed - steer;
-                rightSpeed = speed + steer;
-
-                // Normalize speeds if any one exceeds +/- 1.0;
-                max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                if (max > 1.0) {
-                    leftSpeed /= max;
-                    rightSpeed /= max;
-                }
-
-                turn(leftSpeed);
-
-                // Display drive status for the driver.
-                telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
-                telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
-                telemetry.addData("Actual", "%7d:%7d", fl.getCurrentPosition(),
-                        br.getCurrentPosition());
-                telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            rest();
-
-            // Turn off RUN_TO_POSITION
-            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-    }
-
-    public void detectColor() {
-        getRGB();
-        int[] rgb = {red, green, blue};
-
-        if (rgb[0] > rgb[2]) {
-            beaconBlue = false;
-            telemetryAddLine("detected red");
-        } else if (rgb[0] < rgb[2]) {
-            beaconBlue = true;
-            telemetryAddLine("detected blue");
-        } else {
-            telemetryAddLine("unable to determine beacon color");
-        }
-
-    }
-
-    public void getRGB() {
-        red = color.getRed();
-        blue = color.getBlue();
-        green = color.getGreen();
-    }
-
-
-    public void restAndSleep() {
-        rest();
-        sleep(100);
-    }
 }
-

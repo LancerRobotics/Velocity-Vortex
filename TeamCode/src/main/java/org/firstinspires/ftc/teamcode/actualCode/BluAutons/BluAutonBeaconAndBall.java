@@ -1,14 +1,16 @@
-package org.firstinspires.ftc.teamcode.actualCode;
+package org.firstinspires.ftc.teamcode.actualCode.BluAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
- * Created by shlok.khandelwal on 10/26/2016.
+ * Created by prateek.kapoor on 10/27/2016.
  */
-@Autonomous(name = "Red6ftAutonSimple", group = "Autonomous")
-public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
+@Autonomous(name = "Blu5ftAutonBeaconAndBall", group = "Autonomous")
+
+public class BluAutonBeaconAndBall extends LancerLinearOpMode{
+
 
     @Override
     public void runOpMode(){

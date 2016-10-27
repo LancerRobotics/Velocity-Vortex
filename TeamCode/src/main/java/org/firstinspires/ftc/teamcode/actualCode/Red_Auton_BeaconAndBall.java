@@ -27,6 +27,13 @@ public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
         rest();sleep(100);
         //ADD COLOR SENSOR / BEACON HIT HERE FOR #1
         detectColor();
+        if(beaconBlue) {
+            //Hit Other Side
+        }
+        else {
+            //Hit This Side
+        }
+        colorDoubleCheck();
         moveStraight(7, true, .5);
         rest();sleep(100);
         gyroAngle(-90, .15);

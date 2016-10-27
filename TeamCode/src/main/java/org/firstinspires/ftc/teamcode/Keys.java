@@ -64,11 +64,4 @@ public class Keys {
     public static final double RIGHT_BEACON_PUSH = 0.5;
     public static final double RESERVOIR_OPEN = .25;
     public static final double RESERVOIR_CLOSE = .75;
-
-    //Adafruit Color Sensor
-    public static  int red , green , blue, detectedColorResult ;
-    public static  boolean beaconBlue ;
-    public static ColorSensorAdafruitDriver color;
-
-
 }

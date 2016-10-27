@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.teamcode.Keys;
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
@@ -22,13 +23,16 @@ import java.text.DecimalFormat;
 
 /**
  * Created by spork on 10/5/2016.
-     */
+ */
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;
     public static boolean turnComplete = false;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
     public static volatile AnalogInput sonarBack;
+    public static int red, green, blue, detectedColorResult;
+    public static boolean beaconBlue;
+    public static ColorSensorAdafruitDriver color;
 
     public abstract void runOpMode();
 
@@ -59,7 +63,19 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
+        color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        while (!color.ready() && navx_device.isCalibrating()) {
+            telemetryAddData("Ready?", "NO");
+        }
         navx_device.zeroYaw();
+        color.startReadingColor();
+        color.startReadingClear();
+        telemetryAddData("Ready?", "Yes");
+    }
+
+    public void end() {
+        navx_device.close();
+        color.stopReading();
     }
 
     //Encoded movement method Distances >11.2 inches
@@ -145,20 +161,19 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fullRest();
     }
 
-    public void moveStraight(double inches, boolean backwards, double power){
+    public void moveStraight(double inches, boolean backwards, double power) {
         inches = inches - 5; //Conversion rate due to drift/high speed
-        double inches_per_rev = 560.0/(Keys.WHEEL_DIAMETER*Math.PI);
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        if(backwards) {
-            fl.setTargetPosition(fl.getCurrentPosition()+(int)(inches_per_rev*inches));
-            br.setTargetPosition(br.getCurrentPosition()+(int)(inches_per_rev*inches));
+        if (backwards) {
+            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
             power = power * -1.0;
-        }
-        else {
-            fl.setTargetPosition(fl.getCurrentPosition()+(int)(inches_per_rev*inches));
-            br.setTargetPosition(br.getCurrentPosition()+(int)(inches_per_rev*inches));
+        } else {
+            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
         }
 
 
@@ -187,7 +202,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public double readSonar(AnalogInput sonar) {
         double sValue = sonar.getVoltage();
         sValue = sValue * 2;
-        sValue = sValue/0.00976;
+        sValue = sValue / 0.00976;
         return sValue;
     }
 
@@ -238,7 +253,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
-        shoot(Keys.MAX_MOTOR_SPEED , false);
+        shoot(Keys.MAX_MOTOR_SPEED, false);
         sleep(2000);
         shoot(0, false);
     }
@@ -260,7 +275,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void shoot(double power, boolean backwards) {
-        if(!backwards) {
+        if (!backwards) {
             power = power * -1;
         }
         shooterRight.setPower(power);
@@ -340,7 +355,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         turn(power);
         turn(power);
     }
-    
+
     public void turn(double power) {
         fr.setPower(power);
         br.setPower(power);
@@ -348,7 +363,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setPower(-power);
     }
 
-    public void gyroTurn (double speed, double angle) {
+    public void gyroTurn(double speed, double angle) {
         navx_device.zeroYaw();
         // keep looping while we are still active, and not on heading.
         while (opModeIsActive() && !onHeading(speed, angle, Keys.P_TURN_COEFF)) {
@@ -357,7 +372,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
     }
 
-    public void gyroHold( double speed, double angle, double holdTime) {
+    public void gyroHold(double speed, double angle, double holdTime) {
 
         ElapsedTime holdTimer = new ElapsedTime();
 
@@ -375,26 +390,25 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public boolean onHeading(double speed, double angle, double PCoeff) {
-        double   error ;
-        double   steer ;
-        boolean  onTarget = false ;
+        double error;
+        double steer;
+        boolean onTarget = false;
         double leftSpeed;
         double rightSpeed;
 
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (180-Math.abs(error) <= 1) {
+        if (180 - Math.abs(error) <= 1) {
             rest();
             steer = 0.0;
-            leftSpeed  = 0.0;
+            leftSpeed = 0.0;
             rightSpeed = 0.0;
             onTarget = true;
-        }
-        else {
+        } else {
             steer = getSteer(error, PCoeff);
-            rightSpeed  = speed * steer;
-            leftSpeed   = -rightSpeed;
+            rightSpeed = speed * steer;
+            leftSpeed = -rightSpeed;
         }
 
         // Send desired speeds to motors.
@@ -415,7 +429,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
         // calculate error in -179 to +180 range  (
         robotError = targetAngle - navx_device.getYaw();
-        while (robotError > 180)  robotError -= 360;
+        while (robotError > 180) robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
@@ -424,24 +438,24 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return Range.clip(error * PCoeff, -1, 1);
     }
 
-    public void gyroDrive ( double speed,
-                            double distance,
-                            double angle) {
+    public void gyroDrive(double speed,
+                          double distance,
+                          double angle) {
 
-        int     newLeftTarget;
-        int     newRightTarget;
-        int     moveCounts;
-        double  max;
-        double  error;
-        double  steer;
-        double  leftSpeed;
-        double  rightSpeed;
+        int newLeftTarget;
+        int newRightTarget;
+        int moveCounts;
+        double max;
+        double error;
+        double steer;
+        double leftSpeed;
+        double rightSpeed;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            moveCounts = (int)(distance * 560);
+            moveCounts = (int) (distance * 560);
             newLeftTarget = fl.getCurrentPosition() + moveCounts;
             newRightTarget = br.getCurrentPosition() + moveCounts;
 
@@ -472,8 +486,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
                 // Normalize speeds if any one exceeds +/- 1.0;
                 max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
-                if (max > 1.0)
-                {
+                if (max > 1.0) {
                     leftSpeed /= max;
                     rightSpeed /= max;
                 }
@@ -481,11 +494,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 turn(leftSpeed);
 
                 // Display drive status for the driver.
-                telemetry.addData("Err/St",  "%5.1f/%5.1f",  error, steer);
-                telemetry.addData("Target",  "%7d:%7d",      newLeftTarget,  newRightTarget);
-                telemetry.addData("Actual",  "%7d:%7d",      fl.getCurrentPosition(),
+                telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Actual", "%7d:%7d", fl.getCurrentPosition(),
                         br.getCurrentPosition());
-                telemetry.addData("Speed",   "%5.2f:%5.2f",  leftSpeed, rightSpeed);
+                telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
                 telemetry.update();
             }
 
@@ -497,63 +510,38 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
-    public int detectColor() {
-        int[] rgb = {Keys.red, Keys.green, Keys.blue};
 
-        if(rgb[0] > rgb[2]) {
-            Keys.beaconBlue = false;
-            telemetry.addLine("detected red");
-            return 1;
-        }
-        else if(rgb[0] < rgb[2]) {
-            Keys.beaconBlue = true;
-            telemetry.addLine("detected blue");
-            return 2;
-        }
-        else {
-            telemetry.addLine("unable to determine beacon color");
-            return 3;
-        }
+    public void detectColor() {
+        getRGB();
+        int[] rgb = {red, green, blue};
 
-    }
-
-    public void ColorTester(){
-        Keys.color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
-        while (!Keys.color.ready()) {
-            telemetry.addData("Ready?", "NO");
-            telemetry.update();
-            //Change this method to the updated one
+        if (rgb[0] > rgb[2]) {
+            beaconBlue = false;
+            telemetryAddLine("detected red");
+        } else if (rgb[0] < rgb[2]) {
+            beaconBlue = true;
+            telemetryAddLine("detected blue");
+        } else {
+            telemetryAddLine("unable to determine beacon color");
         }
-        Keys.color.startReadingColor();
-        Keys.color.startReadingClear();
-        telemetry.addData("Ready?", "YES");
-        telemetry.update();
-        //Update method ^
-        waitForStart();
-        while (opModeIsActive()) {
-            getRGB();
-            Keys.detectedColorResult=detectColor();
-            while(Keys.detectedColorResult == 3 && opModeIsActive()) {
-                Keys.detectedColorResult = detectColor();
-                idle();
-            }
-            telemetry.addData("Red: ", Keys.red);
-            telemetry.addData("Green: ", Keys.green);
-            telemetry.addData("Blue: ", Keys.blue);
-            telemetry.addData("Detected Color Result" , Keys.detectedColorResult);
-            telemetry.update();
-            idle();
-            //Update ^
-        }
-        Keys.color.stopReading();
 
     }
 
     public void getRGB() {
-        Keys.red = Keys.color.getRed();
-        Keys.blue = Keys.color.getBlue();
-        Keys.green = Keys.color.getGreen();
+        red = color.getRed();
+        blue = color.getBlue();
+        green = color.getGreen();
     }
 
+    public void colorDoubleCheck() {
+        boolean supposedBeaconBlue = beaconBlue;
+        detectColor();
+        if (supposedBeaconBlue = beaconBlue) {
+            telemetryAddData("Confirmed Hit?", "Yes");
+        } else {
+            telemetryAddData("Confirmed Hit?", "No");
+            //Hit opposing button
+        }
+    }
 }
 

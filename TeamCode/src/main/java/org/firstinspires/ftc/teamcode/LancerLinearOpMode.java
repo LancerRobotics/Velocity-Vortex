@@ -517,16 +517,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         green = color.getGreen();
     }
 
-    public void colorDoubleCheck() {
-        boolean supposedBeaconBlue = beaconBlue;
-        detectColor();
-        if (supposedBeaconBlue = beaconBlue) {
-            telemetryAddData("Confirmed Hit?", "Yes");
-        } else {
-            telemetryAddData("Confirmed Hit?", "No");
-            //Hit opposing button
-        }
-    }
 
     public void restAndSleep() {
         rest();

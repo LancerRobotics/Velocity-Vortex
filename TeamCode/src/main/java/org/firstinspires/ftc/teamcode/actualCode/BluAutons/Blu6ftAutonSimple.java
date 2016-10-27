@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.actualCode;
+package org.firstinspires.ftc.teamcode.actualCode.BluAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -7,9 +7,8 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 /**
  * Created by spork on 10/11/2016.
  */
-@Autonomous (name = "Blu5ftCornersideAutonSimple", group = "Autonomous")
-public class Blu5ftCornersideAutonSimple extends LancerLinearOpMode {
-
+@Autonomous (name = "Blu6ftAutonSimple", group = "Autonomous")
+public class Blu6ftAutonSimple extends LancerLinearOpMode {
 
     /*
     Start in the very middle of Alliance Station (6 feet in)
@@ -29,11 +28,12 @@ public class Blu5ftCornersideAutonSimple extends LancerLinearOpMode {
         smoothMoveVol2(br, 36, false);
         ballShoot();
         ballShoot();
-        //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
-        moveStraight(br, 12, false, .70);
+        //smoothMoveVol2(br
+        //, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
+        moveStraight( 12, false, .70);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         gyroAngle(.15, 90);
-        smoothMoveVol2(br, 12, false);
+        smoothMoveVol2(br, 24, false);
         gyroAngle(.15, 45);
         smoothMoveVol2(br, 67.88, false);
         rest();

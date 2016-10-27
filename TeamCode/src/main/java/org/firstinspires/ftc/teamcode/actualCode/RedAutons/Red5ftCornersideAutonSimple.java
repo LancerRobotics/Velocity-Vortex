@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.actualCode;
+package org.firstinspires.ftc.teamcode.actualCode.RedAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -7,8 +7,9 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 /**
  * Created by spork on 10/11/2016.
  */
-@Autonomous (name = "Blu6ftAutonSimple", group = "Autonomous")
-public class Blu6ftAutonSimple extends LancerLinearOpMode {
+@Autonomous (name = "Red5ftCornersideAutonSimple", group = "Autonomous")
+public class Red5ftCornersideAutonSimple extends LancerLinearOpMode {
+
 
     /*
     Start in the very middle of Alliance Station (6 feet in)
@@ -26,15 +27,16 @@ public class Blu6ftAutonSimple extends LancerLinearOpMode {
         setup();
         waitForStart();
         smoothMoveVol2(br, 36, false);
+        sleep(1000);
         ballShoot();
-        ballShoot();
-        //smoothMoveVol2(br
-        //, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
-        moveStraight(br, 12, false, .70);
+        sleep(1000);
+        //ballShoot();
+        //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
+        moveStraight(12, false, .70);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
-        gyroAngle(.15, 90);
-        smoothMoveVol2(br, 24, false);
-        gyroAngle(.15, 45);
+        gyroAngle(.15, -90);
+        smoothMoveVol2(br, 12, false);
+        gyroAngle(.15, -45);
         smoothMoveVol2(br, 67.88, false);
         rest();
         //Overshoots the last move forward, can make it move a shorter distance.

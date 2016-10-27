@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.BluAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
@@ -28,13 +29,22 @@ public class BluAutonBeaconAndBall extends LancerLinearOpMode{
         restAndSleep();
         //ADD COLOR SENSOR / BEACON HIT HERE FOR #1
         detectColor();
-        if(!beaconBlue) {
+        moveStraight(7, true, .5);
+        if(beaconBlue) {
             //Hit Other Side
             telemetryAddData("Hit Other Side", true);
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
+            moveStraight(7, false, .5);
+            sleep(1000);
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         }
         else {
             //Hit This Side
             telemetryAddData("Hit Other Side", false);
+            beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
+            moveStraight(7, false, .5);
+            sleep(1000);
+            beaconPushLeft.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
         moveStraight(7, true, .5);
         restAndSleep();
@@ -53,5 +63,6 @@ public class BluAutonBeaconAndBall extends LancerLinearOpMode{
         restAndSleep();
         moveStraight(55, false, .5);
         restAndSleep();
+        end();
     }
 }

@@ -73,6 +73,10 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
         reservoirPos = 1;
         reservoir.setPosition(reservoirPositions[0]);
+        while(navx_device.isCalibrating()) {
+            telemetryAddData("Ready?", "No");
+        }
+        telemetryAddData("Ready?", "Yes");
     }
 
     public int[] servoToggle (boolean button, Servo servo, double[] positions, int currentPos, boolean pressed) {

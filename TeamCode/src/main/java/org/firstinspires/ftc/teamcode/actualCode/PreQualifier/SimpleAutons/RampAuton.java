@@ -5,6 +5,7 @@ import android.util.Log;
 import com.kauailabs.navx.ftc.AHRS;
 import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,6 +21,7 @@ import java.text.DecimalFormat;
  */
 
 @Autonomous(name="Turning Auton", group="Autonomous")
+@Disabled
 public class RampAuton extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;

@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.SimpleAutons;
 
 import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by spork on 10/17/2016.
  */
 @Autonomous (name = "Time Based", group = "Autonomous")
+@Disabled
 public class TimeBasedAutonSimple extends LancerLinearOpMode {
 
     public static DcMotor fl, fr, br, bl, catapult;

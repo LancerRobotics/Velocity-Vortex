@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.RedAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by kevin on 10/10/2016.
  */
 @Autonomous (name = "Red6ftAutonSimple", group = "Autonomous")
+@Disabled
 public class Red6ftAutonSimple extends LancerLinearOpMode {
 
     /*
@@ -31,7 +33,7 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
         }
         waitForStart();
         telemetryAddData("Step" , "Movement 1");
-        smoothMoveVol2(br, 36, false);
+        moveStraight(36, false, .5);
         rest();
         telemetryAddData("Step", "Ball Shooting");
         sleep(1000);
@@ -49,7 +51,7 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
         telemetryAddData("Step", "Turn 2");
         gyroAngle(.15, -45);
         telemetryAddData("Step", "Movement 4");
-        smoothMoveVol2(br, 67.88, false);
+        moveStraight(68, false, .5);
         rest();
         //Overshoots the last move forward, can make it move a shorter distance.
         //Distance of 2 squares corner to corner is sqrt(4^2 + 4^2) = sqrt(32) = 5.66

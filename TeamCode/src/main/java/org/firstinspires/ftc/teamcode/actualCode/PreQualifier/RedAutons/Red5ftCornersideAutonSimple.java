@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.RedAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by spork on 10/11/2016.
  */
 @Autonomous (name = "Red5ftCornersideAutonSimple", group = "Autonomous")
+@Disabled
 public class Red5ftCornersideAutonSimple extends LancerLinearOpMode {
 
 
@@ -26,18 +28,18 @@ public class Red5ftCornersideAutonSimple extends LancerLinearOpMode {
     public void runOpMode() {
         setup();
         waitForStart();
-        smoothMoveVol2(br, 36, false);
+        moveStraight(36, false, .5);
         sleep(1000);
         ballShoot();
         sleep(1000);
         //ballShoot();
         //smoothMoveVol2(br, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
-        moveStraight(12, false, .70);
+        moveStraight(12, false, .5);
         //capKnockOff(); //Use servo arm to knock ball off --> Just drive forward to knock cap ball off
         gyroAngle(.15, -90);
-        smoothMoveVol2(br, 12, false);
+        moveStraight(12, false, .5);
         gyroAngle(.15, -45);
-        smoothMoveVol2(br, 67.88, false);
+        moveStraight(68, false, .5);
         rest();
         //Overshoots the last move forward, can make it move a shorter distance.
         //Distance of 2 squares corner to corner is sqrt(4^2 + 4^2) = sqrt(32) = 5.66

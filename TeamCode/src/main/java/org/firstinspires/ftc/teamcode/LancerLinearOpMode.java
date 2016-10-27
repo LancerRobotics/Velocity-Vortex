@@ -27,18 +27,15 @@ import java.text.DecimalFormat;
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
     public static AHRS navx_device;
-    public static boolean turnComplete = false;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
     public static volatile AnalogInput sonarBack;
-    public static int red, green, blue, detectedColorResult;
+    public static int red, green, blue;
     public static boolean beaconBlue;
     public static ColorSensorAdafruitDriver color;
 
     public abstract void runOpMode();
 
     public void setup() {
-
-
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
@@ -77,7 +74,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         navx_device.close();
         color.stopReading();
     }
-
+/*
     //Encoded movement method Distances >11.2 inches
     public void smoothMoveVol2(DcMotor motor, double inches, boolean backwards) {
         //works best for at least 1000 ticks = 11.2 inches approx
@@ -132,6 +129,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         fullRest();
     }
+*/
 
     //NO NEED
     public void adjustToThisDistance(double distance, AnalogInput sonar) {
@@ -205,7 +203,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         sValue = sValue / 0.00976;
         return sValue;
     }
-
+/*
     //Deprecated smooth move
     public void moveAlteredSin(DcMotor motor, double dist, boolean backwards) {
         //inches
@@ -250,7 +248,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         fullRest();
     }
-
+*/
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
         shoot(Keys.MAX_MOTOR_SPEED, false);

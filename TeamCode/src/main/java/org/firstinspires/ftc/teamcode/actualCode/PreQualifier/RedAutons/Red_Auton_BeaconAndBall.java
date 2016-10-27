@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.RedAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.Keys;
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
@@ -29,10 +30,12 @@ public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
         if(beaconBlue) {
             //Hit Other Side
             telemetryAddData("Hit Other Side", true);
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         }
         else {
             //Hit This Side
             telemetryAddData("Hit Other Side", false);
+            beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
         }
         moveStraight(7, true, .5);
         restAndSleep();
@@ -51,5 +54,6 @@ public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
         restAndSleep();
         moveStraight(55, false, .5);
         restAndSleep();
+        end();
     }
 }

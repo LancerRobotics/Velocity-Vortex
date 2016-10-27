@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
     public void runOpMode() {
         setup();
         waitForStart();
-        moveStraightFixed(12, false, .4);
+        moveStraight(12, false, .4);
         sleep(1000);
         //moveStraightBackup(br, 12, true, .6);
     }

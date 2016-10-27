@@ -14,16 +14,16 @@ public class BluAutonBeaconAndBall extends LancerLinearOpMode{
 
     @Override
     public void runOpMode(){
-        //5 ft from red ramp
+        //5 ft from blue ramp
         setup();
         moveStraight(6, false, .5);
         rest();
         sleep(100);
-        gyroAngle(45, .15);
+        gyroAngle(-45, .15);
         rest();sleep(100);
         moveStraight(50.91, false, .5);
         rest();sleep(100);
-        gyroAngle(45, .15);
+        gyroAngle(-45, .15);
         rest();sleep(100);
         moveStraight(20, false, .5);
         rest();sleep(100);
@@ -31,18 +31,18 @@ public class BluAutonBeaconAndBall extends LancerLinearOpMode{
         detectColor();
         moveStraight(7, true, .5);
         rest();sleep(100);
-        gyroAngle(-90, .15);
+        gyroAngle(90, .15);
         rest();sleep(100);
         moveStraight(48, false, .5);
         rest();sleep(100);
-        gyroAngle(90, .15);
+        gyroAngle(-90, .15);
         rest();sleep(100);
         moveStraight(7, false, .5);
         rest();sleep(100);
         //ADD COLOR SENSOR / BEACON HIT HERE FOR #2
         moveStraight(16, true, .5);
         rest();sleep(100);
-        gyroAngle(135, .15);
+        gyroAngle(-135, .15);
         rest();sleep(100);
         moveStraight(55, false, .5);
         rest();sleep(100);

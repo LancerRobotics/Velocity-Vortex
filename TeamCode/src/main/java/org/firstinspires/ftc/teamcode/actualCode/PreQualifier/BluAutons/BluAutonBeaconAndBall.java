@@ -17,6 +17,7 @@ public class BluAutonBeaconAndBall extends LancerLinearOpMode{
     public void runOpMode(){
         //5 ft from blue ramp
         setup();
+        waitForStart();
         moveStraight(6, false, .5);
         restAndSleep();
         gyroAngle(-45, .15);

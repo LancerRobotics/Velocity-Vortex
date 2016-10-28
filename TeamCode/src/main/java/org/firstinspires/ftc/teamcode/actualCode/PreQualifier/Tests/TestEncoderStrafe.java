@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 
 @Autonomous (name = "TestEncoderStrafe", group = "Autonomous")
-public abstract class TestEncoderStrafe extends LancerLinearOpMode{
+public class TestEncoderStrafe extends LancerLinearOpMode{
 
     public void moveSideToSide(double inches, boolean left, double power) {
         inches = inches - 5; //Conversion rate due to drift/high speed
@@ -56,6 +56,8 @@ public abstract class TestEncoderStrafe extends LancerLinearOpMode{
     }
 
     public void runOpMode() {
+        setup();
+        waitForStart();
         //moveLeft
         moveSideToSide(10,true,.1);
         //moveRight

@@ -15,6 +15,7 @@ public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
     public void runOpMode(){
         //5 ft from red ramp
         setup();
+        waitForStart();
         moveStraight(6, false, .5);
         restAndSleep();
         gyroAngle(45, .15);

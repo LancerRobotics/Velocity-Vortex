@@ -47,7 +47,7 @@ public class Red6ftAutonSimple extends LancerLinearOpMode {
         telemetryAddData("Step", "Turn 1");
         gyroAngle(.15, -90);
         telemetryAddData("Step", "Movement 3");
-        smoothMoveVol2(br, 24, false);
+        moveStraight(24, false, .5);
         telemetryAddData("Step", "Turn 2");
         gyroAngle(.15, -45);
         telemetryAddData("Step", "Movement 4");

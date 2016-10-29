@@ -1,8 +1,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
-
 /**
  * Created by spork on 10/1/2016.
  */

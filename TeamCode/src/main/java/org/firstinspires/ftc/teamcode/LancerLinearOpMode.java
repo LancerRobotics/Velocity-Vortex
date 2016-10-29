@@ -1,11 +1,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.app.AlertDialog;
-import android.util.Log;
-
 import com.kauailabs.navx.ftc.AHRS;
-import com.kauailabs.navx.ftc.navXPIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,12 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Keys;
-
-import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
-import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
-
-import java.text.DecimalFormat;
+import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 
 /**
  * Created by spork on 10/5/2016.
@@ -31,7 +22,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile AnalogInput sonarBack;
     public static int red, green, blue;
     public static boolean beaconBlue;
-    public static ColorSensorAdafruitDriver color;
+    public static ColorSensorAdafruit color;
 
     public abstract void runOpMode();
 
@@ -61,7 +52,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        color = new ColorSensorAdafruit(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
         while (!color.ready() && navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "NO");
         }

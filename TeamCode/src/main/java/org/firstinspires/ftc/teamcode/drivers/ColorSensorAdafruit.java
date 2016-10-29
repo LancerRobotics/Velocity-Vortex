@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
  *
  * CREDIT TO GEARTICKS
  */
-public class ColorSensorAdafruitDriver extends I2CSensor {
+public class ColorSensorAdafruit extends I2CSensor {
     protected final int getAddress() {
         return 0x29;
     }
@@ -50,7 +50,7 @@ public class ColorSensorAdafruitDriver extends I2CSensor {
     private final SensorReadRequest colorRequest;
     private final SensorWriteRequest integrationTime;
 
-    public ColorSensorAdafruitDriver(I2cDevice device) {
+    public ColorSensorAdafruit(I2cDevice device) {
         super(device);
         this.enableRequest = new SensorWriteRequest(Register.ENABLE.getRegister(), 1);
         this.enableRequest.setWriteData(new byte[]{POWER_ON});
@@ -133,6 +133,6 @@ public class ColorSensorAdafruitDriver extends I2CSensor {
     }
     //Sets the integration time
     public void setIntegrationTime(double time) {
-        this.integrationTime.setWriteData(new byte[]{ColorSensorAdafruitDriver.getIntegrationRequestValue(time)});
+        this.integrationTime.setWriteData(new byte[]{ColorSensorAdafruit.getIntegrationRequestValue(time)});
     }
 }

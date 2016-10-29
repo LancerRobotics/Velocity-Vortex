@@ -35,12 +35,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruitDriver;
+import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 
 @Autonomous(name = "Sensor: AdafruitRGBTest 2", group = "Sensor")
 //@Disabled                            // Comment this out to add to the opmode list
 public class AdafruitTests extends LinearOpMode{
-    private ColorSensorAdafruitDriver color;
+    private ColorSensorAdafruit color;
     int red;
     int green;
     int blue;
@@ -49,7 +49,7 @@ public class AdafruitTests extends LinearOpMode{
 
     @Override
     public void runOpMode(){
-        color = new ColorSensorAdafruitDriver(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
+        color = new ColorSensorAdafruit(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
         while (!color.ready()) {
             telemetry.addData("Ready?", "NO");
             telemetry.update();

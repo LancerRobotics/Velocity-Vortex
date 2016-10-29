@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
  * Created by spork on 10/5/2016.
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
-    public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
+    public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
     public static AHRS navx_device;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
     public static volatile AnalogInput sonarBack;
@@ -46,11 +46,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
-        shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
+        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
+        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
         collector = hardwareMap.dcMotor.get(Keys.collector);
 
-        shooterRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
@@ -203,55 +204,56 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         sValue = sValue / 0.00976;
         return sValue;
     }
-/*
-    //Deprecated smooth move
-    public void moveAlteredSin(DcMotor motor, double dist, boolean backwards) {
-        //inches
 
-        double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
-        double totalTicks = rotations * 1120 * 3 / 2;
-        int positionBeforeMovement = motor.getCurrentPosition();
-        while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
-            telemetry.addData("front left encoder: ", "sin" + motor.getCurrentPosition());
-            telemetry.addData("ticksFor", totalTicks);
-            //convert to radians
-            int currentTick = motor.getCurrentPosition() - positionBeforeMovement;
-            //accelerate 15% of time
-            //coast 25% of time
-            //decelerate 60% of time
-            int firstSectionTime = (int) Math.round(.05 * totalTicks);
-            int secondSectionTime = (int) (Math.round((.05 + .05) * totalTicks)); //35
-            int thirdSectionTime = (int) (Math.round((.5) * totalTicks)); //35
-            //rest will just be 100%
-            double power;
-            if (currentTick < firstSectionTime) {
+    /*
+        //Deprecated smooth move
+        public void moveAlteredSin(DcMotor motor, double dist, boolean backwards) {
+            //inches
 
-                power = .33;
-                //first quarter (period = 2pi) of sin function is only reaching altitude
+            double rotations = dist / (Keys.WHEEL_DIAMETER * Math.PI);
+            double totalTicks = rotations * 1120 * 3 / 2;
+            int positionBeforeMovement = motor.getCurrentPosition();
+            while (motor.getCurrentPosition() < positionBeforeMovement + totalTicks && opModeIsActive()) {
+                telemetry.addData("front left encoder: ", "sin" + motor.getCurrentPosition());
+                telemetry.addData("ticksFor", totalTicks);
+                //convert to radians
+                int currentTick = motor.getCurrentPosition() - positionBeforeMovement;
+                //accelerate 15% of time
+                //coast 25% of time
+                //decelerate 60% of time
+                int firstSectionTime = (int) Math.round(.05 * totalTicks);
+                int secondSectionTime = (int) (Math.round((.05 + .05) * totalTicks)); //35
+                int thirdSectionTime = (int) (Math.round((.5) * totalTicks)); //35
+                //rest will just be 100%
+                double power;
+                if (currentTick < firstSectionTime) {
 
-            } else if (currentTick < secondSectionTime) {
-                power = .66;
+                    power = .33;
+                    //first quarter (period = 2pi) of sin function is only reaching altitude
 
-            } else if (currentTick < thirdSectionTime) {
-                power = .86;
+                } else if (currentTick < secondSectionTime) {
+                    power = .66;
 
-            } else {
-                // between [40%,100%]
-                //decrease time
-                int ticksLeft = (int) Math.round(currentTick - (totalTicks * .35));
-                //with these ticks left, set a range within cosine to decrease
-                power = .4 * Math.cos((ticksLeft) * Math.PI / totalTicks) + .4;
+                } else if (currentTick < thirdSectionTime) {
+                    power = .86;
+
+                } else {
+                    // between [40%,100%]
+                    //decrease time
+                    int ticksLeft = (int) Math.round(currentTick - (totalTicks * .35));
+                    //with these ticks left, set a range within cosine to decrease
+                    power = .4 * Math.cos((ticksLeft) * Math.PI / totalTicks) + .4;
+                }
+
+                telemetryAddData("power", power);
+                fullSetMotorPowerUniform(power, backwards);
             }
-
-            telemetryAddData("power", power);
-            fullSetMotorPowerUniform(power, backwards);
+            fullRest();
         }
-        fullRest();
-    }
-*/
+    */
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
-        shoot(Keys.MAX_MOTOR_SPEED, false);
+        shoot(0.95, false);
         sleep(2000);
         shoot(0, false);
     }
@@ -272,8 +274,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (!backwards) {
             power = power * -1;
         }
-        shooterRight.setPower(power);
-        shooterLeft.setPower(power);
+        flywheel.setPower(power);
+    }
+
+    public void lift(double power, boolean backwards) {
+        if (backwards) {
+            power = power * -1;
+        }
+        liftLeft.setPower(power);
+        liftRight.setPower(power);
     }
 
     //break
@@ -519,6 +528,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public void restAndSleep() {
         rest();
         sleep(100);
+        telemetry.update();
     }
 }
 

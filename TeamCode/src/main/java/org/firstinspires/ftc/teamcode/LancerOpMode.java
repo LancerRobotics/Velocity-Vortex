@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class LancerOpMode extends OpMode{
     public static volatile AHRS navx_device;
     public static volatile ElapsedTime runtime = new ElapsedTime();
-    public static volatile DcMotor fl, fr, bl, br, shooterRight, shooterLeft, collector;
+    public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
     public static volatile float gp1_right_stick_x, gp1_left_stick_y, gp1_left_stick_x;
     public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
     public static volatile double x, y, z, trueX, trueY;
@@ -52,10 +52,11 @@ public abstract class LancerOpMode extends OpMode{
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
-        shooterRight = hardwareMap.dcMotor.get(Keys.shooterRight);
-        shooterLeft = hardwareMap.dcMotor.get(Keys.shooterLeft);
+        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
+        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
         collector = hardwareMap.dcMotor.get(Keys.collector);
-        shooterRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
@@ -142,8 +143,12 @@ public abstract class LancerOpMode extends OpMode{
         if(backwards) {
             power = power * -1;
         }
-        shooterRight.setPower(power);
-        shooterLeft.setPower(power);
+        flywheel.setPower(power);
+    }
+
+    public void lift(double power) {
+        liftRight.setPower(power);
+        liftLeft.setPower(power);
     }
 
     public void telemetryAddData(String Title, String Data) {

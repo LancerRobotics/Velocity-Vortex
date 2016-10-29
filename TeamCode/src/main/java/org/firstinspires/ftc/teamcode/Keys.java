@@ -23,6 +23,9 @@ public class Keys {
     public static final String shooterRight = "shooter_right";
     public static final String shooterLeft = "shooter_left";
     public static final String collector = "collector";
+    public static final String flywheel = "flywheel";
+    public static final String liftLeft = "lift_left";
+    public static final String liftRight = "lift_right";
 
     //Sensor and Module Names and Values
     public static final String cdim = "dim";

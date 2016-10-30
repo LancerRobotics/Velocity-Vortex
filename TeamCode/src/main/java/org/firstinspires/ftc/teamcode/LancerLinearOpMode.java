@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
+    \
     public static AHRS navx_device;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
     public static volatile AnalogInput sonarBack;

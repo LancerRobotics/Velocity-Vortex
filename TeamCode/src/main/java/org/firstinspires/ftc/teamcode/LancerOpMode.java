@@ -18,7 +18,7 @@ public abstract class LancerOpMode extends OpMode{
     public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
     public static volatile double x, y, z, trueX, trueY;
     public static volatile double frPower, flPower, brPower, blPower;
-    public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
+    public static volatile Servo beaconPushRight, beaconPushLeft, capBallLeft, capBallRight;
     public static volatile boolean beaconPushLeftButtonPressed = false;
     public static volatile double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static volatile int beaconPushLeftPos;
@@ -27,10 +27,14 @@ public abstract class LancerOpMode extends OpMode{
     public static volatile double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
     public static volatile int beaconPushRightPos;
     public static volatile int beaconPushRightToggleReturnArray[] = new int[2];
-    public static volatile boolean reservoirButtonPressed = false;
-    public static volatile double[] reservoirPositions = {Keys.RESERVOIR_OPEN, Keys.RESERVOIR_CLOSE};
-    public static volatile int reservoirPos;
-    public static volatile int reservoirToggleReturnArray[] = new int[2];
+    public static volatile boolean capBallLeftButtonPressed = false;
+    public static volatile boolean capBallRightButtonPressed = false;
+    public static volatile double[] capBallLeftPositions = {Keys.CAP_BALL_LEFT_INITIAL_STATE, Keys.CAP_BALL_LEFT_OUT};
+    public static volatile double[] capBallRightPositions = {Keys.CAP_BALL_RIGHT_INITIAL_STATE, Keys.CAP_BALL_RIGHT_OUT};
+    public static volatile int capBallRightPos;
+    public static volatile int capBallLeftPos;
+    public static volatile int capBallRightToggleReturnArray[] = new int[2];
+    public static volatile int capBallLeftToggleReturnArray[] = new int[2];
 
     public void init() {
 
@@ -60,7 +64,8 @@ public abstract class LancerOpMode extends OpMode{
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-        reservoir = hardwareMap.servo.get(Keys.reservoir);
+        capBallLeft = hardwareMap.servo.get(Keys.capBallLeft);
+        capBallRight = hardwareMap.servo.get(Keys.capBallRight);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -72,8 +77,10 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
-        reservoirPos = 1;
-        reservoir.setPosition(reservoirPositions[0]);
+        capBallLeftPos = 1;
+        capBallLeft.setPosition(capBallLeftPositions[0]);
+        capBallRightPos = 1;
+        capBallRight.setPosition(capBallRightPositions[0]);
         while(navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "No");
         }

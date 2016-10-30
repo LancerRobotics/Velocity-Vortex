@@ -71,6 +71,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         fr.setPower(frPower);
         bl.setPower(blPower);
         br.setPower(brPower);
+        lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
 
         beaconPushLeftToggleReturnArray = servoToggle(gamepad2.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
@@ -88,12 +89,20 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
-        reservoirToggleReturnArray = servoToggle(gamepad2.y, reservoir, reservoirPositions, reservoirPos, reservoirButtonPressed);
-        reservoirPos = reservoirToggleReturnArray[0];
-        if (reservoirToggleReturnArray[1] == 1) {
-            reservoirButtonPressed = true;
+        capBallLeftToggleReturnArray = servoToggle(gamepad2.y, capBallLeft, capBallLeftPositions, capBallLeftPos, capBallLeftButtonPressed);
+        capBallLeftPos = capBallLeftToggleReturnArray[0];
+        if (capBallLeftToggleReturnArray[1] == 1) {
+            capBallLeftButtonPressed = true;
         } else {
-            reservoirButtonPressed = false;
+            capBallLeftButtonPressed = false;
+        }
+
+        capBallRightToggleReturnArray = servoToggle(gamepad2.y, capBallRight, capBallRightPositions, capBallLeftPos, capBallRightButtonPressed);
+        capBallRightPos = capBallRightToggleReturnArray[0];
+        if (capBallLeftToggleReturnArray[1] == 1) {
+            capBallRightButtonPressed = true;
+        } else {
+            capBallRightButtonPressed = false;
         }
 
         telemetry.addData("Status", "Running: " + runtime.toString());
@@ -103,5 +112,9 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         telemetry.addData("GamePad 1 X", gamepad1.x);
         telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
         telemetry.update();
+    }
+
+    public void stop() {
+        navx_device.close();
     }
 }

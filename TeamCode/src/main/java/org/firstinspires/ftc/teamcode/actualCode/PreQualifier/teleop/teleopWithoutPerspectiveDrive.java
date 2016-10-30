@@ -15,6 +15,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
     public void init() {
         setup();
     }
+
     public void loop() {
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
@@ -84,12 +85,20 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
-        reservoirToggleReturnArray = servoToggle(gamepad2.y, reservoir, reservoirPositions, reservoirPos, reservoirButtonPressed);
-        reservoirPos = reservoirToggleReturnArray[0];
-        if (reservoirToggleReturnArray[1] == 1) {
-            reservoirButtonPressed = true;
+        capBallLeftToggleReturnArray = servoToggle(gamepad2.y, capBallLeft, capBallLeftPositions, capBallLeftPos, capBallLeftButtonPressed);
+        capBallLeftPos = capBallLeftToggleReturnArray[0];
+        if (capBallLeftToggleReturnArray[1] == 1) {
+            capBallLeftButtonPressed = true;
         } else {
-            reservoirButtonPressed = false;
+            capBallLeftButtonPressed = false;
+        }
+
+        capBallRightToggleReturnArray = servoToggle(gamepad2.y, capBallRight, capBallRightPositions, capBallLeftPos, capBallRightButtonPressed);
+        capBallRightPos = capBallRightToggleReturnArray[0];
+        if (capBallLeftToggleReturnArray[1] == 1) {
+            capBallRightButtonPressed = true;
+        } else {
+            capBallRightButtonPressed = false;
         }
 
         telemetry.addData("Status", "Running: " + runtime.toString());
@@ -101,5 +110,9 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         telemetry.addData("GamePad 2 Left Trigger", gamepad2.left_trigger);
         telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
         telemetry.update();
+    }
+
+    public void stop() {
+        navx_device.close();
     }
 }

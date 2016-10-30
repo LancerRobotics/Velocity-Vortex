@@ -59,10 +59,16 @@ public class Keys {
     public static final String beaconPushLeft = "left_beacon";
     public static final String beaconPushRight = "right_beacon";
     public static final String reservoir = "reservoir";
+    public static final String capBallLeft = "cap_left";
+    public static final String capBallRight = "cap_right";
     public static final double LEFT_BEACON_INITIAL_STATE = 20/255;
     public static final double LEFT_BEACON_PUSH = 140/255;
     public static final double RIGHT_BEACON_INITIAL_STATE = 1;
     public static final double RIGHT_BEACON_PUSH = 0.5;
     public static final double RESERVOIR_OPEN = .25;
     public static final double RESERVOIR_CLOSE = .75;
+    public static final double CAP_BALL_LEFT_INITIAL_STATE = 0;
+    public static final double CAP_BALL_LEFT_OUT = 1;
+    public static final double CAP_BALL_RIGHT_INITIAL_STATE = 1;
+    public static final double CAP_BALL_RIGHT_OUT = 0;
 }

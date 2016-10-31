@@ -13,7 +13,7 @@ public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
 
     @Override
     public void runOpMode(){
-        //5 ft from red ramp
+        //5 ft from red ramp corner
         setup();
         waitForStart();
         moveStraight(6, false, .3);

@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
-    \
     public static AHRS navx_device;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
     public static volatile AnalogInput sonarBack;
@@ -382,12 +381,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (180 - Math.abs(error) <= 1) {
+        if ( Math.abs(error) <= Keys.HEADING_THRESHOLD) {
             rest();
             steer = 0.0;
             leftSpeed = 0.0;
             rightSpeed = 0.0;
             onTarget = true;
+            //This condition never happens
         } else {
             steer = getSteer(error, PCoeff);
             rightSpeed = speed * steer;
@@ -406,6 +406,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return onTarget;
     }
 
+    //Gives the difference between current and target angle->as robotError
     public double getError(double targetAngle) {
 
         double robotError;

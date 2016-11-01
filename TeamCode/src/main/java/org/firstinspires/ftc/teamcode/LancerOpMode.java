@@ -18,7 +18,7 @@ public abstract class LancerOpMode extends OpMode{
     public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
     public static volatile double x, y, z, trueX, trueY;
     public static volatile double frPower, flPower, brPower, blPower;
-    public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
+    public static volatile Servo beaconPushRight, beaconPushLeft, capBallLeft, capBallRight;
     public static volatile boolean beaconPushLeftButtonPressed = false;
     public static volatile double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static volatile int beaconPushLeftPos;

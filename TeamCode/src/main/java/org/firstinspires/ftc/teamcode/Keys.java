@@ -39,11 +39,13 @@ public class Keys {
     public static final double YAW_PID_D = 0.0;
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final int DEVICE_TIMEOUT_MS = 500;
+
   //  public static final double SONAR_TOLERANCE = .5;
   //  public static final double TOLERANCE_LEVEL_1 = 5;
   //  public static final double TOLERANCE_LEVEL_2 = 6;
   //  public static final double TOLERANCE_LEVEL_3 = .5;
-  //  public static final double     HEADING_THRESHOLD       = 5;      // As tight as we can make it with an integer gyro
+    public static final double     HEADING_THRESHOLD       = 5;      // As tight as we can make it with an integer gyro
+
     public static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
     public static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
     /* RGB Values: { RED, GREEN, BLUE }
@@ -65,4 +67,10 @@ public class Keys {
     public static final double RIGHT_BEACON_PUSH = 0.5;
   //  public static final double RESERVOIR_OPEN = .25;
   //  public static final double RESERVOIR_CLOSE = .75;
+    /*
+    public static final double CAP_BALL_LEFT_INITIAL_STATE = 0;
+    public static final double CAP_BALL_LEFT_OUT = 1;
+    public static final double CAP_BALL_RIGHT_INITIAL_STATE = 1;
+    public static final double CAP_BALL_RIGHT_OUT = 0;
+    */
 }

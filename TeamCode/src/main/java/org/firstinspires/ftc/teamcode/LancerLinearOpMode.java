@@ -384,12 +384,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         // determine turn power based on +/- error
         error = getError(angle);
 
-        if (180 - Math.abs(error) <= 1) {
+        if (Math.abs(error) <= Keys.HEADING_THRESHOLD) {
             rest();
             steer = 0.0;
             leftSpeed = 0.0;
             rightSpeed = 0.0;
             onTarget = true;
+            //This condition never happens
         } else {
             steer = getSteer(error, PCoeff);
             rightSpeed = speed * steer;
@@ -408,6 +409,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return onTarget;
     }
 
+    //Gives the difference between current and target angle->as robotError
     public double getError(double targetAngle) {
 
         double robotError;

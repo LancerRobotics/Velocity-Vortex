@@ -110,6 +110,10 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
         telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 X", gamepad1.x);
+        telemetry.addData("GamePad 2 X", gamepad2.x);
+        telemetry.addData("GamePad 2 B", gamepad2.b);
+        telemetry.addData("Beacon Left Position", beaconPushLeft.getPosition());
+        telemetry.addData("Beacon Right Position", beaconPushRight.getPosition());
         telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
         telemetry.update();
     }

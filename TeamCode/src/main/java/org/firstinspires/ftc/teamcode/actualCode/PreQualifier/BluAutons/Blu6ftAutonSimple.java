@@ -28,8 +28,8 @@ public class Blu6ftAutonSimple extends LancerLinearOpMode {
         setup();
         waitForStart();
         moveStraight(36, false, .5);
-        ballShoot();
-        ballShoot();
+        //ballShoot();
+        //ballShoot();
         //smoothMoveVol2(br
         //, 20 /*Not sure about this measurement*/, false); //robot drives forwards and knocks the cap ball off without moving any other sensor
         moveStraight(12, false, .50);

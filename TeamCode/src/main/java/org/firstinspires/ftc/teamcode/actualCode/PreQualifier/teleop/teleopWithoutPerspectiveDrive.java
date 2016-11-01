@@ -19,15 +19,15 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
-
+/*
         if (gamepad1.right_trigger > Keys.deadzone) {
             collector.setPower(-Keys.MAX_MOTOR_SPEED);
         } else if (gamepad1.left_trigger > Keys.deadzone) {
             collector.setPower(Keys.MAX_MOTOR_SPEED);
         } else {
             collector.setPower(0);
-        }
-
+        } */
+/*
         if (gamepad2.right_trigger > Keys.deadzone) {
             shoot(Keys.MAX_MOTOR_SPEED, true);
         } else if (gamepad2.left_trigger > Keys.deadzone) {
@@ -35,7 +35,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         } else {
             shoot(0, false);
         }
-
+*/
         z = gamepad1.right_stick_x; //sideways
         y = gamepad1.left_stick_y; //forward and backward
         x = gamepad1.left_stick_x; //rotation
@@ -66,7 +66,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         fr.setPower(frPower);
         bl.setPower(blPower);
         br.setPower(brPower);
-        lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
+       // lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
 
         beaconPushLeftToggleReturnArray = servoToggle(gamepad2.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
@@ -83,7 +83,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         } else {
             beaconPushRightButtonPressed = false;
         }
-
+/*
         reservoirToggleReturnArray = servoToggle(gamepad2.y, reservoir, reservoirPositions, reservoirPos, reservoirButtonPressed);
         reservoirPos = reservoirToggleReturnArray[0];
         if (reservoirToggleReturnArray[1] == 1) {
@@ -91,7 +91,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         } else {
             reservoirButtonPressed = false;
         }
-
+*/
         telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);

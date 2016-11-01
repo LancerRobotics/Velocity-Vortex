@@ -27,10 +27,10 @@ public abstract class LancerOpMode extends OpMode{
     public static volatile double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
     public static volatile int beaconPushRightPos;
     public static volatile int beaconPushRightToggleReturnArray[] = new int[2];
-    public static volatile boolean reservoirButtonPressed = false;
-    public static volatile double[] reservoirPositions = {Keys.RESERVOIR_OPEN, Keys.RESERVOIR_CLOSE};
-    public static volatile int reservoirPos;
-    public static volatile int reservoirToggleReturnArray[] = new int[2];
+   // public static volatile boolean reservoirButtonPressed = false;
+   // public static volatile double[] reservoirPositions = {Keys.RESERVOIR_OPEN, Keys.RESERVOIR_CLOSE};
+   // public static volatile int reservoirPos;
+   // public static volatile int reservoirToggleReturnArray[] = new int[2];
 
     public void init() {
 
@@ -52,15 +52,15 @@ public abstract class LancerOpMode extends OpMode{
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
-        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
-        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
-        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
-        collector = hardwareMap.dcMotor.get(Keys.collector);
-        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+    //    liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+      //  liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
+     //   flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
+     //   collector = hardwareMap.dcMotor.get(Keys.collector);
+     //   liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-        reservoir = hardwareMap.servo.get(Keys.reservoir);
+     //   reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -72,8 +72,8 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
-        reservoirPos = 1;
-        reservoir.setPosition(reservoirPositions[0]);
+        //reservoirPos = 1;
+        //reservoir.setPosition(reservoirPositions[0]);
         while(navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "No");
         }
@@ -138,7 +138,7 @@ public abstract class LancerOpMode extends OpMode{
         returnArray[1] = bool;
         return returnArray;
     }
-
+/*
     public void shoot(double power, boolean backwards) {
         if(backwards) {
             power = power * -1;
@@ -150,7 +150,7 @@ public abstract class LancerOpMode extends OpMode{
         liftRight.setPower(power);
         liftLeft.setPower(power);
     }
-
+*/
     public void telemetryAddData(String Title, String Data) {
         telemetry.addData(Title, Data);
         telemetry.update();

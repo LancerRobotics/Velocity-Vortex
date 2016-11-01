@@ -37,16 +37,16 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
-        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
-        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
-        collector = hardwareMap.dcMotor.get(Keys.collector);
+     //   liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+     //   liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
+     //   flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
+     //   collector = hardwareMap.dcMotor.get(Keys.collector);
 
         liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-        reservoir = hardwareMap.servo.get(Keys.reservoir);
+     //   reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -124,6 +124,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 */
 
     //NO NEED
+    /*
     public void adjustToThisDistance(double distance, AnalogInput sonar) {
         double myPosition = readSonar(sonar);
         telemetry.addData("myPos", myPosition);
@@ -150,7 +151,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetryAddData("sonar", "done");
         fullRest();
     }
-
+*/
     public void moveStraight(double inches, boolean backwards, double power) {
         inches = inches - 5; //Conversion rate due to drift/high speed
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
@@ -188,14 +189,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
+/*
     public double readSonar(AnalogInput sonar) {
         double sValue = sonar.getVoltage();
         sValue = sValue * 2;
         sValue = sValue / 0.00976;
         return sValue;
     }
-
+*/
     /*
         //Deprecated smooth move
         public void moveAlteredSin(DcMotor motor, double dist, boolean backwards) {
@@ -242,13 +243,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             fullRest();
         }
     */
+    /*
     public void ballShoot() {
         telemetryAddData("ShootBall?", "Yes");
         shoot(0.95, false);
         sleep(2000);
         shoot(0, false);
     }
-
+*/
     //NO NEED for auton unless being used for time
     public void setMotorPowerUniform(double power, boolean backwards) {
         int direction = 1;
@@ -260,14 +262,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setPower(direction * power);
         br.setPower(direction * power);
     }
-
+/*
     public void shoot(double power, boolean backwards) {
         if (!backwards) {
             power = power * -1;
         }
         flywheel.setPower(power);
     }
-
+*/
+/*
     public void lift(double power, boolean backwards) {
         if (backwards) {
             power = power * -1;
@@ -275,7 +278,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         liftLeft.setPower(power);
         liftRight.setPower(power);
     }
-
+*/
     //break
     public void rest() {
         fr.setPower(0);
@@ -420,9 +423,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return Range.clip(error * PCoeff, -1, 1);
     }
 
-    public void gyroDrive(double speed,
-                          double distance,
-                          double angle) {
+    public void gyroDrive(double speed, double distance, double angle) {
 
         int newLeftTarget;
         int newRightTarget;

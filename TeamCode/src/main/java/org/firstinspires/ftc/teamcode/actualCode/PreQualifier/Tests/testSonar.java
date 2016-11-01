@@ -13,11 +13,11 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 public class testSonar extends LancerLinearOpMode {
 
     public void runOpMode(){
-        sonarBack = hardwareMap.analogInput.get(Keys.sonarBack);
+     //   sonarBack = hardwareMap.analogInput.get(Keys.sonarBack);
         waitForStart();
         while(opModeIsActive()) {
-            double sonarValue = readSonar(sonarBack);
-            telemetry.addData("Sonar Value", sonarValue);
+     //       double sonarValue = readSonar(sonarBack);
+     //       telemetry.addData("Sonar Value", sonarValue);
             telemetry.update();
         }
     }

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 public class TestEncoderStrafe extends LancerLinearOpMode{
 
     public void moveSideToSide(double inches, boolean left, double power) {
-        inches = inches - 5; //Conversion rate due to drift/high speed
+        inches = inches - 5; //Conversion rate due to drift/high speed (NEED TO CHANGE THIS)
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

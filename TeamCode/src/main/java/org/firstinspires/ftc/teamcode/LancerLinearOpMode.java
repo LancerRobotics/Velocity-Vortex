@@ -35,17 +35,28 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
      //   liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
      //   liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
      //   flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
      //   collector = hardwareMap.dcMotor.get(Keys.collector);
 
-        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+       // liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
+        beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
+        beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
      //   reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
@@ -56,12 +67,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         while (!color.ready() && navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "NO");
         }
+        telemetryAddData("Ready?", "Yes");
+    }
+    public void startUp() {
         navx_device.zeroYaw();
         color.startReadingColor();
         color.startReadingClear();
-        telemetryAddData("Ready?", "Yes");
     }
-
     public void end() {
         navx_device.close();
         color.stopReading();
@@ -157,7 +169,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         if (backwards) {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
@@ -182,12 +193,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             telemetry.update();
         }
 
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rest();
-
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 /*
     public double readSonar(AnalogInput sonar) {
@@ -334,18 +342,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         setMotorPowerUniform(power, backwards);
     }
 
-    public void fullTurn(double power) {
-        turn(power);
-        turn(power);
-        turn(power);
-        turn(power);
-    }
 
     public void turn(double power) {
-        fr.setPower(power);
-        br.setPower(power);
-        fl.setPower(-power);
-        bl.setPower(-power);
+        fr.setPower(-power);
+        br.setPower(-power);
+        fl.setPower(power);
+        bl.setPower(power);
     }
 
     public void gyroTurn(double speed, double angle) {
@@ -392,13 +394,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             onTarget = true;
             //This condition never happens
         } else {
-            steer = getSteer(error, PCoeff);
-            rightSpeed = speed * steer;
+            steer = getSteer(error, speed);
+            rightSpeed = steer;
             leftSpeed = -rightSpeed;
         }
 
         // Send desired speeds to motors.
-        fullTurn(rightSpeed);
+        turn(rightSpeed);
 
         // Display it for the driver.
         telemetry.addData("Target", "%5.2f", angle);
@@ -416,13 +418,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
         // calculate error in -179 to +180 range  (
         robotError = targetAngle - navx_device.getYaw();
-        while (robotError > 180) robotError -= 360;
+        while (robotError > 180)  robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
 
-    public double getSteer(double error, double PCoeff) {
-        return Range.clip(error * PCoeff, -1, 1);
+    public double getSteer(double error, double speed) {
+        int powerMultiplier = 1;
+        if (error < 0) {
+            powerMultiplier = -1;
+        }
+        return Range.clip(powerMultiplier * speed, -1, 1);
     }
 
     public void gyroDrive(double speed, double distance, double angle) {
@@ -524,5 +530,18 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         sleep(100);
         telemetry.update();
     }
+
+    public float getYaw() {
+        float yaw = convertYaw(navx_device.getYaw());
+        return yaw;
+    }
+
+    public static float convertYaw (double yaw) {
+        if (yaw < 0) {
+            yaw = 360 + yaw;
+        }
+        return (float)yaw;
+    }
+
 }
 

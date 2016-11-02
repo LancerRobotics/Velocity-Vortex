@@ -26,10 +26,10 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         if (left) {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
-            power = power * -1.0;
         } else {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
+            power = power * -1.0;
         }
 
 
@@ -37,8 +37,8 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         fr.setPower(power);
-        fl.setPower(power*-1);
-        br.setPower(power*-1);
+        fl.setPower(-power);
+        br.setPower(-power);
         bl.setPower(power);
 
         while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
@@ -48,7 +48,6 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         }
 
         rest();
-
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -58,8 +57,10 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
     public void runOpMode() {
         setup();
         waitForStart();
+        startUp();
         //moveLeft
-        moveSideToSide(10,true,.1);
+        moveSideToSide(20,true,.4);
+        sleep(10000);
         //moveRight
         moveSideToSide(10,false,.1);
     }

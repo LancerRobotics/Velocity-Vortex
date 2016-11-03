@@ -20,12 +20,41 @@ public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
         waitForStart();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        moveStraight(20, false, .3);
+        moveStraight(25, false, .3);
         restAndSleep();
         gyroAngle(45, .2);
         restAndSleep();
-        moveStraight(48, false, .3);
+        moveStraight(41, false, .3);
         restAndSleep();
-        gyroAngle(35, .2);
+        gyroAngle(15, .2);
+        restAndSleep();
+        moveStraight(6, false, .3);
+        restAndSleep();
+        sleep(2000);
+        detectColor();
+        if(beaconBlue) {
+            moveStraight(6, true, .3);
+            restAndSleep();
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
+            restAndSleep();
+            moveStraight(7, false, .3);
+            restAndSleep();
+            sleep(500);
+            moveStraight(7, true, .3);
+        }
+        else if(!beaconBlue) {
+            moveStraight(6, true, .3);
+            restAndSleep();
+            beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
+            restAndSleep();
+            moveStraight(7, false, .3);
+            restAndSleep();
+            sleep(500);
+            moveStraight(7, true, .3);
+        }
+        else {
+            telemetryAddData("CRASH", "CRASH");
+            sleep(2000);
+        }
     }
 }

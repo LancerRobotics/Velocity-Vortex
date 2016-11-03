@@ -44,7 +44,7 @@ public class Keys {
   //  public static final double TOLERANCE_LEVEL_1 = 5;
   //  public static final double TOLERANCE_LEVEL_2 = 6;
   //  public static final double TOLERANCE_LEVEL_3 = .5;
-    public static final double     HEADING_THRESHOLD       = 5;      // As tight as we can make it with an integer gyro
+    public static final double     HEADING_THRESHOLD       = 2;      // As tight as we can make it with an integer gyro
 
     public static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
     public static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name = "Blue Auton Competition", group = "Competition")
 
-public class BluAutonBeaconAndBall extends LancerLinearOpMode{
+public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
 
 
     @Override
@@ -20,12 +20,12 @@ public class BluAutonBeaconAndBall extends LancerLinearOpMode{
         waitForStart();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        moveStraight(16, false, .3);
+        moveStraight(20, false, .3);
         restAndSleep();
         gyroAngle(45, .2);
         restAndSleep();
         moveStraight(48, false, .3);
         restAndSleep();
-        gyroAngle(40, .2);
+        gyroAngle(35, .2);
     }
 }

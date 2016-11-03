@@ -9,8 +9,8 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by shlok.khandelwal on 10/26/2016.
  */
 @Autonomous(name = "Red Auton Competition", group = "Competition")
-public class Red_Auton_BeaconAndBall extends LancerLinearOpMode{
-
+public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
+//REPLACE ENTIRE AUTON WITH NEW VERSION
     @Override
     public void runOpMode(){
         //5 ft from red ramp corner

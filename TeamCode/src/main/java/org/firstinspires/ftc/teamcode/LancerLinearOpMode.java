@@ -190,7 +190,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
             telemetry.addData("Moving Left", fl.isBusy());
             telemetry.addData("Moving Right", br.isBusy());
-            telemetry.update();
+            telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
+            telemetryAddData("Distance Double", inches_per_rev * inches);
         }
 
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -522,6 +523,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         red = color.getRed();
         blue = color.getBlue();
         green = color.getGreen();
+        telemetry.addData("Red", red);
+        telemetry.addData("Blue", blue);
+        telemetryAddData("Green", green);
     }
 
 

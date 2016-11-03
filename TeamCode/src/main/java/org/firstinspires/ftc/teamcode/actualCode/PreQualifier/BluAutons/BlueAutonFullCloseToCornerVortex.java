@@ -18,6 +18,7 @@ public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
         //5 ft from blue ramp
         setup();
         waitForStart();
+        startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         moveStraight(25, false, .3);
@@ -56,5 +57,6 @@ public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
             telemetryAddData("CRASH", "CRASH");
             sleep(2000);
         }
+        sleep(10000);
     }
 }

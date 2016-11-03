@@ -16,6 +16,7 @@ public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
         //4 ft from red ramp corner
         setup();
         waitForStart();
+        startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         moveStraight(20, false, .3);

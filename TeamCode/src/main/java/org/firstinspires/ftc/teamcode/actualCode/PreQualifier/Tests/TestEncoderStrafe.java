@@ -17,6 +17,20 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 @Autonomous (name = "TestEncoderStrafe", group = "Autonomous")
 public class TestEncoderStrafe extends LancerLinearOpMode{
 
+    public void runOpMode() {
+        setup();
+        waitForStart();
+        startUp();
+        //moveLeft
+        moveSideToSide(20,true,.4);
+        rest();
+        sleep(2000);
+        //moveRight
+        moveSideToSide(10,false,.1);
+        rest();
+        sleep(2000);
+    }
+
     public void moveSideToSide(double inches, boolean left, double power) {
         inches = inches - 5; //Conversion rate due to drift/high speed (NEED TO CHANGE THIS)
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
@@ -46,23 +60,9 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
             telemetry.addData("Moving Right", br.isBusy());
             telemetry.update();
         }
-
+        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rest();
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void runOpMode() {
-        setup();
-        waitForStart();
-        startUp();
-        //moveLeft
-        moveSideToSide(20,true,.4);
-        sleep(10000);
-        //moveRight
-        moveSideToSide(10,false,.1);
     }
 
 }

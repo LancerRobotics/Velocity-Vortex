@@ -1,6 +1,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
 import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -9,6 +13,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 
@@ -22,7 +27,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public static volatile AnalogInput sonarBack;
     public static int red, green, blue;
     public static boolean beaconBlue;
-    public static ColorSensorAdafruit color;
+    public static ColorSensor colorSensor;
+    public static float hsvValues[] = {0F, 0F, 0F};
+    public final float values[] = hsvValues;
+    public static boolean bPrevState = false;
+    public static boolean bCurrState = false;
+    public static boolean bLedOn = false;
 
     public abstract void runOpMode();
 
@@ -63,20 +73,21 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        color = new ColorSensorAdafruit(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
-        while (!color.ready() && navx_device.isCalibrating()) {
+
+        colorSensor = hardwareMap.colorSensor.get(Keys.colorSensor);
+        colorSensor.enableLed(bLedOn);
+
+        while (navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "NO");
         }
         telemetryAddData("Ready?", "Yes");
     }
+
     public void startUp() {
         navx_device.zeroYaw();
-        color.startReadingColor();
-        color.startReadingClear();
     }
     public void end() {
         navx_device.close();
-        color.stopReading();
     }
 /*
     //Encoded movement method Distances >11.2 inches
@@ -163,15 +174,23 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetryAddData("sonar", "done");
         fullRest();
     }
+
 */
+    public void moveToColor() {
+        while ((opModeIsActive()) && ((colorSensor.red() == 0) || (colorSensor.blue() == 0))) {
+            setMotorPowerUniform(.1, false);
+            telemetry.addData("Red", colorSensor.red());
+            telemetryAddData("Blue", colorSensor.blue());
+        }
+        restAndSleep();
+    }
     public void moveStraight(double inches, boolean backwards, double power) {
-        inches = inches - 5; //Conversion rate due to drift/high speed
+
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (backwards) {
-            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
             power = power * -1.0;
         } else {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
@@ -179,7 +198,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
 
 
-        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if(!backwards){fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);}
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         fr.setPower(power);
@@ -187,14 +206,31 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setPower(power);
         bl.setPower(power);
 
-        while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
-            telemetry.addData("Moving Left", fl.isBusy());
-            telemetry.addData("Moving Right", br.isBusy());
-            telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-            telemetryAddData("Distance Double", inches_per_rev * inches);
+        if(!backwards) {
+            while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
+                telemetry.addData("FR Power", fr.getPower());
+                telemetry.addData("BR Power", br.getPower());
+                telemetry.addData("FL Power", fl.getPower());
+                telemetry.addData("BL Power", bl.getPower());
+                telemetry.addData("Moving Left", fl.isBusy());
+                telemetry.addData("Moving Right", br.isBusy());
+                telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
+                telemetryAddData("Distance Double", inches_per_rev * inches);
+            }
+        }
+        else {
+            while (opModeIsActive() && br.isBusy()) {
+                telemetry.addData("FR Power", fr.getPower());
+                telemetry.addData("BR Power", br.getPower());
+                telemetry.addData("FL Power", fl.getPower());
+                telemetry.addData("BL Power", bl.getPower());
+                telemetry.addData("Moving Left", fl.isBusy());
+                telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
+                telemetryAddData("Distance Double", inches_per_rev * inches);
+            }
         }
 
-        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rest();
     }
@@ -520,13 +556,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     public void getRGB() {
-        red = color.getRed();
-        blue = color.getBlue();
-        green = color.getGreen();
+        red = colorSensor.red();
+        blue = colorSensor.blue();
+        green = colorSensor.green();
         telemetry.addData("Red", red);
         telemetry.addData("Blue", blue);
         telemetryAddData("Green", green);
     }
+
+
 
 
     public void restAndSleep() {
@@ -546,6 +584,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         return (float)yaw;
     }
+
 
 }
 

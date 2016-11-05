@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 /**
@@ -120,5 +121,16 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
 
     public void stop() {
         navx_device.close();
+    }
+
+    /**
+     * Created by shlok.khandelwal on 11/4/2016.
+     */
+
+    public static class MRcolorSensorTest extends LancerLinearOpMode {
+        @Override
+        public void runOpMode() {
+
+        }
     }
 }

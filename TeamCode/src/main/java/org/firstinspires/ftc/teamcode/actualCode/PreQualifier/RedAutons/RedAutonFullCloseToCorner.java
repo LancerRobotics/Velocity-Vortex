@@ -13,18 +13,63 @@ public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
 //REPLACE ENTIRE AUTON WITH NEW VERSION
     @Override
     public void runOpMode(){
-        //4 ft from red ramp corner
         setup();
         waitForStart();
         startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        moveStraight(20, false, .3);
+        moveStraight(23, false, .3);
         restAndSleep();
-        gyroAngle(-45, .2);
+        gyroAngle(-52, .2);
         restAndSleep();
-        moveStraight(41, false, .3);
+        moveStraight(25, false, .3);
         restAndSleep();
-        gyroAngle(-25, .2);
+        gyroAngle(-28, .2);
+        restAndSleep();
+        moveStraight(24, false, .1);
+        restAndSleep();
+        sleep(1000);
+        detectColor();
+        moveStraight(10, true, .1);
+        telemetryAddData("Beacon Color Blue", beaconBlue);
+        if(!beaconBlue) {
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
+        }
+        else if(beaconBlue) {
+            beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
+        }
+        else {
+            telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
+            sleep(2000);
+        }
+        if(beaconBlue || !beaconBlue) {
+            restAndSleep();
+            moveStraight(8, false, .2);
+            restAndSleep();
+            sleep(500);
+            moveStraight(8, true, .3);
+            restAndSleep();
+        }
+        if(!beaconBlue) {
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
+        }
+        else {
+            beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
+        }
+
+       /* //Go to the second beacon
+        moveStraight(10, true, .3);
+        restAndSleep();
+        gyroTurn(-90,.1);
+        restAndSleep();
+        moveStraight(24, false, .3);
+        restAndSleep();
+        gyroTurn(90,.1);
+        restAndSleep();
+        moveToColor();
+        restAndSleep();
+        */
+        telemetryAddData("Done?", "Yes");
+        moveStraight(36, true, .3);
     }
 }

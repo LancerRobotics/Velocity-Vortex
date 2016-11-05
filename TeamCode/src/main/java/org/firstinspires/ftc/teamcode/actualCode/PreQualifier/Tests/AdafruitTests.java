@@ -49,6 +49,7 @@ public class AdafruitTests extends LinearOpMode{
 
     @Override
     public void runOpMode(){
+        waitForStart();
         color = new ColorSensorAdafruit(this.hardwareMap.i2cDevice.get(Keys.colorSensor));
         while (!color.ready()) {
             telemetry.addData("Ready?", "NO");

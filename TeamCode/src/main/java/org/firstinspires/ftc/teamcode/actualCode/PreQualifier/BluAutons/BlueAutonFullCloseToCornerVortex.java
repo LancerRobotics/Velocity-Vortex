@@ -21,42 +21,59 @@ public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
         startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        moveStraight(25, false, .3);
+        moveStraight(23, false, .3);
         restAndSleep();
-        gyroAngle(45, .2);
+        gyroAngle(42, .2);
         restAndSleep();
-        moveStraight(41, false, .3);
+        moveStraight(33, false, .3);
         restAndSleep();
         gyroAngle(15, .2);
         restAndSleep();
-        moveStraight(6, false, .3);
+        moveStraight(8, false, .1);
         restAndSleep();
-        sleep(2000);
+        sleep(1000);
         detectColor();
+        moveStraight(7, true, .1);
+        telemetryAddData("Beacon Color Blue", beaconBlue);
         if(beaconBlue) {
-            moveStraight(6, true, .3);
-            restAndSleep();
             beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
-            restAndSleep();
-            moveStraight(7, false, .3);
-            restAndSleep();
-            sleep(500);
-            moveStraight(7, true, .3);
         }
         else if(!beaconBlue) {
-            moveStraight(6, true, .3);
-            restAndSleep();
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
-            restAndSleep();
-            moveStraight(7, false, .3);
-            restAndSleep();
-            sleep(500);
-            moveStraight(7, true, .3);
         }
         else {
-            telemetryAddData("CRASH", "CRASH");
+            telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
             sleep(2000);
         }
-        sleep(10000);
+        if(beaconBlue || !beaconBlue) {
+            restAndSleep();
+            moveStraight(8, false, .2);
+            restAndSleep();
+            sleep(500);
+            moveStraight(8, true, .3);
+            restAndSleep();
+        }
+        if(beaconBlue) {
+            beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
+        }
+        else {
+            beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
+        }
+        gyroAngle(90, .1);
+        gyroAngle(90, .1);
+        moveStraight(42, false, .3);
+       /* //Go to the second beacon
+        moveStraight(10, true, .3);
+        restAndSleep();
+        gyroTurn(-90,.1);
+        restAndSleep();
+        moveStraight(24, false, .3);
+        restAndSleep();
+        gyroTurn(90,.1);
+        restAndSleep();
+        moveToColor();
+        restAndSleep();
+        */
+        telemetryAddData("Done?", "Yes");
     }
 }

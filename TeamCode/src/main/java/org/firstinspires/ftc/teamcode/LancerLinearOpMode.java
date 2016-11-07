@@ -76,11 +76,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
         colorSensor = hardwareMap.colorSensor.get(Keys.colorSensor);
         colorSensor.enableLed(bLedOn);
-
-        while (navx_device.isCalibrating()) {
-            telemetryAddData("Ready?", "NO");
-        }
-        telemetryAddData("Ready?", "Yes");
+            while (navx_device.isCalibrating()) {
+                telemetryAddData("Ready?", "NO");
+            }
+            telemetryAddData("Ready?", "Yes");
     }
 
     public void startUp() {

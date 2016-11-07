@@ -22,11 +22,11 @@ public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
         restAndSleep();
         gyroAngle(-52, .2);
         restAndSleep();
-        moveStraight(25, false, .3);
+        moveStraight(24, false, .3); //was not working first match
         restAndSleep();
-        gyroAngle(-28, .2);
+        gyroAngle(-31, .2);
         restAndSleep();
-        moveStraight(24, false, .1);
+        moveStraight(22, false, .1); //was not working first match
         restAndSleep();
         sleep(1000);
         detectColor();
@@ -69,7 +69,9 @@ public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
         moveToColor();
         restAndSleep();
         */
+        setMotorPowerUniform(.3, true);
+        sleep(1750);
+        setMotorPowerUniform(0, false);
         telemetryAddData("Done?", "Yes");
-        moveStraight(36, true, .3);
     }
 }

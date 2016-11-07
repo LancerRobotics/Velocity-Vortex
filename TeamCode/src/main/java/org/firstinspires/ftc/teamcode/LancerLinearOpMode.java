@@ -467,6 +467,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return Range.clip(powerMultiplier * speed, -1, 1);
     }
 
+    //START TESTING THIS METHOD, IT MIGHT BE VERY HELPFUL TO ENSURE WE DON'T KEEP CURVING OFF TRACK.
+
     public void gyroDrive(double speed, double distance, double angle) {
 
         int newLeftTarget;

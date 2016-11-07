@@ -32,7 +32,6 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
     }
 
     public void moveSideToSide(double inches, boolean left, double power) {
-        inches = inches - 5; //Conversion rate due to drift/high speed (NEED TO CHANGE THIS)
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -40,10 +39,10 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         if (left) {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
-        } else {
-            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
             power = power * -1.0;
+        } else {
+            fl.setTargetPosition(fl.getCurrentPosition() - (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
         }
 
 
@@ -56,9 +55,14 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         bl.setPower(power);
 
         while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
+            telemetry.addData("FR Power", fr.getPower());
+            telemetry.addData("BR Power", br.getPower());
+            telemetry.addData("FL Power", fl.getPower());
+            telemetry.addData("BL Power", bl.getPower());
             telemetry.addData("Moving Left", fl.isBusy());
             telemetry.addData("Moving Right", br.isBusy());
-            telemetry.update();
+            telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
+            telemetryAddData("Distance Double", inches_per_rev * inches);
         }
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

@@ -123,14 +123,4 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         navx_device.close();
     }
 
-    /**
-     * Created by shlok.khandelwal on 11/4/2016.
-     */
-
-    public static class MRcolorSensorTest extends LancerLinearOpMode {
-        @Override
-        public void runOpMode() {
-
-        }
-    }
 }

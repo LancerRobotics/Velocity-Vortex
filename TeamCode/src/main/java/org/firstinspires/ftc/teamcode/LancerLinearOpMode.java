@@ -468,7 +468,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     //START TESTING THIS METHOD, IT MIGHT BE VERY HELPFUL TO ENSURE WE DON'T KEEP CURVING OFF TRACK.
-
+    //Keeps robot straight w/ robot - Needs to be tested
     public void gyroDrive(double speed, double distance, double angle) {
 
         int newLeftTarget;

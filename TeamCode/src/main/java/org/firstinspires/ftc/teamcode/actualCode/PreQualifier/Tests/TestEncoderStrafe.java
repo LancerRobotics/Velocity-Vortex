@@ -32,7 +32,7 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
     }
 
     public void moveSideToSide(double inches, boolean left, double power) {
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);//Test to find correct conversion factor for WheelDiam(leftnRight)
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

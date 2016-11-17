@@ -378,7 +378,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         setMotorPowerUniform(power, backwards);
     }
 
-
+    //keep turning right
     public void turn(double power) {
         fr.setPower(-power);
         br.setPower(-power);
@@ -447,7 +447,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return onTarget;
     }
 
-    //Gives the difference between current and target angle->as robotError
+    //Gives the DIFFERENCE between current and target angle->as robotError
     public double getError(double targetAngle) {
 
         double robotError;
@@ -458,7 +458,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
-
+    //Gives the SPEED needed to get to the target
     public double getSteer(double error, double speed) {
         int powerMultiplier = 1;
         if (error < 0) {
@@ -470,7 +470,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     //START TESTING THIS METHOD, IT MIGHT BE VERY HELPFUL TO ENSURE WE DON'T KEEP CURVING OFF TRACK.
     //Keeps robot straight w/ robot - Needs to be tested
     public void gyroDrive(double speed, double distance, double angle) {
-
+        //speed 0 to .86, distance in inches?, angle is -180 to 180
         int newLeftTarget;
         int newRightTarget;
         int moveCounts;
@@ -484,29 +484,31 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
+            //560 = counter per inch
             moveCounts = (int) (distance * 560);
             newLeftTarget = fl.getCurrentPosition() + moveCounts;
             newRightTarget = br.getCurrentPosition() + moveCounts;
 
             // Set Target and Turn On RUN_TO_POSITION
+            // The position the fl and br want to go is set
             fl.setTargetPosition(newLeftTarget);
             br.setTargetPosition(newRightTarget);
 
             fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // start motion.
+            // start motion -> speed
             speed = Range.clip(Math.abs(speed), 0.0, Keys.MAX_MOTOR_OUTPUT_VALUE);
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
                     (fl.isBusy() && br.isBusy())) {
 
-                // adjust relative speed based on heading error.
+                // adjut relative speed based on heading error.
                 error = getError(angle);
                 steer = getSteer(error, Keys.P_DRIVE_COEFF);
 
-                // if driving in reverse, the motor correction also needs to be reversed
+                // adjust if driving in reverse, the motor correction also needs to be reversed
                 if (distance < 0)
                     steer *= -1.0;
 
@@ -519,11 +521,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     leftSpeed /= max;
                     rightSpeed /= max;
                 }
-
+                //wot is this
                 turn(leftSpeed);
 
                 // Display drive status for the driver.
-                telemetry.addData("Err/St", "%5.1f/%5.1f", error, steer);
+                telemetry.addData("Error/Steer", "%5.1f/%5.1f", error, steer);
                 telemetry.addData("Target", "%7d:%7d", newLeftTarget, newRightTarget);
                 telemetry.addData("Actual", "%7d:%7d", fl.getCurrentPosition(),
                         br.getCurrentPosition());
@@ -539,6 +541,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
+
+
 
     public void detectColor() {
         getRGB();

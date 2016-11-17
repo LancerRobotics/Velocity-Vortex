@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
  */
 
 
-@Autonomous (name = "TestEncoderStrafe", group = "Autonomous")
+@Autonomous (name = "TestEncoderStrafe", group = "Test")
 public class TestEncoderStrafe extends LancerLinearOpMode{
 
     public void runOpMode() {
@@ -31,8 +31,9 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         sleep(2000);
     }
     public void strafe(double inches, boolean left, double power){
-
-            double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
@@ -79,8 +80,8 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
             bl.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }

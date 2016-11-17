@@ -62,20 +62,22 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
      //   collector = hardwareMap.dcMotor.get(Keys.collector);
 
        // liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
+/*
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
      //   reservoir = hardwareMap.servo.get(Keys.reservoir);
-
+*/
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
 
+        /*
         colorSensor = hardwareMap.colorSensor.get(Keys.colorSensor);
         colorSensor.enableLed(bLedOn);
+        */
             while (navx_device.isCalibrating()) {
                 telemetryAddData("Ready?", "NO");
             }

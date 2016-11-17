@@ -58,17 +58,15 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 
 @Autonomous(name="TestGyroDrive", group="Test")
-@Disabled
+
 
 public class TestGyroDrive extends LancerLinearOpMode {
 
     @Override
     public void runOpMode() {
-
-        /*
-         * Initialize the standard drive system variables.
-         * The init() method of the hardware class does most of the work here
-         */
+        setup();
+        waitForStart();
+        startUp();
         TestGyroMove(0.2, 30, false); //Moving backwards 30 inches with power 0.2
         TestGyroMove(0.2,30,true); //Moving forwards 30 inches with power 0.2
     }
@@ -88,12 +86,11 @@ public class TestGyroDrive extends LancerLinearOpMode {
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
-
+            if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
+            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
             newLeftTarget = fl.getCurrentPosition()+(int)(inches*inches_per_rev);
             newRightTarget = br.getCurrentPosition() + (int)(inches*inches_per_rev);
-            if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
-            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             if (backwards) {
                 br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
                 power = power * -1.0;
@@ -143,8 +140,8 @@ public class TestGyroDrive extends LancerLinearOpMode {
                 telemetry.addData("Speed", "%5.2f:%5.2f", leftSpeed, rightSpeed);
                 telemetry.update();
             }
-         //REPEAT   if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
-         //REPEAT   br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             rest();
         }
     }

@@ -57,16 +57,10 @@ public abstract class LancerOpMode extends OpMode{
      //   flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
      //   collector = hardwareMap.dcMotor.get(Keys.collector);
      //   liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
+/*
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
      //   reservoir = hardwareMap.servo.get(Keys.reservoir);
-
-        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
-                Keys.NAVX_DIM_I2C_PORT,
-                AHRS.DeviceDataType.kProcessedData,
-                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        navx_device.zeroYaw();
 
         beaconPushLeftPos = 1;
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
@@ -74,6 +68,12 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
         //reservoirPos = 1;
         //reservoir.setPosition(reservoirPositions[0]);
+        */
+        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
+                Keys.NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
+        navx_device.zeroYaw();
             while (navx_device.isCalibrating()) {
                 telemetryAddData("Ready?", "No");
             }

@@ -73,7 +73,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         bl.setPower(blPower);
         br.setPower(brPower);
         //lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-
+/*
         beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {

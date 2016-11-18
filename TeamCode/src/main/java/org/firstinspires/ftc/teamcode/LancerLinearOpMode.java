@@ -458,7 +458,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         while (robotError <= -180) robotError += 360;
         return robotError;
     }
-    //Gives the SPEED needed to get to the target
+    //Sets the DIRECTION the robot is going, based on the error
     public double getSteer(double error, double speed) {
         int powerMultiplier = 1;
         if (error < 0) {
@@ -471,6 +471,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     //Keeps robot straight w/ robot - Needs to be tested
     public void gyroDrive(double speed, double distance, double angle) {
         //speed 0 to .86, distance in inches?, angle is -180 to 180
+        //Objectives: backwards, navx, 4 wheel drive, mode of motors
         int newLeftTarget;
         int newRightTarget;
         int moveCounts;
@@ -479,6 +480,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double steer;
         double leftSpeed;
         double rightSpeed;
+
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -494,6 +496,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             fl.setTargetPosition(newLeftTarget);
             br.setTargetPosition(newRightTarget);
 
+            //goes to the place we want to go
             fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -504,8 +507,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             while (opModeIsActive() &&
                     (fl.isBusy() && br.isBusy())) {
 
-                // adjut relative speed based on heading error.
+                // adjust relative speed based on heading error.
+                //The degrees the robot still needs to go
                 error = getError(angle);
+                //The direction the robot is going based on error
                 steer = getSteer(error, Keys.P_DRIVE_COEFF);
 
                 // adjust if driving in reverse, the motor correction also needs to be reversed
@@ -516,13 +521,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 rightSpeed = speed + steer;
 
                 // Normalize speeds if any one exceeds +/- 1.0;
+                //Slows down left and right motors
                 max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
                 if (max > 1.0) {
                     leftSpeed /= max;
                     rightSpeed /= max;
                 }
-                //wot is this
-                turn(leftSpeed);
+                //what is this
+                //turn(leftSpeed);
+
+                fr.setPower(leftSpeed);
+                br.setPower(rightSpeed);
 
                 // Display drive status for the driver.
                 telemetry.addData("Error/Steer", "%5.1f/%5.1f", error, steer);
@@ -592,4 +601,3 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
 
 }
-

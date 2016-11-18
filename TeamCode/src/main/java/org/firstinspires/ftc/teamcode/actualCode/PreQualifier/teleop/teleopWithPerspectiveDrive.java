@@ -73,7 +73,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         bl.setPower(blPower);
         br.setPower(brPower);
         //lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-
+/*
         beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {
@@ -111,12 +111,12 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
         telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 X", gamepad1.x);
-        telemetry.addData("GamePad 2 X", gamepad2.x);
-        telemetry.addData("GamePad 2 B", gamepad1.b);
-        telemetry.addData("Beacon Left Position", beaconPushLeft.getPosition());
-        telemetry.addData("Beacon Right Position", beaconPushRight.getPosition());
-        telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
-        telemetry.update();
+        telemetryAddData("Yaw", convertYaw(navx_device.getYaw()));
+        trueX = ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y); //sets trueX to rotated value
+        trueY = ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y);
+
+        x = trueX;
+        y = trueY;
     }
 
     public void stop() {

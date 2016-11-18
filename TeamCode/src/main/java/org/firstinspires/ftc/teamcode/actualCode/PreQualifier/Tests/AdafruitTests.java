@@ -41,10 +41,9 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 //@Disabled                            // Comment this out to add to the opmode list
 public class AdafruitTests extends LinearOpMode{
     private ColorSensorAdafruit color;
-    int red;
-    int green;
-    int blue;
-    boolean beaconBlue = true;
+    int red; //variable for red value
+    int blue; //variable for blue value
+    boolean beaconBlue = true; //boolean determines whether or not the beacon color is blue
     int detectedColorResult;
 
     @Override
@@ -56,8 +55,8 @@ public class AdafruitTests extends LinearOpMode{
             telemetry.update();
             //Change this method to the updated one
         }
-        color.startReadingColor();
-        color.startReadingClear();
+        color.startReadingColor(); // makes color sensor start detecting colors
+        color.startReadingClear(); // makes color sensor start detecting clear values
         telemetry.addData("Ready?", "YES");
         telemetry.update();
         //Update method ^
@@ -82,7 +81,7 @@ public class AdafruitTests extends LinearOpMode{
     }
 
     public void getRGB() {
-        red = color.getRed();
+        red = color.getRed(); // get red value
         blue = color.getBlue();
         green = color.getGreen();
     }

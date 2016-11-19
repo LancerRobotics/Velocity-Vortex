@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
 
-
+//Auton that starts from blue side, goes to first beacon, hits it, then hits the cap ball
     @Override
     public void runOpMode(){
         //5 ft from blue ramp

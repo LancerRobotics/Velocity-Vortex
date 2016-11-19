@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by spork on 10/5/2016.
  */
 public abstract class LancerOpMode extends OpMode{
+
+    //Creates all needed variables, motors, servos, and sensors
     public static volatile AHRS navx_device;
     public static volatile ElapsedTime runtime = new ElapsedTime();
     public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
@@ -40,6 +42,7 @@ public abstract class LancerOpMode extends OpMode{
 
     }
 
+    //Converts gyro value from -180-180 to 0-360
     public static float convertYaw (double yaw) {
         if (yaw <= 0) {
             yaw = 360 + yaw;
@@ -47,7 +50,9 @@ public abstract class LancerOpMode extends OpMode{
         return (float)yaw;
     }
 
+    //Sets up the motors, sensors, and servos
     public void setup() {
+        //Tells robot where drive motors are
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
@@ -69,22 +74,32 @@ public abstract class LancerOpMode extends OpMode{
         //reservoirPos = 1;
         //reservoir.setPosition(reservoirPositions[0]);
         */
+
+        //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        navx_device.zeroYaw();
+        //Callibrates gyro
             while (navx_device.isCalibrating()) {
                 telemetryAddData("Ready?", "No");
             }
             telemetryAddData("Ready?", "Yes");
+            navx_device.zeroYaw();
     }
 
+    //Method that allows for servos to toggle on one button
     public int[] servoToggle (boolean button, Servo servo, double[] positions, int currentPos, boolean pressed) {
+        //Creates a variable saying the number of servo positions
         int servoPositions = positions.length;
+
+        //Checks to see if a button is pressed
         if(button) {
             pressed = true;
         }
+
+        //If the button is pressed, the servo is set to the value following the previous servo value in the values array.
+        //The method also tells us what is the current position (1, 2, or 3) of the servo and will say if the button is no longer pressed
         if(pressed) {
             if(servoPositions == 2) {
                 if(currentPos == 1) {
@@ -126,6 +141,8 @@ public abstract class LancerOpMode extends OpMode{
                 }
             }
         }
+
+        //Returns need values
         int bool;
         if (pressed) {
             bool = 1;
@@ -151,6 +168,8 @@ public abstract class LancerOpMode extends OpMode{
         liftLeft.setPower(power);
     }
 */
+
+    //Methods that remove the need for telemetry.update()
     public void telemetryAddData(String Title, String Data) {
         telemetry.addData(Title, Data);
         telemetry.update();

@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name = "Red Auton Competition", group = "Competition")
 public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
-//REPLACE ENTIRE AUTON WITH NEW VERSION
+//Auton that starts from red side, hits beacon, and then goes to cap ball.
     @Override
     public void runOpMode(){
         setup();
@@ -22,11 +22,11 @@ public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
         restAndSleep();
         gyroAngle(-52, .2);
         restAndSleep();
-        moveStraight(24, false, .3); //was not working first match
+        moveStraight(24, false, .3);
         restAndSleep();
         gyroAngle(-31, .2);
         restAndSleep();
-        moveStraight(22, false, .1); //was not working first match
+        moveStraight(22, false, .1);
         restAndSleep();
         sleep(1000);
         detectColor();
@@ -57,7 +57,7 @@ public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
 
-       /* //Go to the second beacon
+       /* //Go to the second beacon (TO BE TESTED)
         moveStraight(10, true, .3);
         restAndSleep();
         gyroTurn(-90,.1);

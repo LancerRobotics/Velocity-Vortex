@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
  * Created by spork on 10/5/2016.
  */
 public abstract class LancerLinearOpMode extends LinearOpMode {
+
+    //Names all motors, variables, servos, and sensors needed
     public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
     public static AHRS navx_device;
     public static volatile Servo beaconPushRight, beaconPushLeft, reservoir;
@@ -36,21 +38,27 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public abstract void runOpMode();
 
+    //Method to declare where the motors, servos, and sensors are, set the mode of the motors, set the initial position
+    //of the servos, and set up the sensors.
     public void setup() {
+
+        //Declares where the drive motors are
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
 
+        //Reverses the left motors
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
+        //Sets the mode of the motors to not use encoders
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        //Tells the motors to brake when they stop.
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -69,6 +77,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
      //   reservoir = hardwareMap.servo.get(Keys.reservoir);
 */
+        //Tells the robot where the navX is.
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
@@ -78,18 +87,24 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get(Keys.colorSensor);
         colorSensor.enableLed(bLedOn);
         */
+        //Prevents the robot from working without the sensor being callibrated
             while (navx_device.isCalibrating()) {
                 telemetryAddData("Ready?", "NO");
             }
             telemetryAddData("Ready?", "Yes");
     }
 
+    //Sets the yaw of the gyro to zero
     public void startUp() {
         navx_device.zeroYaw();
     }
+
+    //Closes out the gyro at the end of a match
     public void end() {
         navx_device.close();
     }
+
+    //DEPRECATED METHODS
 /*
     //Encoded movement method Distances >11.2 inches
     public void smoothMoveVol2(DcMotor motor, double inches, boolean backwards) {
@@ -176,7 +191,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fullRest();
     }
 
-*/
+
     public void moveToColor() {
         while ((opModeIsActive()) && ((colorSensor.red() == 0) || (colorSensor.blue() == 0))) {
             setMotorPowerUniform(.1, false);
@@ -185,11 +200,18 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         restAndSleep();
     }
-    public void moveStraight(double inches, boolean backwards, double power) {
+   */
 
+    //Encoded movement
+    public void moveStraight(double inches, boolean backwards, double power) {
+        //Determines the number of inches traveled per wheel revolution
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
+
+        //Tells the back right and (if forwards) front left motors to switch to the encoder mode
         if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //Sets the position of the encoded motors
         if (backwards) {
             br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
             power = power * -1.0;
@@ -198,15 +220,18 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
         }
 
-
+        //Tells encoded motors to move to the correct position
         if(!backwards){fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);}
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        //Sets the desired speed to all the motors.
         fr.setPower(power);
         fl.setPower(power);
         br.setPower(power);
         bl.setPower(power);
 
+        //Keeps the robot moving while the encoded motors are turning to the correct position.
+        //Returns back data to make sure the method is working properly
         if(!backwards) {
             while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
                 telemetry.addData("FR Power", fr.getPower());
@@ -230,9 +255,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetryAddData("Distance Double", inches_per_rev * inches);
             }
         }
-
+        //Returns the motors to the no-encoder mode
         if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        //Breaks
         rest();
     }
 /*
@@ -297,7 +324,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         shoot(0, false);
     }
 */
-    //NO NEED for auton unless being used for time
+    //Sets all motors to the exact same power
     public void setMotorPowerUniform(double power, boolean backwards) {
         int direction = 1;
         if (backwards) {
@@ -325,7 +352,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         liftRight.setPower(power);
     }
 */
-    //break
+    //Stops all motors
     public void rest() {
         fr.setPower(0);
         fl.setPower(0);
@@ -333,6 +360,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setPower(0);
     }
 
+    //Telemetry methods that remove the need for telemetry.update().
     public void telemetryAddData(String Title, String Data) {
         telemetry.addData(Title, Data);
         telemetry.update();
@@ -358,14 +386,21 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
-    // Turns robot
+    // Method that is called to turn the robot
     public void gyroAngle(double angle, double speed) {
+        //Zero's the gyro value
         navx_device.zeroYaw();
+
+        //Turns the robot
         gyroTurn(speed, angle);
-        //gyroHold(speed, 0, 1000);
+
+        //Brakes all motors
         rest();
     }
 
+
+    //Methods that ensure that all motors either all stop or all get set to the right power (Compensate for the times
+    //the robot doesn't properly stop all motors
     public void fullRest() {
         rest();
         rest();
@@ -380,7 +415,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         setMotorPowerUniform(power, backwards);
     }
 
-    //keep turning right
+    //Method that tells the motors the speeds they need to turn.
     public void turn(double power) {
         fr.setPower(-power);
         br.setPower(-power);
@@ -388,6 +423,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setPower(power);
     }
 
+    //Method that takes in the needed data for the turning.
     public void gyroTurn(double speed, double angle) {
         navx_device.zeroYaw();
         // keep looping while we are still active, and not on heading.
@@ -396,16 +432,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             telemetry.update();
         }
     }
-
+    /*
+    //Method to keep the motor in the exact same angle for a desired amount of time.
     public void gyroHold(double speed, double angle, double holdTime) {
 
         ElapsedTime holdTimer = new ElapsedTime();
 
-        // keep looping while we have time remaining.
+        //Keep looping while we have time remaining.
         holdTimer.reset();
         navx_device.zeroYaw();
         while (opModeIsActive() && (holdTimer.time() < holdTime)) {
-            // Update telemetry & Allow time for other processes to run.
+            // Update telemetry & Allow time for other processes to run and keep the robot at the right angle.
             onHeading(speed, angle, Keys.P_TURN_COEFF);
             telemetry.update();
         }
@@ -413,24 +450,27 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         // Stop all motion;
         rest();
     }
-
+*/
+    //Method that has the actual robot turn
     public boolean onHeading(double speed, double angle, double PCoeff) {
+
+        //Creates the variables needed for the method
         double error;
         double steer;
         boolean onTarget = false;
         double leftSpeed;
         double rightSpeed;
 
-        // determine turn power based on +/- error
+        //Determine turn power based on how far off the robot is from the correct angle
         error = getError(angle);
 
+        //Tells the robot to move according to the angle of the robot
         if (Math.abs(error) <= Keys.HEADING_THRESHOLD) {
             rest();
             steer = 0.0;
             leftSpeed = 0.0;
             rightSpeed = 0.0;
             onTarget = true;
-            //This condition never happens
         } else {
             steer = getSteer(error, speed);
             rightSpeed = steer;
@@ -440,7 +480,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         // Send desired speeds to motors.
         turn(rightSpeed);
 
-        // Display it for the driver.
+        // Display information for the driver.
         telemetry.addData("Target", "%5.2f", angle);
         telemetry.addData("Err/St", "%5.2f/%5.2f", error, steer);
         telemetry.addData("Speed.", "%5.2f:%5.2f", leftSpeed, rightSpeed);
@@ -468,7 +508,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         return Range.clip(powerMultiplier * speed, -1, 1);
     }
-
+/*
     //START TESTING THIS METHOD, IT MIGHT BE VERY HELPFUL TO ENSURE WE DON'T KEEP CURVING OFF TRACK.
     //Keeps robot straight w/ robot - Needs to be tested
     public void gyroDrive(double speed, double distance, double angle) {
@@ -553,12 +593,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
     }
 
+*/
 
-
+    //Detect beacon color
     public void detectColor() {
+        //Detect color
         getRGB();
+
+        //Set the color sensor values into an array to work with
         int[] rgb = {red, green, blue};
 
+        //Check for if there is more blue than red or red than blue to determine beacon color.
         if (rgb[0] > rgb[2]) {
             beaconBlue = false;
             telemetryAddLine("detected red");
@@ -571,6 +616,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     }
 
+    //Detect RGB values returned from color sensor.
     public void getRGB() {
         red = colorSensor.red();
         blue = colorSensor.blue();
@@ -582,18 +628,20 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
 
 
-
+    //Brake and sleep for 100 milliseconds to avoid any issue with jerking during auton
     public void restAndSleep() {
         rest();
         sleep(100);
         telemetry.update();
     }
 
+    //Takes in the gyro values and converts it from -180-180 into 0-360
     public float getYaw() {
         float yaw = convertYaw(navx_device.getYaw());
         return yaw;
     }
 
+    //Actual conversion method.
     public static float convertYaw (double yaw) {
         if (yaw < 0) {
             yaw = 360 + yaw;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
+package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.SimpleAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name="Simple Auton", group="Competition")
 //@Disabled
-    public class EncoderTester extends LancerLinearOpMode{
-
+public class EncoderTester extends LancerLinearOpMode{
+    //Method to hit capBall in Auton
     @Override
     public void runOpMode() {
         setup();

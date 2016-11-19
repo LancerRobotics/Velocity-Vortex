@@ -11,11 +11,14 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
  * Created by spork on 10/22/2016.
  */
 @TeleOp(name="Teleop With Perspective Drive", group = "Teleop")
+
+//Teleop extends our LancerOpMode SuperClass and uses the variables and methods associated with the class.
 public class teleopWithPerspectiveDrive extends LancerOpMode {
     public void init() {
         setup();
     }
     public void loop() {
+        //Controls the recallibration of the gyro
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
@@ -35,23 +38,33 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         } else {
             shoot(0, false);
         }
-*/
+*/      //Sets the gamepad values to x, y, and z
         z = gamepad1.right_stick_x; //sideways
         y = gamepad1.left_stick_y; //forward and backward
         x = gamepad1.left_stick_x; //rotation
 
+        //Converts x and y to a different value based on the gyro value
         trueX = ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y); //sets trueX to rotated value
         trueY = ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y);
 
+        //Sets trueX and trueY to the its respective value
         x = trueX;
         y = trueY;
 
+        //Sets the motors powers of the wheels to the correct power based on all three of the above values and
+        //scales them accordingly
         flPower = Range.scale((-x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         frPower = Range.scale((-x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         blPower = Range.scale((x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         brPower = Range.scale((x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
 
+        //Sets each motor power to the correct power
+        fl.setPower(flPower);
+        fr.setPower(frPower);
+        bl.setPower(blPower);
+        br.setPower(brPower);
 
+        //Backup movement if the above method fails
         if (x == 0 && y == 0 && z == 0) {
             if (gamepad1.dpad_right) {
                 bl.setPower(Keys.MAX_MOTOR_SPEED);
@@ -67,11 +80,6 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
                 fr.setPower(-Keys.MAX_MOTOR_SPEED);
             }
         }
-
-        fl.setPower(flPower);
-        fr.setPower(frPower);
-        bl.setPower(blPower);
-        br.setPower(brPower);
         //lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
 /*
         beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
@@ -106,17 +114,13 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
             capBallRightButtonPressed = false;
         }
 */
+        //Returns important data to the driver.
         telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
         telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 X", gamepad1.x);
         telemetryAddData("Yaw", convertYaw(navx_device.getYaw()));
-        trueX = ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y); //sets trueX to rotated value
-        trueY = ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y);
-
-        x = trueX;
-        y = trueY;
     }
 
     public void stop() {

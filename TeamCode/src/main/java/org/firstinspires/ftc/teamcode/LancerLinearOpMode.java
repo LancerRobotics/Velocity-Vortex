@@ -241,7 +241,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("Moving Left", fl.isBusy());
                 telemetry.addData("Moving Right", br.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetryAddData("Distance Double", inches_per_rev * inches);
+                telemetry.addData("Distance Double", inches_per_rev * inches);
             }
         }
         else {
@@ -252,7 +252,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("BL Power", bl.getPower());
                 telemetry.addData("Moving Left", fl.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetryAddData("Distance Double", inches_per_rev * inches);
+                telemetry.addData("Distance Double", inches_per_rev * inches);
             }
         }
         //Returns the motors to the no-encoder mode
@@ -352,7 +352,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         liftRight.setPower(power);
     }
 */
-    //Stops all motors
+    //Stops all motors on the drive train
     public void rest() {
         fr.setPower(0);
         fl.setPower(0);
@@ -386,7 +386,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
-    // Method that is called to turn the robot
+    // Method that is called to turn the robot goes from -180 to 180 degrees
     public void gyroAngle(double angle, double speed) {
         //Zero's the gyro value
         navx_device.zeroYaw();
@@ -407,7 +407,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         rest();
         rest();
     }
-
+    // makes sure all motors are set to the same power
     public void fullSetMotorPowerUniform(double power, boolean backwards) {
         setMotorPowerUniform(power, backwards);
         setMotorPowerUniform(power, backwards);
@@ -465,14 +465,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         error = getError(angle);
 
         //Tells the robot to move according to the angle of the robot
-        if (Math.abs(error) <= Keys.HEADING_THRESHOLD) {
-            rest();
+        if (Math.abs(error) <= Keys.HEADING_THRESHOLD) { //Allows the bot to reach an angle within the range of heading_threshold
+            rest(); // stops all motors if navx returns a heading that is within
             steer = 0.0;
             leftSpeed = 0.0;
             rightSpeed = 0.0;
             onTarget = true;
-        } else {
-            steer = getSteer(error, speed);
+        } else { // will try and get back to the desired angle if it is not within the range of desired angles
+            steer = getSteer(error, speed); //calls the method to adjust the angle to the desired angle
             rightSpeed = steer;
             leftSpeed = -rightSpeed;
         }
@@ -628,12 +628,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Detect RGB values returned from color sensor.
     public void getRGB() {
-        red = colorSensor.red();
+        red = colorSensor.red(); // store the values the color sensor returns
         blue = colorSensor.blue();
         green = colorSensor.green();
         telemetry.addData("Red", red);
         telemetry.addData("Blue", blue);
-        telemetryAddData("Green", green);
+        telemetry.addData("Green", green);
     }
 
 
@@ -645,13 +645,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
-    //Takes in the gyro values and converts it from -180-180 into 0-360
+    //Takes in the gyro values and converts to degrees from 0-360
     public float getYaw() {
         float yaw = convertYaw(navx_device.getYaw());
         return yaw;
     }
 
-    //Actual conversion method.
+    //Converts value from -180 - 180 to 0-360
     public static float convertYaw (double yaw) {
         if (yaw < 0) {
             yaw = 360 + yaw;

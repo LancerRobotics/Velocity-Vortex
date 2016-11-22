@@ -47,11 +47,11 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         trueX = ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y); //sets trueX to rotated value
         trueY = ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y);
 
-        //Sets trueX and trueY to the its respective value
+        //Sets trueX and trueY to its respective value
         x = trueX;
         y = trueY;
 
-        //Sets the motors powers of the wheels to the correct power based on all three of the above values and
+        //Sets the motor powers of the wheels to the correct power based on all three of the above gyro values and
         //scales them accordingly
         flPower = Range.scale((-x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         frPower = Range.scale((-x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);

@@ -44,7 +44,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         y = gamepad1.left_stick_y; //forward and backward
         x = gamepad1.left_stick_x; //rotation
 
-        //Sets the motors powers of the wheels to the correct power based on all three of the above values and
+        //Sets the motors powers of the wheels to the correct power based on all three of the above gamepad values and
         //scales them accordingly
         flPower = Range.scale((-x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         frPower = Range.scale((-x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);

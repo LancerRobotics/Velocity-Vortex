@@ -45,7 +45,7 @@ public abstract class LancerOpMode extends OpMode{
     //Converts gyro value from -180-180 to 0-360
     public static float convertYaw (double yaw) {
         if (yaw <= 0) {
-            yaw = 360 + yaw;
+            yaw = 360 + yaw; //if yaw is negative, make it positive (makes the turn easier to visualize)
         }
         return (float)yaw;
     }
@@ -61,10 +61,10 @@ public abstract class LancerOpMode extends OpMode{
       //  liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
      //   flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
      //   collector = hardwareMap.dcMotor.get(Keys.collector);
-     //   liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-/*
+     //   liftLeft.setDirection(DcMotorSimple.
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
-        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
+        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRightDirection.REVERSE);
+/*);
      //   reservoir = hardwareMap.servo.get(Keys.reservoir);
 
         beaconPushLeftPos = 1;
@@ -142,7 +142,7 @@ public abstract class LancerOpMode extends OpMode{
             }
         }
 
-        //Returns need values
+        //Returns values for toggle return arrays
         int bool;
         if (pressed) {
             bool = 1;

@@ -18,22 +18,21 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 public class TestEncoderStrafe extends LancerLinearOpMode{
 
     public void runOpMode() {
-        setup();
-        waitForStart();
-        startUp();
-        //moveLeft
-        strafe(20,true,.4);
-        rest();
-        sleep(2000);
+        setup(); //Robot sets up
+        waitForStart(); //Robot waits for start
+        startUp(); //Robot starts up
+        strafe(20,true,.4); //Robot moves to the left 20 inches with power of .4
+        rest(); //Robot rests
+        sleep(2000); //Robot sleeps for 2000 milliseconds
         //moveRight
-        strafe(10,false,.1);
-        rest();
-        sleep(2000);
+        strafe(10,false,.1); //Robot moves to the right 10 inches with power of .1
+        rest(); //Robot rests
+        sleep(2000); //Robot sleeps for 2000 milliseconds
     }
     public void strafe(double inches, boolean left, double power){
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set back right motor to run using the encoder
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting ____
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
@@ -42,18 +41,18 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
             fl.setTargetPosition(newLeftTarget);
             br.setTargetPosition(newRightTarget);
 
-            // Turn On RUN_TO_POSITION
+            // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
             fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-            if(left){
-                fr.setPower(power*-1.0);
+            if(left){ //If the boolean left is true, then run this if statement
+                fr.setPower(power*-1.0); //Set front right motor to run backwards
                 fl.setPower(power);
                 br.setPower(power);
                 bl.setPower(power*-1.0);
-            }else {
+            }else { //If boolean left is fase, then run this else statement
                 fr.setPower(power);
                 fl.setPower(power*-1.0);
                 br.setPower(power*-1.0);
@@ -94,10 +93,12 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         if (left) {
+            //Using the current position and conversion factor, calculate the target position for front left and back right motors
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
             power = power * -1.0;
         } else {
+            //Using the current position and conversion factor, calculate the target position for front left and back right motors
             fl.setTargetPosition(fl.getCurrentPosition() - (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
         }

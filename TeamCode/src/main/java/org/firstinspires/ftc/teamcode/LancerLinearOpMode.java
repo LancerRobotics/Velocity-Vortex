@@ -508,7 +508,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
         return Range.clip(powerMultiplier * speed, -1, 1);
     }
-/*
+
+    /*
     //START TESTING THIS METHOD, IT MIGHT BE VERY HELPFUL TO ENSURE WE DON'T KEEP CURVING OFF TRACK.
     //Keeps robot straight w/ robot - Needs to be tested
     public void gyroDrive(double speed, double distance, double angle) {
@@ -559,8 +560,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 if (distance < 0)
                     steer *= -1.0;
 
-                leftSpeed = speed - steer;
-                rightSpeed = speed + steer;
+
+                //turn right: left ^, right down. turn left: left down, right ^
+                //when error is 45, it turns left! (wrong?)
+                //leftSpeed = speed - steer;
+                //rightSpeed = speed + steer;
+                leftSpeed = speed + steer;
+                rightSpeed = speed - steer;
+
 
                 // Normalize speeds if any one exceeds +/- 1.0;
                 //Slows down left and right motors
@@ -569,6 +576,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     leftSpeed /= max;
                     rightSpeed /= max;
                 }
+                //Pretty sure that ^ doesnt do anything for max speed
+                //redo!
+
                 //what is this
                 //turn(leftSpeed);
 

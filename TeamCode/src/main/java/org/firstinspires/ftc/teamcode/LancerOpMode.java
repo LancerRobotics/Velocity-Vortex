@@ -137,16 +137,16 @@ public abstract class LancerOpMode extends OpMode{
         }
 
         //Returns values for toggle return arrays
-        int bool;
+        int boolPressed;
         if (pressed) {
-            bool = 1;
+            boolPressed = 1;
         }
         else {
-            bool = 0;
+            boolPressed = 0;
         }
         int returnArray[] = new int[2];
         returnArray[0] = currentPos;
-        returnArray[1] = bool;
+        returnArray[1] = boolPressed;
         return returnArray;
     }
 /*

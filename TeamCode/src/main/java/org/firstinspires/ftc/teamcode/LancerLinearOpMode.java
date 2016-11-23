@@ -270,7 +270,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         while (robotError > 180)  robotError -= 360;
         while (robotError <= -180) robotError += 360;
         return robotError;
-    }
+     }
     //Sets the DIRECTION the robot is going, based on the error
     public double getSteer(double error, double speed) {
         int powerMultiplier = 1;

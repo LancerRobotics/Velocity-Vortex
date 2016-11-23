@@ -13,26 +13,20 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class LancerOpMode extends OpMode{
 
     //Creates all needed variables, motors, servos, and sensors
-    public static volatile AHRS navx_device;
-    public static volatile ElapsedTime runtime = new ElapsedTime();
-    public static volatile DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
-    public static volatile float gp1_right_stick_x, gp1_left_stick_y, gp1_left_stick_x;
-    public static volatile boolean gp1_dpad_up, gp1_dpad_down, gp1_dpad_right, gp1_dpad_left, gp1_x;
-    public static volatile double x, y, z, trueX, trueY;
-    public static volatile double frPower, flPower, brPower, blPower;
-    public static volatile Servo beaconPushRight, beaconPushLeft, capBallLeft, capBallRight;
-    public static volatile boolean beaconPushLeftButtonPressed = false;
-    public static volatile double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
-    public static volatile int beaconPushLeftPos;
-    public static volatile int beaconPushLeftToggleReturnArray[] = new int[2];
-    public static volatile boolean beaconPushRightButtonPressed = false;
-    public static volatile double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
-    public static volatile int beaconPushRightPos;
-    public static volatile int beaconPushRightToggleReturnArray[] = new int[2];
-   // public static volatile boolean reservoirButtonPressed = false;
-   // public static volatile double[] reservoirPositions = {Keys.RESERVOIR_OPEN, Keys.RESERVOIR_CLOSE};
-   // public static volatile int reservoirPos;
-   // public static volatile int reservoirToggleReturnArray[] = new int[2];
+    public static AHRS navx_device;
+    public static ElapsedTime runtime = new ElapsedTime();
+    public static DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
+    public static double x, y, z, trueX, trueY;
+    public static double frPower, flPower, brPower, blPower;
+    public static Servo beaconPushRight, beaconPushLeft, capBallLeft, capBallRight;
+    public static boolean beaconPushLeftButtonPressed = false;
+    public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
+    public static int beaconPushLeftPos;
+    public static int beaconPushLeftToggleReturnArray[] = new int[2];
+    public static boolean beaconPushRightButtonPressed = false;
+    public static double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
+    public static int beaconPushRightPos;
+    public static int beaconPushRightToggleReturnArray[] = new int[2];
 
     public void init() {
 
@@ -63,7 +57,7 @@ public abstract class LancerOpMode extends OpMode{
      //   collector = hardwareMap.dcMotor.get(Keys.collector);
      //   liftLeft.setDirection(DcMotorSimple.
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
-        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRightDirection.REVERSE);
+        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
 /*);
      //   reservoir = hardwareMap.servo.get(Keys.reservoir);
 
@@ -80,7 +74,7 @@ public abstract class LancerOpMode extends OpMode{
                 Keys.NAVX_DIM_I2C_PORT,
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        //Callibrates gyro
+        //Prevents robot from running before callibration is complete
             while (navx_device.isCalibrating()) {
                 telemetryAddData("Ready?", "No");
             }
@@ -99,7 +93,7 @@ public abstract class LancerOpMode extends OpMode{
         }
 
         //If the button is pressed, the servo is set to the value following the previous servo value in the values array.
-        //The method also tells us what is the current position (1, 2, or 3) of the servo and will say if the button is no longer pressed
+        //The method also t ells us what is the current position (1, 2, or 3) of the servo and will say if the button is no longer pressed
         if(pressed) {
             if(servoPositions == 2) {
                 if(currentPos == 1) {

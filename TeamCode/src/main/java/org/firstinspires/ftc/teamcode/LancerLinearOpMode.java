@@ -191,16 +191,25 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
-    // Method that is called to turn the robot goes from -180 to 180 degrees
-    public void gyroAngle(double angle, double speed) {
-        //Zero's the gyro value
-        navx_device.zeroYaw();
+    //Sets the DIRECTION the robot is going, based on the error, for gyro turn
+    public double getSteer(double error, double speed) {
+        int powerMultiplier = 1;
+        if (error < 0) {
+            powerMultiplier = -1;
+        }
+        return Range.clip(powerMultiplier * speed, -1, 1);
+    }
 
-        //Turns the robot
-        gyroTurn(speed, angle);
+    //Gives the DIFFERENCE between current and target angle->as robotError
+    public double getError(double targetAngle) {
 
-        //Brakes all motors
-        rest();
+        double robotError;
+
+        // calculate error in -179 to +180 range  (
+        robotError = targetAngle - navx_device.getYaw();
+        while (robotError > 180)  robotError -= 360;
+        while (robotError <= -180) robotError += 360;
+        return robotError;
     }
 
     //Method that tells the motors the speeds they need to turn.
@@ -209,17 +218,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setPower(-power);
         fl.setPower(power);
         bl.setPower(power);
-    }
-
-
-    //Method that takes in the needed data for the turning.
-    public void gyroTurn(double speed, double angle) {
-        navx_device.zeroYaw();
-        // keep looping while we are still active, and not on heading.
-        while (opModeIsActive() && !onHeading(speed, angle, Keys.P_TURN_COEFF)) {
-            // Update telemetry & Allow time for other processes to run.
-            telemetry.update();
-        }
     }
 
     //Method that has the actual robot turn
@@ -260,26 +258,27 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return onTarget;
     }
 
-    //Gives the DIFFERENCE between current and target angle->as robotError
-    public double getError(double targetAngle) {
-
-        double robotError;
-
-        // calculate error in -179 to +180 range  (
-        robotError = targetAngle - navx_device.getYaw();
-        while (robotError > 180)  robotError -= 360;
-        while (robotError <= -180) robotError += 360;
-        return robotError;
-     }
-    //Sets the DIRECTION the robot is going, based on the error
-    public double getSteer(double error, double speed) {
-        int powerMultiplier = 1;
-        if (error < 0) {
-            powerMultiplier = -1;
+    //Method that takes in the needed data for the turning.
+    public void gyroTurn(double speed, double angle) {
+        navx_device.zeroYaw();
+        // keep looping while we are still active, and not on heading.
+        while (opModeIsActive() && !onHeading(speed, angle, Keys.P_TURN_COEFF)) {
+            // Update telemetry & Allow time for other processes to run.
+            telemetry.update();
         }
-        return Range.clip(powerMultiplier * speed, -1, 1);
     }
 
+    // Method that is called to turn the robot goes from -180 to 180 degrees
+    public void gyroAngle(double angle, double speed) {
+        //Zero's the gyro value
+        navx_device.zeroYaw();
+
+        //Turns the robot
+        gyroTurn(speed, angle);
+
+        //Brakes all motors
+        rest();
+    }
 
 
     //Detect beacon color

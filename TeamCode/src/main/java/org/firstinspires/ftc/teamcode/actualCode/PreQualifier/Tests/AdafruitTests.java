@@ -43,6 +43,7 @@ public class AdafruitTests extends LinearOpMode{
     private ColorSensorAdafruit color;
     int red; //variable for red value
     int blue; //variable for blue value
+    int green;
     boolean beaconBlue = true; //boolean determines whether or not the beacon color is blue
     int detectedColorResult;
 

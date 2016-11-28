@@ -68,6 +68,9 @@ public abstract class LancerOpMode extends OpMode{
         flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+        //Reverses one of the flywheel motors
+        flywheelRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,

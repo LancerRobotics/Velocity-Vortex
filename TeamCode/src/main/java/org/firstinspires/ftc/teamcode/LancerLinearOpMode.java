@@ -23,9 +23,9 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Names all motors, variables, servos, and sensors needed
-    public static DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
+    public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static AHRS navx_device;
-    public static Servo beaconPushRight, beaconPushLeft, capBallLeft, capBallRight;
+    public static Servo beaconPushLeft, beaconPushRight, latch, reservoirLeft, reservoirRight;
     public static int red, green, blue;
     public static boolean beaconBlue;
     public static ColorSensor colorSensor;
@@ -43,6 +43,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
+        collector = hardwareMap.dcMotor.get(Keys.collector);
+        flywheelLeft = hardwareMap.dcMotor.get(Keys.flywheelLeft);
+        flywheelRight = hardwareMap.dcMotor.get(Keys.flywheelRight);
+        lift = hardwareMap.dcMotor.get(Keys.lift);
 
         //Reverses the left motors
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -53,13 +57,27 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Tells the motors to brake when they stop.
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //Declares where the servos are
+        beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
+        beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
+        latch = hardwareMap.servo.get(Keys.latch);
+        reservoirLeft = hardwareMap.servo.get(Keys.reservoirLeft);
+        reservoirRight = hardwareMap.servo.get(Keys.reservoirRight);
 
         //Tells the robot where the navX is.
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),

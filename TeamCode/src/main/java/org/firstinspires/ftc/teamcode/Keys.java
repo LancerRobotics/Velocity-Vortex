@@ -16,6 +16,10 @@ public class Keys {
     public static final String fl = "front_left";
     public static final String br = "back_right";
     public static final String bl = "back_left";
+    public static final String lift = "lift";
+    public static final String flywheelLeft  = "flywheel_left";
+    public static final String flywheelRight = "flywheel_right";
+    public static final String collector = "collector";
 
     //Sensor and Module Names and Values
     public static final String cdim = "dim";
@@ -28,12 +32,16 @@ public class Keys {
 
     //Servo Values and Names
     public static final String servo = "servo";
-    public static final String beaconPushLeft = "left_beacon";
-    public static final String beaconPushRight = "right_beacon";
+    public static final String beaconPushLeft = "beacon_left";
+    public static final String beaconPushRight = "beacon_right";
+    public static final String latch = "latch";
+    public static final String reservoirLeft = "resrvoir_left";
+    public static final String reservoirRight = "reservoir_right";
     public static final double LEFT_BEACON_INITIAL_STATE = 143.0/255;
     public static final double LEFT_BEACON_PUSH = 0.0/255;
     public static final double RIGHT_BEACON_INITIAL_STATE = 90.0/255;
     public static final double RIGHT_BEACON_PUSH = 243.0/255;
+
     /*
     public static final double CAP_BALL_LEFT_INITIAL_STATE = 0;
     public static final double CAP_BALL_LEFT_OUT = 1;

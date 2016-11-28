@@ -15,10 +15,10 @@ public abstract class LancerOpMode extends OpMode{
     //Creates all needed variables, motors, servos, and sensors
     public static AHRS navx_device;
     public static ElapsedTime runtime = new ElapsedTime();
-    public static DcMotor fl, fr, bl, br, flywheel, liftLeft, liftRight, collector;
+    public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
-    public static Servo beaconPushRight, beaconPushLeft, capBallLeft, capBallRight;
+    public static Servo beaconPushLeft, beaconPushRight, latch, reservoirLeft, reservoirRight;
     public static boolean beaconPushLeftButtonPressed = false;
     public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static int beaconPushLeftPos;
@@ -46,28 +46,27 @@ public abstract class LancerOpMode extends OpMode{
 
     //Sets up the motors, sensors, and servos
     public void setup() {
-        //Tells robot where drive motors are
+        //Tells robot where motors are
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
-    //    liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
-      //  liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
-     //   flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
-     //   collector = hardwareMap.dcMotor.get(Keys.collector);
-     //   liftLeft.setDirection(DcMotorSimple.
+        collector = hardwareMap.dcMotor.get(Keys.collector);
+        flywheelLeft = hardwareMap.dcMotor.get(Keys.flywheelLeft);
+        flywheelRight = hardwareMap.dcMotor.get(Keys.flywheelRight);
+        lift = hardwareMap.dcMotor.get(Keys.lift);
+
+        //Tells robot where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-/*);
-     //   reservoir = hardwareMap.servo.get(Keys.reservoir);
+        latch = hardwareMap.servo.get(Keys.latch);
+        reservoirLeft = hardwareMap.servo.get(Keys.reservoirLeft);
+        reservoirRight = hardwareMap.servo.get(Keys.reservoirRight);
 
-        beaconPushLeftPos = 1;
-        beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
-        beaconPushRightPos = 1;
-        beaconPushRight.setPosition(beaconPushRightPositions[0]);
-        //reservoirPos = 1;
-        //reservoir.setPosition(reservoirPositions[0]);
-        */
+        //Sets the zero power behavior of the flywheel motors to float to prevent them from burning out due to the
+        //design of the flywheel.
+        flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),

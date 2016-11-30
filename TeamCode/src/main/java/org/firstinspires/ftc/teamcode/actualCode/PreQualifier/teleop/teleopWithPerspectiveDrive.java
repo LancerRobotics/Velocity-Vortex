@@ -24,10 +24,12 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         }
 
         //Sets controls for linear slides on forklift
+        //Up
         if (gamepad1.right_bumper){
             lift.setPower(Keys.MAX_MOTOR_SPEED);
         }
 
+        //Down
         if(gamepad1.right_trigger > 0.15){
             lift.setPower(Keys.MAX_MOTOR_SPEED);
         }
@@ -38,10 +40,12 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         }
 
         //Sets controls for collector
+        //In
         if(gamepad2.left_trigger > 0.15){
             collector.setPower(Keys.MAX_MOTOR_SPEED);
         }
 
+        //Out
         if(gamepad2.left_bumper){
             collector.setPower(-Keys.MAX_MOTOR_SPEED);
         }

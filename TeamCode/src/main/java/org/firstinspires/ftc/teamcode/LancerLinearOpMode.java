@@ -354,5 +354,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         return (float)yaw;
     }
 
+    //Method to run both flywheel motors at the same power
+    public void shoot (double power){
+        flywheelLeft.setPower(power);
+        flywheelRight.setPower(power);
+    }
+
+
 
 }

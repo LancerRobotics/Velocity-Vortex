@@ -190,4 +190,11 @@ public abstract class LancerOpMode extends OpMode{
         telemetry.addData(text, bool);
         telemetry.update();
     }
+
+    //Method to run flywheel motors at the same power
+    public void shoot (double power){
+        flywheelLeft.setPower(power);
+        flywheelRight.setPower(power);
+    }
+
 }

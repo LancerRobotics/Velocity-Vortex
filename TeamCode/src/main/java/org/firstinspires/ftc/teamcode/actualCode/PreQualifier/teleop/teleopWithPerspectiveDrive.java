@@ -22,6 +22,29 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
+
+        //Sets controls for linear slides on forklift
+        if (gamepad1.right_bumper){
+            lift.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+
+        if(gamepad1.right_trigger > 0.15){
+            lift.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+
+        //Sets controls for shooter
+        if(gamepad2.right_trigger > 0.15){
+            shoot(0.86);
+        }
+
+        //Sets controls for collector
+        if(gamepad2.left_trigger > 0.15){
+            collector.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+
+        if(gamepad2.left_bumper){
+            collector.setPower(-Keys.MAX_MOTOR_SPEED);
+        }
 /*
         if (gamepad1.right_trigger > Keys.deadzone) {
             collector.setPower(-Keys.MAX_MOTOR_SPEED);
@@ -80,6 +103,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
                 fr.setPower(-Keys.MAX_MOTOR_SPEED);
             }
         }
+
         //lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
 /*
         beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);

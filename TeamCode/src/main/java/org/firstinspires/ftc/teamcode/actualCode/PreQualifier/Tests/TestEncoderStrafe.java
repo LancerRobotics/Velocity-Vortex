@@ -21,38 +21,55 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         setup(); //Robot sets up
         waitForStart(); //Robot waits for start
         startUp(); //Robot starts up
-        strafe(20,true,.3); //Robot moves to the left 20 inches with power of .4
+        strafe(60,true,.3); //Robot moves to the left 20 inches with power of .4
         rest(); //Robot rests
         sleep(2000); //Robot sleeps for 2000 milliseconds
         //moveRight
-        strafe(10,false,.3); //Robot moves to the right 10 inches with power of .1
+        strafe(120,false,.3); //Robot moves to the right 10 inches with power of .1
         rest(); //Robot rests
         sleep(2000); //Robot sleeps for 2000 milliseconds
     }
     public void strafe(double inches, boolean left, double power){
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set back right motor to run using the encoder
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting ____
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
+        int newLeftTarget;
+        int newRightTarget;
         if (opModeIsActive()) {
 
-            // Determine new target position, and pass to motor controller
-            int newLeftTarget = fl.getCurrentPosition() + (int)(inches * inches_per_rev);
-            int newRightTarget = br.getCurrentPosition() + (int)(inches * inches_per_rev);
-            fl.setTargetPosition(newLeftTarget);
-            br.setTargetPosition(newRightTarget);
-
-            // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
-            fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
             if(left){ //If the boolean left is true, then run this if statement
+
+                // Determine new target position, and pass to motor controller
+                newLeftTarget = fl.getCurrentPosition() - (int)(inches * inches_per_rev);
+                newRightTarget = br.getCurrentPosition() + (int)(inches * inches_per_rev);
+                fl.setTargetPosition(newLeftTarget);
+                br.setTargetPosition(newRightTarget);
+
+                // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
+                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
                 fr.setPower(power*-1.0); //Set front right motor to run backwards
                 fl.setPower(power);
                 br.setPower(power);
                 bl.setPower(power*-1.0);
+
             }else { //If boolean left is fase, then run this else statement
+
+                // Determine new target position, and pass to motor controller
+                newLeftTarget = fl.getCurrentPosition() + (int)(inches * inches_per_rev);
+                newRightTarget = br.getCurrentPosition() - (int)(inches * inches_per_rev);
+                fl.setTargetPosition(newLeftTarget);
+                br.setTargetPosition(newRightTarget);
+
+                // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
+                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
                 fr.setPower(power);
                 fl.setPower(power*-1.0);
                 br.setPower(power*-1.0);

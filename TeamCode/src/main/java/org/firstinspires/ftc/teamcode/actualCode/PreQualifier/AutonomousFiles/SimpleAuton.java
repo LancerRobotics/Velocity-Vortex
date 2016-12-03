@@ -18,6 +18,7 @@ public class SimpleAuton extends LancerLinearOpMode{
         waitForStart();
         sleep(10000);
         moveStraight(48, false, .4);
+        telemetry.addData("FR POWER", fr.getPower());
         sleep(1000);
         //moveStraightBackup(br, 12, true, .6);
     }

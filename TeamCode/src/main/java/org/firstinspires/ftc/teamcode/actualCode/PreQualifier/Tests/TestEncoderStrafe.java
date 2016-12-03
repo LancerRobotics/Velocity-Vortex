@@ -51,8 +51,8 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                fr.setPower(power); //Set front right motor to run backwards
-                fl.setPower(power * -1);
+                fr.setPower(power);
+                fl.setPower(power * -1); //Set front right motor to run backwards
                 br.setPower(power * -1);
                 bl.setPower(power);
 
@@ -86,6 +86,14 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 telemetry.addData("Path2",  "Running at %7d :%7d",
                         fl.getCurrentPosition(),
                         br.getCurrentPosition());
+                telemetry.addData("FR Power", fr.getPower());
+                telemetry.addData("BR Power", br.getPower());
+                telemetry.addData("FL Power", fl.getPower());
+                telemetry.addData("BL Power", bl.getPower());
+                telemetry.addData("Moving Left", fl.isBusy());
+                telemetry.addData("Moving Right", br.isBusy());
+                telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
+                telemetryAddData("Distance Double", inches_per_rev * inches);
                 telemetry.update();
             }
 
@@ -103,7 +111,7 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         }
         }
 
-
+/*
     public void moveSideToSide(double inches, boolean left, double power) {
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);//Test to find correct conversion factor for WheelDiam(leftnRight)
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -143,5 +151,5 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rest();
     }
-
+*/
 }

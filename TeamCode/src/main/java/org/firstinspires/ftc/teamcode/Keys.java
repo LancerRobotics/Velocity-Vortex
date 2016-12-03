@@ -41,6 +41,8 @@ public class Keys {
     public static final double LEFT_BEACON_PUSH = 0.0/255;
     public static final double RIGHT_BEACON_INITIAL_STATE = 90.0/255;
     public static final double RIGHT_BEACON_PUSH = 243.0/255;
+    public static final double LATCH_UP = 0;
+    public static final double LATCH_DOWN = .5;
 
     /*
     public static final double CAP_BALL_LEFT_INITIAL_STATE = 0;

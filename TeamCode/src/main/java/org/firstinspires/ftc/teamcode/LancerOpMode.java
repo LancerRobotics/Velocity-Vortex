@@ -18,7 +18,7 @@ public abstract class LancerOpMode extends OpMode{
     public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
-    public static Servo beaconPushLeft, beaconPushRight, latch, reservoirLeft, reservoirRight;
+    public static Servo beaconPushLeft, beaconPushRight, latch;
     public static boolean beaconPushLeftButtonPressed = false;
     public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static int beaconPushLeftPos;
@@ -64,8 +64,6 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
         latch = hardwareMap.servo.get(Keys.latch);
-        reservoirLeft = hardwareMap.servo.get(Keys.reservoirLeft);
-        reservoirRight = hardwareMap.servo.get(Keys.reservoirRight);
 
         //Sets the zero power behavior of the flywheel motors to float to prevent them from burning out due to the
         //design of the flywheel.
@@ -74,6 +72,14 @@ public abstract class LancerOpMode extends OpMode{
 
         //Reverses one of the flywheel motors
         flywheelRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //Initializes Servos
+        latchPos = 1;
+        latch.setPosition(Keys.LATCH_UP);
+        beaconPushLeftPos = 1;
+        beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
+        beaconPushRightPos = 1;
+        beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
 
         //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),

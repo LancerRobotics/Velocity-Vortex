@@ -12,27 +12,33 @@ import org.firstinspires.ftc.teamcode.Keys;
  */
 
 @TeleOp (name = "JudgeCode", group = "Teleop")
-public class JudgeCode extends LancerOpMode{
-    public void init (){
-
-    }
+public class JudgeCode extends LancerLinearOpMode{
 
     public void runOpMode(){
-        if(gamepad1.a){
-            //collect and shoot
-            collector.setPower(0.86);
-            shoot(0.99);
+        setup();
+        latch.setPosition(Keys.LATCH_DOWN);
+        waitForStart();
+        int count = 1;
+        while (count < 4) {
+            if(gamepad1.a){
+                switch(count) {
+                    case 1:
+                        collector.setPower(Keys.MAX_MOTOR_SPEED);
+                        shoot(0.99);
+                        break;
+                    case 2:
+                        collector.setPower(0);
+                        shoot(0);
+                        break;
+                    case 3:
+                        lift.setPower(0.86);
+                        sleep(3000);
+                        lift.setPower(0);
+                        break;
+                }
+                count++;
+            }
         }
 
-        if(gamepad1.b){
-            //turn everything off
-            collector.setPower(0);
-            shoot(0);
-        }
-
-        if(gamepad1.x){
-            //lift turns on
-            lift.setPower(0.86);
-        }
     }
 }

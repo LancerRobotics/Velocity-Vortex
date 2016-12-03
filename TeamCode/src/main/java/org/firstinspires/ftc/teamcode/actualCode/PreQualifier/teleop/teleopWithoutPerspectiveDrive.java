@@ -17,41 +17,40 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         setup();
     }
     public void loop() {
-
-        //Controls the recallibration of the gyro
+//Controls the recallibration of the gyro
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
-//Sets controls for linear slides on forklift
-        if (gamepad1.right_bumper){
-            lift.setPower(Keys.MAX_MOTOR_SPEED);
-        }
 
-        if(gamepad1.right_trigger > 0.15){
-            lift.setPower(Keys.MAX_MOTOR_SPEED);
+        //Sets controls for linear slides on forklift
+        if (Math.abs(gamepad2.right_stick_y) > .15) {
+            lift.setPower(Range.clip(gamepad2.right_stick_y, -1, 1));
+        } else {
+            lift.setPower(0);
         }
 
         //Sets controls for shooter
-        if(gamepad2.right_trigger > 0.15){
+        if (gamepad2.a) {
             shoot(0.99);
+        } else if (gamepad2.b) {
+            shoot(0);
         }
 
         //Sets controls for collector
-        if(gamepad2.left_trigger > 0.15){
+        if (gamepad1.right_trigger > 0.15) {
             collector.setPower(Keys.MAX_MOTOR_SPEED);
-        }
-
-        if(gamepad2.left_bumper){
+        } else if (gamepad1.right_bumper) {
             collector.setPower(-Keys.MAX_MOTOR_SPEED);
+        } else {
+            collector.setPower(0);
         }
 
-        //Takes in gamepad values
+        //Sets the gamepad values to x, y, and z
         z = gamepad1.right_stick_x; //sideways
         y = gamepad1.left_stick_y; //forward and backward
         x = gamepad1.left_stick_x; //rotation
 
-        //Sets the motors powers of the wheels to the correct power based on all three of the above gamepad values and
-        //scales them accordingly
+        //Sets the motor powers of the wheels to the correct power
         flPower = Range.scale((-x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         frPower = Range.scale((-x - y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
         blPower = Range.scale((x + y - z) / 2, -1, 1, -Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED);
@@ -81,7 +80,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         }
 
         //Control servo toggling for beacon pushers and beacon pushers
-        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
+        beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {
             beaconPushLeftButtonPressed = true;
@@ -89,7 +88,7 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             beaconPushLeftButtonPressed = false;
         }
 
-        beaconPushRightToggleReturnArray = servoToggle(gamepad2.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
+        beaconPushRightToggleReturnArray = servoToggle(gamepad1.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
         if (beaconPushRightToggleReturnArray[1] == 1) {
             beaconPushRightButtonPressed = true;
@@ -97,22 +96,21 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
-        latchToggleReturnArray = servoToggle(gamepad1.b, latch, latchPositions, latchPos, latchButtonPressed);
+        latchToggleReturnArray = servoToggle(gamepad2.y, latch, latchPositions, latchPos, latchButtonPressed);
         latchPos = latchToggleReturnArray[0];
-        if(latchToggleReturnArray[1] == 1) {
+        if (latchToggleReturnArray[1] == 1) {
             latchButtonPressed = true;
         } else {
             latchButtonPressed = false;
         }
 
-        //Returns values for coach to see.
+
+        //Returns important data to the driver.
         telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
         telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 X", gamepad1.x);
-        telemetry.addData("Yaw", convertYaw(navx_device.getYaw()));
-        telemetry.update();
     }
 
     //Tells the navX to close out.

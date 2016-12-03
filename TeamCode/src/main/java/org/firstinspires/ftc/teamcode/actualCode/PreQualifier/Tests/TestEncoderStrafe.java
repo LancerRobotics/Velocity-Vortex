@@ -51,10 +51,10 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                fr.setPower(power*-1.0); //Set front right motor to run backwards
-                fl.setPower(power);
-                br.setPower(power);
-                bl.setPower(power*-1.0);
+                fr.setPower(power); //Set front right motor to run backwards
+                fl.setPower(power * -1);
+                br.setPower(power * -1);
+                bl.setPower(power);
 
             }else { //If boolean left is fase, then run this else statement
 
@@ -70,10 +70,10 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                fr.setPower(power);
-                fl.setPower(power*-1.0);
-                br.setPower(power*-1.0);
-                bl.setPower(power);
+                fr.setPower(power * -1);
+                fl.setPower(power);
+                br.setPower(power);
+                bl.setPower(power * -1);
             }
 
 

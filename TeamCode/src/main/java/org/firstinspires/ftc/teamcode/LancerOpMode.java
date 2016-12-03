@@ -28,7 +28,7 @@ public abstract class LancerOpMode extends OpMode{
     public static int beaconPushRightPos;
     public static int beaconPushRightToggleReturnArray[] = new int[2];
     public static boolean latchButtonPressed = false;
-    public static double[] latchPositions = {};
+    public static double[] latchPositions = {Keys.LATCH_DOWN, Keys.LATCH_UP};
     public static int latchPos;
     public static int latchToggleReturnArray[] = new int[2];
 
@@ -71,15 +71,15 @@ public abstract class LancerOpMode extends OpMode{
         flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //Reverses one of the flywheel motors
-        flywheelRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        flywheelLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Initializes Servos
         latchPos = 1;
-        latch.setPosition(Keys.LATCH_DOWN);
+        latch.setPosition(latchPositions[0]);
         beaconPushLeftPos = 1;
-        beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
+        beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
-        beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
+        beaconPushRight.setPosition(beaconPushRightPositions[0]);
 
         //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
@@ -160,14 +160,6 @@ public abstract class LancerOpMode extends OpMode{
         returnArray[0] = currentPos;
         returnArray[1] = boolPressed;
         return returnArray;
-    }
-
-    public void shoot(double power, boolean backwards) {
-        if(backwards) {
-            power = power * -1;
-        }
-        flywheelLeft.setPower(power);
-        flywheelRight.setPower(-power);
     }
 
     public void lift(double power) {

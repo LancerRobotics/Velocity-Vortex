@@ -151,19 +151,19 @@ public abstract class LancerOpMode extends OpMode{
         returnArray[1] = boolPressed;
         return returnArray;
     }
-/*
+
     public void shoot(double power, boolean backwards) {
         if(backwards) {
             power = power * -1;
         }
-        flywheel.setPower(power);
+        flywheelLeft.setPower(power);
+        flywheelRight.setPower(-power);
     }
 
     public void lift(double power) {
-        liftRight.setPower(power);
-        liftLeft.setPower(power);
+        lift.setPower(power);
     }
-*/
+
 
     //Methods that remove the need for telemetry.update()
     public void telemetryAddData(String Title, String Data) {

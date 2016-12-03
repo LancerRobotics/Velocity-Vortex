@@ -38,12 +38,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     //of the servos, and set up the sensors.
     public void setup() {
 
-        //Declares where the drive motors are
+        //Declares where the drive motors are;
+        bl = hardwareMap.dcMotor.get(Keys.bl);
+        collector = hardwareMap.dcMotor.get(Keys.collector);
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
-        bl = hardwareMap.dcMotor.get(Keys.bl);
-        collector = hardwareMap.dcMotor.get(Keys.collector);
         flywheelLeft = hardwareMap.dcMotor.get(Keys.flywheelLeft);
         flywheelRight = hardwareMap.dcMotor.get(Keys.flywheelRight);
         lift = hardwareMap.dcMotor.get(Keys.lift);

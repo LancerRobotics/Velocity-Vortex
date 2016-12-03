@@ -26,6 +26,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static AHRS navx_device;
     public static Servo beaconPushLeft, beaconPushRight, latch;
+    public static ColorSensor color;
     public static int red, green, blue;
     public static boolean beaconBlue;
     public static ColorSensor colorSensor;
@@ -81,7 +82,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         //Initializes The Servos
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
-        latch.setPosition(Keys.LATCH_UP);
+        latch.setPosition(Keys.LATCH_DOWN);
+
+        //Set up color sensor
+        color = hardwareMap.colorSensor.get(Keys.colorSensor);
+        color.enableLed(false);
 
         //Tells the robot where the navX is.
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),

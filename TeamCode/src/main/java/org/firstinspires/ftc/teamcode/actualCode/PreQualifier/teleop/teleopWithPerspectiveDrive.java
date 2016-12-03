@@ -36,7 +36,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
 
         //Sets controls for shooter
         if(gamepad2.right_trigger > 0.15){
-            shoot(0.86);
+            shoot(0.99);
         }
 
         //Sets controls for collector

@@ -35,12 +35,12 @@ public class Keys {
     public static final String beaconPushLeft = "beacon_left";
     public static final String beaconPushRight = "beacon_right";
     public static final String latch = "latch";
-    public static final double LEFT_BEACON_INITIAL_STATE = 143.0/255;
-    public static final double LEFT_BEACON_PUSH = 0.0/255;
-    public static final double RIGHT_BEACON_INITIAL_STATE = 90.0/255;
-    public static final double RIGHT_BEACON_PUSH = 243.0/255;
+    public static final double LEFT_BEACON_INITIAL_STATE = 156.0/255;
+    public static final double LEFT_BEACON_PUSH = 1.0/255;
+    public static final double RIGHT_BEACON_INITIAL_STATE = 155.0/255;
+    public static final double RIGHT_BEACON_PUSH = 0;
     public static final double LATCH_UP = 0;
-    public static final double LATCH_DOWN = .5;
+    public static final double LATCH_DOWN = 148.0/255;
 
     /*
     public static final double CAP_BALL_LEFT_INITIAL_STATE = 0;

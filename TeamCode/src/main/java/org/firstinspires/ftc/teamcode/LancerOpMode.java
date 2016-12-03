@@ -75,7 +75,7 @@ public abstract class LancerOpMode extends OpMode{
 
         //Initializes Servos
         latchPos = 1;
-        latch.setPosition(Keys.LATCH_UP);
+        latch.setPosition(Keys.LATCH_DOWN);
         beaconPushLeftPos = 1;
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRightPos = 1;

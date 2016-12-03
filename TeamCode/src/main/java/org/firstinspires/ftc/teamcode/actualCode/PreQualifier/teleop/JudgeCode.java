@@ -31,7 +31,7 @@ public class JudgeCode extends LancerLinearOpMode{
                         shoot(0);
                         break;
                     case 3:
-                        lift.setPower(0.86);
+                        lift.setPower(Keys.MAX_MOTOR_SPEED);
                         sleep(3000);
                         lift.setPower(0);
                         break;

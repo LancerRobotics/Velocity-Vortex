@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by shlok.khandelwal on 10/26/2016.
  */
 @Autonomous(name = "Red Auton Competition", group = "Competition")
-public class RedAutonFullCloseToCorner extends LancerLinearOpMode{
+public class RedFullAuton extends LancerLinearOpMode{
 //Auton that starts from red side, hits beacon, and then goes to cap ball.
     @Override
     public void runOpMode(){

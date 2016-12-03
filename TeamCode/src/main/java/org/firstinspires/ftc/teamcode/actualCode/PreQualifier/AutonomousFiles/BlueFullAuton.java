@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name = "Blue Auton Competition", group = "Competition")
 
-public class BlueAutonFullCloseToCornerVortex extends LancerLinearOpMode{
+public class BlueFullAuton extends LancerLinearOpMode{
 
 //Auton that starts from blue side, goes to first beacon, hits it, then hits the cap ball
     @Override

@@ -21,11 +21,11 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         setup(); //Robot sets up
         waitForStart(); //Robot waits for start
         startUp(); //Robot starts up
-        strafe(20,true,.4); //Robot moves to the left 20 inches with power of .4
+        strafe(20,true,.3); //Robot moves to the left 20 inches with power of .4
         rest(); //Robot rests
         sleep(2000); //Robot sleeps for 2000 milliseconds
         //moveRight
-        strafe(10,false,.1); //Robot moves to the right 10 inches with power of .1
+        strafe(10,false,.3); //Robot moves to the right 10 inches with power of .1
         rest(); //Robot rests
         sleep(2000); //Robot sleeps for 2000 milliseconds
     }

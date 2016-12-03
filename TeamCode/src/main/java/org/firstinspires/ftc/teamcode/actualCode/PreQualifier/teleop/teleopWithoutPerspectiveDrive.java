@@ -22,23 +22,29 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
-/*
-        if (gamepad1.right_trigger > Keys.deadzone) {
-            collector.setPower(-Keys.MAX_MOTOR_SPEED);
-        } else if (gamepad1.left_trigger > Keys.deadzone) {
-            collector.setPower(Keys.MAX_MOTOR_SPEED);
-        } else {
-            collector.setPower(0);
-        } */
-/*
-        if (gamepad2.right_trigger > Keys.deadzone) {
-            shoot(Keys.MAX_MOTOR_SPEED, true);
-        } else if (gamepad2.left_trigger > Keys.deadzone) {
-            shoot(Keys.MAX_MOTOR_SPEED, false);
-        } else {
-            shoot(0, false);
+//Sets controls for linear slides on forklift
+        if (gamepad1.right_bumper){
+            lift.setPower(Keys.MAX_MOTOR_SPEED);
         }
-*/
+
+        if(gamepad1.right_trigger > 0.15){
+            lift.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+
+        //Sets controls for shooter
+        if(gamepad2.right_trigger > 0.15){
+            shoot(0.86);
+        }
+
+        //Sets controls for collector
+        if(gamepad2.left_trigger > 0.15){
+            collector.setPower(Keys.MAX_MOTOR_SPEED);
+        }
+
+        if(gamepad2.left_bumper){
+            collector.setPower(-Keys.MAX_MOTOR_SPEED);
+        }
+
         //Takes in gamepad values
         z = gamepad1.right_stick_x; //sideways
         y = gamepad1.left_stick_y; //forward and backward
@@ -74,9 +80,8 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             }
         }
 
-        //lift(Range.scale(gamepad2.right_stick_y,-1,1,-Keys.MAX_MOTOR_SPEED, Keys.MAX_MOTOR_SPEED));
-/*
-        beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
+        //Control servo toggling for beacon pushers and beacon pushers
+        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {
             beaconPushLeftButtonPressed = true;
@@ -84,30 +89,22 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             beaconPushLeftButtonPressed = false;
         }
 
-        beaconPushRightToggleReturnArray = servoToggle(gamepad1.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
+        beaconPushRightToggleReturnArray = servoToggle(gamepad2.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
         if (beaconPushRightToggleReturnArray[1] == 1) {
             beaconPushRightButtonPressed = true;
         } else {
             beaconPushRightButtonPressed = false;
         }
-        /*
-        capBallLeftToggleReturnArray = servoToggle(gamepad2.y, capBallLeft, capBallLeftPositions, capBallLeftPos, capBallLeftButtonPressed);
-        capBallLeftPos = capBallLeftToggleReturnArray[0];
-        if (capBallLeftToggleReturnArray[1] == 1) {
-            capBallLeftButtonPressed = true;
+
+        latchToggleReturnArray = servoToggle(gamepad1.b, latch, latchPositions, latchPos, latchButtonPressed);
+        latchPos = latchToggleReturnArray[0];
+        if(latchToggleReturnArray[1] == 1) {
+            latchButtonPressed = true;
         } else {
-            capBallLeftButtonPressed = false;
+            latchButtonPressed = false;
         }
 
-        capBallRightToggleReturnArray = servoToggle(gamepad2.y, capBallRight, capBallRightPositions, capBallLeftPos, capBallRightButtonPressed);
-        capBallRightPos = capBallRightToggleReturnArray[0];
-        if (capBallLeftToggleReturnArray[1] == 1) {
-            capBallRightButtonPressed = true;
-        } else {
-            capBallRightButtonPressed = false;
-        }
-*/
         //Returns values for coach to see.
         telemetry.addData("Status", "Running: " + runtime.toString());
         telemetry.addData("GamePad 1 Right Stick X Actual", gamepad1.right_stick_x);

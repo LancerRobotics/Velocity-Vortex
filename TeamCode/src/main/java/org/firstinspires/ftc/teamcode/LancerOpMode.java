@@ -27,6 +27,10 @@ public abstract class LancerOpMode extends OpMode{
     public static double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
     public static int beaconPushRightPos;
     public static int beaconPushRightToggleReturnArray[] = new int[2];
+    public static boolean latchButtonPressed = false;
+    public static double[] latchPositions = {};
+    public static int latchPos;
+    public static int latchToggleReturnArray[] = new int[2];
 
     public void init() {
 
@@ -190,4 +194,11 @@ public abstract class LancerOpMode extends OpMode{
         telemetry.addData(text, bool);
         telemetry.update();
     }
+
+    //Method to run flywheel motors at the same power
+    public void shoot (double power){
+        flywheelLeft.setPower(power);
+        flywheelRight.setPower(power);
+    }
+
 }

@@ -117,11 +117,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
 
         //Tells the back right and (if forwards) front left motors to switch to the encoder mode
-        if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
+        if(opModeIsActive() && !backwards) {fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Sets the position of the encoded motors
-        if (backwards) {
+        if (opModeIsActive() && backwards) {
             br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
         } else {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
@@ -129,11 +129,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
 
         //Tells encoded motors to move to the correct position
-        if(!backwards){fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);}
+        if(opModeIsActive() && !backwards){fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);}
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Sets the desired speed to all the motors.
-        setMotorPowerUniform(power, backwards);
+        if(opModeIsActive()) setMotorPowerUniform(power, backwards);
 
         telemetry.addData("FR Power", fr.getPower());
         telemetry.addData("BR Power", br.getPower());
@@ -141,10 +141,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.addData("BL Power", bl.getPower());
         telemetry.addData("Moving Left", br.isBusy());
         telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-        telemetryAddData("Distance Double", inches_per_rev * inches);
+        if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
         //Keeps the robot moving while the encoded motors are turning to the correct position.
         //Returns back data to make sure the method is working properly
-        if(!backwards) {
+        if(opModeIsActive() && !backwards) {
             while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
                 telemetry.addData("FR Power", fr.getPower());
                 telemetry.addData("BR Power", br.getPower());
@@ -153,7 +153,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("Moving Left", fl.isBusy());
                 telemetry.addData("Moving Right", br.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetryAddData("Distance Double", inches_per_rev * inches);
+                if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
             }
         }
         else {
@@ -164,15 +164,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("BL Power", bl.getPower());
                 telemetry.addData("Moving Left", br.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetryAddData("Distance Double", inches_per_rev * inches);
+                if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
             }
         }
         //Returns the motors to the no-encoder mode
-        if(!backwards) {fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
+        if(opModeIsActive() && !backwards) {fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Breaks
-        rest();
+        if(opModeIsActive()) rest();
     }
 
     //Sets all motors to the exact same power
@@ -277,7 +277,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         }
 
         // Send desired speeds to motors.
-        turn(rightSpeed);
+        if(opModeIsActive()) turn(rightSpeed);
 
         // Display information for the driver.
         telemetry.addData("Target", "%5.2f", angle);
@@ -304,17 +304,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         navx_device.zeroYaw();
 
         //Turns the robot
-        gyroTurn(speed, angle);
+        if(opModeIsActive()) gyroTurn(speed, angle);
 
         //Brakes all motors
-        rest();
+        if(opModeIsActive()) rest();
     }
 
 
     //Detect beacon color
     public void detectColor() {
         //Detect color
-        getRGB();
+        if(opModeIsActive()) getRGB();
 
         //Set the color sensor values into an array to work with
         int[] rgb = {red, green, blue};
@@ -322,12 +322,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         //Check for if there is more blue than red or red than blue to determine beacon color.
         if (rgb[0] > rgb[2]) {
             beaconBlue = false;
-            telemetryAddLine("detected red");
+            if(opModeIsActive()) telemetryAddLine("detected red");
         } else if (rgb[0] < rgb[2]) {
             beaconBlue = true;
-            telemetryAddLine("detected blue");
+            if (opModeIsActive()) telemetryAddLine("detected blue");
         } else {
-            telemetryAddLine("unable to determine beacon color");
+            if(opModeIsActive()) telemetryAddLine("unable to determine beacon color");
         }
 
     }
@@ -346,7 +346,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Brake and sleep for 100 milliseconds to avoid any issue with jerking during auton
     public void restAndSleep() {
-        rest();
+        if(opModeIsActive()) rest();
         sleep(100);
         telemetry.update();
     }

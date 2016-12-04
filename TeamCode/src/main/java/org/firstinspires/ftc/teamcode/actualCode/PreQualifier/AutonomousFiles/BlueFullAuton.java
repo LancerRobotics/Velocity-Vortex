@@ -21,20 +21,20 @@ public class BlueFullAuton extends LancerLinearOpMode{
         startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        moveStraight(29, false, .3);
-        restAndSleep();
-        gyroAngle(42, .2);
-        restAndSleep();
-        moveStraight(30, false, .3); //did not work first match
-        restAndSleep();
-        gyroAngle(15, .2);
-        restAndSleep();
-        moveStraight(8, false, .1);//did not work first match
-        restAndSleep();
+        if(opModeIsActive()) moveStraight(29, false, .3);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive())gyroAngle(42, .2);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) moveStraight(30, false, .3); //did not work first match
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive())gyroAngle(15, .2);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) moveStraight(8, false, .1);//did not work first match
+        if(opModeIsActive()) restAndSleep();
         sleep(1000);
-        detectColor();
-        moveStraight(7, true, .1);
-        telemetryAddData("Beacon Color Blue", beaconBlue);
+        if(opModeIsActive()) detectColor();
+        if(opModeIsActive()) moveStraight(7, true, .1);
+        if(opModeIsActive()) telemetryAddData("Beacon Color Blue", beaconBlue);
         if(beaconBlue) {
             beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         }
@@ -42,16 +42,16 @@ public class BlueFullAuton extends LancerLinearOpMode{
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
         }
         else {
-            telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
+            if(opModeIsActive()) telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
             sleep(2000);
         }
         if(beaconBlue || !beaconBlue) {
-            restAndSleep();
-            moveStraight(8, false, .2);
-            restAndSleep();
+            if(opModeIsActive()) restAndSleep();
+            if(opModeIsActive()) moveStraight(8, false, .2);
+            if(opModeIsActive()) restAndSleep();
             sleep(500);
-            moveStraight(8, true, .3);
-            restAndSleep();
+            if(opModeIsActive()) moveStraight(8, true, .3);
+            if(opModeIsActive()) restAndSleep();
         }
         if(beaconBlue) {
             beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
@@ -60,46 +60,46 @@ public class BlueFullAuton extends LancerLinearOpMode{
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
         //Go to the second beacon (TO BE TESTED)
-        moveStraight(10, true, .3);
-        restAndSleep();
-        //gyroTurn(-90,.1);
-        gyroTurn(-90,.1);//Turns right, to face the 2nd beacon
-        restAndSleep();
-        moveStraight(48, false, .3);
-        restAndSleep();
-        gyroTurn(90,.1);//Now it faces the 2nd beacon
-        restAndSleep();
-        //moveToColor();
-        moveStraight(10,false,.3);
-        restAndSleep();
+        if(opModeIsActive()) moveStraight(10, true, .3);
+        if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive())gyroTurn(-90,.1);
+        if(opModeIsActive())gyroTurn(-90,.1);//Turns right, to face the 2nd beacon
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) moveStraight(48, false, .3);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) gyroTurn(90,.1);//Now it faces the 2nd beacon
+        if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) moveToColor();
+        if(opModeIsActive()) moveStraight(10,false,.3);
+        if(opModeIsActive()) restAndSleep();
         sleep(1000);
-        detectColor();
+        if(opModeIsActive()) detectColor();
         //Copy and pasted from above
-        telemetryAddData("Beacon Color Blue", beaconBlue);
+        if(opModeIsActive()) telemetryAddData("Beacon Color Blue", beaconBlue);
         if (!beaconBlue) {
             beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         } else if (beaconBlue) {
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
         } else {
-            telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
+            if(opModeIsActive()) telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
             sleep(2000);
         }
         if (beaconBlue || !beaconBlue) {
-            restAndSleep();
-            moveStraight(8, false, .2);
-            restAndSleep();
+            if(opModeIsActive()) restAndSleep();
+            if(opModeIsActive()) moveStraight(8, false, .2);
+            if(opModeIsActive()) restAndSleep();
             sleep(500);
-            moveStraight(8, true, .3);
-            restAndSleep();
+            if(opModeIsActive()) moveStraight(8, true, .3);
+            if(opModeIsActive()) restAndSleep();
         }
         if (!beaconBlue) {
             beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         } else {
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
-        setMotorPowerUniform(.3, true);
+        if(opModeIsActive()) setMotorPowerUniform(.3, true);
         sleep(1750);
-        setMotorPowerUniform(0, false);
-        telemetryAddData("Done?", "Yes");
+        if(opModeIsActive()) setMotorPowerUniform(0, false);
+        if(opModeIsActive()) telemetryAddData("Done?", "Yes");
     }
 }

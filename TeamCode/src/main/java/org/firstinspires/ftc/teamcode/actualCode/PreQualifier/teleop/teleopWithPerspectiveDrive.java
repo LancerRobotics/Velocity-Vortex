@@ -18,7 +18,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         setup();
     }
     public void loop() {
-        //Controls the recallibration of the gyro
+        //Controls the recalibration of the gyro
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }

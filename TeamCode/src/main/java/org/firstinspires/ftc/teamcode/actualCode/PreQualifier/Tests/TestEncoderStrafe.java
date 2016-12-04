@@ -28,8 +28,8 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
         strafe(120,false,.3); //Robot moves to the right 10 inches with power of .1
         rest(); //Robot rests
         sleep(2000); //Robot sleeps for 2000 milliseconds
-        fr.
     }
+
     public void strafe(double inches, boolean left, double power){
         fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder
         br.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set back right motor to run using the encoder

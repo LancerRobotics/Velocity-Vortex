@@ -94,7 +94,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 AHRS.DeviceDataType.kProcessedData,
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
 
-        //Prevents the robot from working without the sensor being callibrated
+        //Prevents the robot from working without the sensor being calibrated
             while (navx_device.isCalibrating()) {
                 telemetryAddData("Ready?", "NO");
             }
@@ -123,7 +123,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         //Sets the position of the encoded motors
         if (backwards) {
             br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
-            power = power * -1.0;
         } else {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
@@ -134,11 +133,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Sets the desired speed to all the motors.
-        fr.setPower(power);
-        fl.setPower(power);
-        br.setPower(power);
-        bl.setPower(power);
+        setMotorPowerUniform(power, backwards);
 
+        telemetry.addData("FR Power", fr.getPower());
+        telemetry.addData("BR Power", br.getPower());
+        telemetry.addData("FL Power", fl.getPower());
+        telemetry.addData("BL Power", bl.getPower());
+        telemetry.addData("Moving Left", br.isBusy());
+        telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
+        telemetryAddData("Distance Double", inches_per_rev * inches);
         //Keeps the robot moving while the encoded motors are turning to the correct position.
         //Returns back data to make sure the method is working properly
         if(!backwards) {
@@ -150,7 +153,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("Moving Left", fl.isBusy());
                 telemetry.addData("Moving Right", br.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetry.addData("Distance Double", inches_per_rev * inches);
+                telemetryAddData("Distance Double", inches_per_rev * inches);
             }
         }
         else {
@@ -159,9 +162,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("BR Power", br.getPower());
                 telemetry.addData("FL Power", fl.getPower());
                 telemetry.addData("BL Power", bl.getPower());
-                telemetry.addData("Moving Left", fl.isBusy());
+                telemetry.addData("Moving Left", br.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetry.addData("Distance Double", inches_per_rev * inches);
+                telemetryAddData("Distance Double", inches_per_rev * inches);
             }
         }
         //Returns the motors to the no-encoder mode

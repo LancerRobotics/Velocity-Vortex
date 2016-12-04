@@ -56,7 +56,6 @@ public class RedFullAuton extends LancerLinearOpMode{
         } else {
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
-
         //Go to the second beacon (TO BE TESTED)
         moveStraight(10, true, .3);
         restAndSleep();

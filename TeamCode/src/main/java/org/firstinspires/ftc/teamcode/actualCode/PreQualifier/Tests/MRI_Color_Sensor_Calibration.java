@@ -44,7 +44,7 @@ public class MRI_Color_Sensor_Calibration extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        colorC = hardwareMap.i2cDevice.get("cc");
+        colorC = hardwareMap.i2cDevice.get("color");
         colorCreader = new I2cDeviceSynchImpl(colorC, I2cAddr.create8bit(0x3c), false);
         colorCreader.engage();
 
@@ -84,6 +84,7 @@ public class MRI_Color_Sensor_Calibration extends LinearOpMode {
             colorCcache = colorCreader.read(0x04, 1);
         }
 
+        telemetry.addData("HELLO", "Color Sensor Callibration Complete");
         waitForStart();
         runtime.reset();
 

@@ -18,36 +18,36 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         setup();
     }
     public void loop() {
-        //Controls the recallibration of the gyro
+        //Controls the recalibration of the gyro
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
 
         //Sets controls for linear slides on forklift
-        //Up
-        if (gamepad1.right_bumper){
-            lift.setPower(Keys.MAX_MOTOR_SPEED);
+        if(Math.abs(gamepad2.right_stick_y) > .15) {
+            lift.setPower(Range.clip(gamepad2.right_stick_y, -1, 1));
         }
-
-        //Down
-        if(gamepad1.right_trigger > 0.15){
-            lift.setPower(Keys.MAX_MOTOR_SPEED);
+        else {
+            lift.setPower(0);
         }
 
         //Sets controls for shooter
-        if(gamepad2.right_trigger > 0.15){
-            shoot(0.86);
+        if(gamepad2.a){
+            shoot(0.99);
+        }
+        else if(gamepad2.b) {
+            shoot(0);
         }
 
         //Sets controls for collector
-        //In
-        if(gamepad2.left_trigger > 0.15){
+        if(gamepad1.right_trigger > 0.15){
             collector.setPower(Keys.MAX_MOTOR_SPEED);
         }
-
-        //Out
-        if(gamepad2.left_bumper){
+        else if(gamepad1.right_bumper){
             collector.setPower(-Keys.MAX_MOTOR_SPEED);
+        }
+        else {
+            collector.setPower(0);
         }
 
         //Sets the gamepad values to x, y, and z
@@ -94,7 +94,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         }
 
         //Control servo toggling for beacon pushers and beacon pushers
-        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
+        beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {
             beaconPushLeftButtonPressed = true;
@@ -102,7 +102,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
             beaconPushLeftButtonPressed = false;
         }
 
-        beaconPushRightToggleReturnArray = servoToggle(gamepad2.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
+        beaconPushRightToggleReturnArray = servoToggle(gamepad1.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
         if (beaconPushRightToggleReturnArray[1] == 1) {
             beaconPushRightButtonPressed = true;
@@ -110,7 +110,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
-        latchToggleReturnArray = servoToggle(gamepad1.b, latch, latchPositions, latchPos, latchButtonPressed);
+        latchToggleReturnArray = servoToggle(gamepad2.y, latch, latchPositions, latchPos, latchButtonPressed);
         latchPos = latchToggleReturnArray[0];
         if(latchToggleReturnArray[1] == 1) {
             latchButtonPressed = true;

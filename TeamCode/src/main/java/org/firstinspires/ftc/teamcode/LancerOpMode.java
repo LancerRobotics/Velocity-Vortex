@@ -65,10 +65,11 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
         latch = hardwareMap.servo.get(Keys.latch);
 
-        //Sets the zero power behavior of the flywheel motors to float to prevent them from burning out due to the
-        //design of the flywheel.
+        //Sets the zero power behavior of the flywheel and collector motors to float to prevent them from burning out due to the
+        //design of the flywheel and collector.
         flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //Reverses one of the flywheel motors
         flywheelLeft.setDirection(DcMotorSimple.Direction.REVERSE);

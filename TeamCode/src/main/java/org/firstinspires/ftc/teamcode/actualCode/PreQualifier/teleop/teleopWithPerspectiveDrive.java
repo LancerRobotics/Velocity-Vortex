@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.teleop;
 
+import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
@@ -16,6 +17,17 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 public class teleopWithPerspectiveDrive extends LancerOpMode {
     public void init() {
         setup();
+        //Sets up navX
+        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
+                Keys.NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
+        //Prevents robot from running before callibration is complete
+        while (navx_device.isCalibrating()) {
+            telemetryAddData("Ready?", "No");
+        }
+        telemetryAddData("Ready?", "Yes");
+        navx_device.zeroYaw();
     }
     public void loop() {
         //Controls the recalibration of the gyro
@@ -33,7 +45,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
 
         //Sets controls for shooter
         if(gamepad2.a){
-            shoot(0.99);
+            shoot(1);
         }
         else if(gamepad2.b) {
             shoot(0);
@@ -41,10 +53,10 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
 
         //Sets controls for collector
         if(gamepad1.right_trigger > 0.15){
-            collector.setPower(Keys.MAX_MOTOR_SPEED);
+            collector.setPower(0.99);
         }
         else if(gamepad1.right_bumper){
-            collector.setPower(-Keys.MAX_MOTOR_SPEED);
+            collector.setPower(-0.99);
         }
         else {
             collector.setPower(0);

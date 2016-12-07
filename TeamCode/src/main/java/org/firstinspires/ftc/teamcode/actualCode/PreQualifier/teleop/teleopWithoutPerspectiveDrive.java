@@ -111,6 +111,10 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
         telemetry.addData("GamePad 1 Left Stick Y Actual", gamepad1.left_stick_y);
         telemetry.addData("GamePad 1 Left Stick X Actual", gamepad1.left_stick_x);
         telemetry.addData("GamePad 1 X", gamepad1.x);
+        telemetry.addData("FR Power", fr.getPower());
+        telemetry.addData("FL Power", fl.getPower());
+        telemetry.addData("BR Power", br.getPower());
+        telemetryAddData("BL Power", bl.getPower());
     }
 
     //Tells the navX to close out.

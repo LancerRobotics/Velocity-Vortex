@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name = "Red Auton Competition", group = "Competition")
 public class RedFullAuton extends LancerLinearOpMode{
-//Auton that starts from red side, hits beacon, and then goes to cap ball.
+    //Auton that starts from red side, hits beacon, and then goes to cap ball.
     @Override
     public void runOpMode() {
         //redone a bit to match this: https://docs.google.com/document/d/1zpKw94gcLN-s5pVavHmcDCupEi8tXx6jnORaWPfvCLg/edit
@@ -28,6 +28,7 @@ public class RedFullAuton extends LancerLinearOpMode{
         if(opModeIsActive()) restAndSleep();
         if(opModeIsActive()) gyroAngle(-45, .2);
         if(opModeIsActive()) restAndSleep();
+        //23 Inches, *should* touch/run into the beacon
         if(opModeIsActive()) moveStraight(23, false, .1);
         if(opModeIsActive()) restAndSleep();
         sleep(1000);
@@ -57,17 +58,17 @@ public class RedFullAuton extends LancerLinearOpMode{
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
         //Go to the second beacon (TO BE TESTED)
-        if(opModeIsActive()) moveStraight(10, true, .3);
+        if(opModeIsActive()) moveStraight(11, true, .3);
         if(opModeIsActive()) restAndSleep();
         //if(opModeIsActive()) gyroTurn(-90,.1);
-        if(opModeIsActive()) gyroTurn(90,.1);//Turns right, to face the 2nd beacon
+        if(opModeIsActive()) gyroAngle(90,.1);//Turns right, to face the 2nd beacon
         if(opModeIsActive()) restAndSleep();
         if(opModeIsActive()) moveStraight(48, false, .3);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroTurn(-90,.1);//Now it faces the 2nd beacon
+        if(opModeIsActive()) gyroAngle(-90,.1);//Now it faces the 2nd beacon
         if(opModeIsActive()) restAndSleep();
         //if(opModeIsActive()) moveToColor();
-        if(opModeIsActive()) moveStraight(10,false,.3);
+        if(opModeIsActive()) moveStraight(11,false,.3);//Probably should overcompensate this so it hits the beacon
         if(opModeIsActive()) restAndSleep();
         sleep(1000);
         if(opModeIsActive()) detectColor();
@@ -94,6 +95,15 @@ public class RedFullAuton extends LancerLinearOpMode{
         } else {
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
+        if(opModeIsActive()) moveStraight(23, true, .3);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) gyroAngle(-135, .1);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) moveStraight(50.91, false, .3);
+        if(opModeIsActive()) restAndSleep();
+        //This code hits the cap ball and stops on the ramp.
+
+        //IDK what that is down here
         if(opModeIsActive()) setMotorPowerUniform(.3, true);
         sleep(1750);
         if(opModeIsActive()) setMotorPowerUniform(0, false);

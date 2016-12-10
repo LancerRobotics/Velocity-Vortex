@@ -21,19 +21,20 @@ public class BlueFullAuton extends LancerLinearOpMode{
         startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        if(opModeIsActive()) moveStraight(29, false, .3);
+        if(opModeIsActive()) moveStraight(24, false, .3);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive())gyroAngle(42, .2);
+        if(opModeIsActive())gyroAngle(45, .2);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) moveStraight(30, false, .3); //did not work first match
+        if(opModeIsActive()) moveStraight(50.91, false, .3); //did not work first match
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive())gyroAngle(15, .2);
+        if(opModeIsActive())gyroAngle(45, .2);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) moveStraight(8, false, .1);//did not work first match
+        if(opModeIsActive()) moveStraight(23, false, .1);//did not work first match
+        //Moves into beacon
         if(opModeIsActive()) restAndSleep();
         sleep(1000);
         if(opModeIsActive()) detectColor();
-        if(opModeIsActive()) moveStraight(7, true, .1);
+        //if(opModeIsActive()) moveStraight(7, true, .1);
         if(opModeIsActive()) telemetryAddData("Beacon Color Blue", beaconBlue);
         if(beaconBlue) {
             beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
@@ -60,7 +61,7 @@ public class BlueFullAuton extends LancerLinearOpMode{
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
         //Go to the second beacon (TO BE TESTED)
-        if(opModeIsActive()) moveStraight(10, true, .3);
+        if(opModeIsActive()) moveStraight(11, true, .3);
         if(opModeIsActive()) restAndSleep();
         //if(opModeIsActive())gyroTurn(-90,.1);
         if(opModeIsActive())gyroTurn(-90,.1);//Turns right, to face the 2nd beacon
@@ -70,7 +71,7 @@ public class BlueFullAuton extends LancerLinearOpMode{
         if(opModeIsActive()) gyroTurn(90,.1);//Now it faces the 2nd beacon
         if(opModeIsActive()) restAndSleep();
         //if(opModeIsActive()) moveToColor();
-        if(opModeIsActive()) moveStraight(10,false,.3);
+        if(opModeIsActive()) moveStraight(11,false,.3);
         if(opModeIsActive()) restAndSleep();
         sleep(1000);
         if(opModeIsActive()) detectColor();
@@ -97,6 +98,15 @@ public class BlueFullAuton extends LancerLinearOpMode{
         } else {
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
+        if(opModeIsActive()) moveStraight(23, true, .3);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) gyroAngle(135, .1);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) moveStraight(50.91, false, .3);
+        if(opModeIsActive()) restAndSleep();
+        //This code hits the cap ball and stops on the ramp.
+
+        //Whats this down here
         if(opModeIsActive()) setMotorPowerUniform(.3, true);
         sleep(1750);
         if(opModeIsActive()) setMotorPowerUniform(0, false);

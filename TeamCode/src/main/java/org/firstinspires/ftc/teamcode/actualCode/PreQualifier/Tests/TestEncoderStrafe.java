@@ -53,8 +53,8 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                 fr.setPower(power); //Set front right motor to run backwards
-                fl.setPower(power * -1);
-                br.setPower(power * -1);
+                fl.setPower(power * -1.0);
+                br.setPower(power * -1.0);
                 bl.setPower(power);
 
             }else { //If boolean left is fase, then run this else statement
@@ -71,10 +71,10 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                fr.setPower(power * -1);
+                fr.setPower(power * -1.0);
                 fl.setPower(power);
                 br.setPower(power);
-                bl.setPower(power * -1);
+                bl.setPower(power * -1.0);
             }
 
 
@@ -94,7 +94,7 @@ public class TestEncoderStrafe extends LancerLinearOpMode{
                 telemetry.addData("Moving Left", fl.isBusy());
                 telemetry.addData("Moving Right", br.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                telemetryAddData("Distance Double", inches_per_rev * inches);
+                telemetry.addData("Distance Double", inches_per_rev * inches);
                 telemetry.update();
             }
 

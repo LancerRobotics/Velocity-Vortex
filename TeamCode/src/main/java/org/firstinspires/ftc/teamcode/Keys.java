@@ -24,6 +24,7 @@ public class Keys {
     //Sensor and Module Names and Values
     public static final String cdim = "dim";
     public static final String colorSensor = "color";
+    public static final String gyroSensor = "gyro";
     public static final int NAVX_DIM_I2C_PORT = 0;
     public static final byte NAVX_DEVICE_UPDATE_RATE_HZ = 50;
     public static final double HEADING_THRESHOLD       = 2;      // As tight as we can make it with an integer gyro

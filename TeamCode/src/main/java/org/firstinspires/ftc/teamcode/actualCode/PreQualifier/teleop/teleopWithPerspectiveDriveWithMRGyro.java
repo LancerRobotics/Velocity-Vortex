@@ -5,34 +5,30 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 /**
  * Created by spork on 10/22/2016.
  */
-@TeleOp(name="Teleop With Perspective Drive", group = "Teleop")
+@TeleOp(name="Teleop With Perspective Drive With MR Gyro", group = "Teleop")
 
 //Teleop extends our LancerOpMode SuperClass and uses the variables and methods associated with the class.
-public class teleopWithPerspectiveDrive extends LancerOpMode {
+public class teleopWithPerspectiveDriveWithMRGyro extends LancerOpMode {
     public void init() {
         setup();
-        //Sets up navX
-        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
-                Keys.NAVX_DIM_I2C_PORT,
-                AHRS.DeviceDataType.kProcessedData,
-                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
+        //Sets up gyro
+        gyro = hardwareMap.gyroSensor.get(Keys.gyroSensor);
         //Prevents robot from running before callibration is complete
-        while (navx_device.isCalibrating()) {
+        while (gyro.isCalibrating()) {
             telemetryAddData("Ready?", "No");
         }
+        gyro.resetZAxisIntegrator();
         telemetryAddData("Ready?", "Yes");
-        navx_device.zeroYaw();
     }
     public void loop() {
         //Controls the recalibration of the gyro
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
-            navx_device.zeroYaw();
+            gyro.resetZAxisIntegrator();
         }
 
         //Sets controls for linear slides on forklift
@@ -68,8 +64,8 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         x = gamepad1.left_stick_x; //rotation
 
         //Converts x and y to a different value based on the gyro value
-        trueX = ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y); //sets trueX to rotated value
-        trueY = ((Math.sin(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(navx_device.getYaw())))) * y);
+        trueX = ((Math.cos(Math.toRadians(360 - convertYaw(gyro.getHeading())))) * x) - ((Math.sin(Math.toRadians(360 - convertYaw(gyro.getHeading())))) * y); //sets trueX to rotated value
+        trueY = ((Math.sin(Math.toRadians(360 - convertYaw(gyro.getHeading())))) * x) + ((Math.cos(Math.toRadians(360 - convertYaw(gyro.getHeading())))) * y);
 
         //Sets trueX and trueY to its respective value
         x = trueX;
@@ -141,7 +137,7 @@ public class teleopWithPerspectiveDrive extends LancerOpMode {
         telemetry.addData("FL Power", fl.getPower());
         telemetry.addData("BR Power", br.getPower());
         telemetry.addData("BL Power", bl.getPower());
-        telemetryAddData("Yaw", convertYaw(navx_device.getYaw()));
+        telemetryAddData("Yaw", convertYaw(gyro.getHeading()));
     }
 
     public void stop() {

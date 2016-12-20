@@ -4,6 +4,8 @@ import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -14,6 +16,7 @@ public abstract class LancerOpMode extends OpMode{
 
     //Creates all needed variables, motors, servos, and sensors
     public static AHRS navx_device;
+    public static GyroSensor gyro;
     public static ElapsedTime runtime = new ElapsedTime();
     public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static double x, y, z, trueX, trueY;
@@ -31,6 +34,7 @@ public abstract class LancerOpMode extends OpMode{
     public static double[] latchPositions = {Keys.LATCH_DOWN, Keys.LATCH_UP};
     public static int latchPos;
     public static int latchToggleReturnArray[] = new int[2];
+    public static DeviceInterfaceModule cdim;
 
     public void init() {
 
@@ -81,18 +85,6 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
-
-        //Sets up navX
-        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
-                Keys.NAVX_DIM_I2C_PORT,
-                AHRS.DeviceDataType.kProcessedData,
-                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        //Prevents robot from running before callibration is complete
-            while (navx_device.isCalibrating()) {
-                telemetryAddData("Ready?", "No");
-            }
-            telemetryAddData("Ready?", "Yes");
-            navx_device.zeroYaw();
     }
 
     //Method that allows for servos to toggle on one button

@@ -26,6 +26,7 @@ public class fourEncoder extends LancerLinearOpMode {
         int newLeftBackTarget;
         int newRightFrontTarget;
         if (opModeIsActive()) {
+//Left goes fl forward, bl backward, fr backward, br forward
 
             if (left) { //If the boolean left is true, then run this if statement
 
@@ -46,37 +47,40 @@ public class fourEncoder extends LancerLinearOpMode {
                 bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
                 fr.setPower(power); //Set front right motor to run backwards
-                fl.setPower(power * -1.0);
-                br.setPower(power * -1.0);
+                fl.setPower(power);
+                br.setPower(power);
                 bl.setPower(power);
-
+//Right goes fl backward, bl forward, fr forward, br backward
             } else { //If boolean left is fase, then run this else statement
 
                 // Determine new target position, and pass to motor controller
-                newLeftFrontTarget = fl.getCurrentPosition() + (int) (inches * inches_per_rev);
+                newRightFrontTarget = fr.getCurrentPosition() + (int) (inches * inches_per_rev);
+                newLeftFrontTarget = fl.getCurrentPosition() - (int) (inches * inches_per_rev);
                 newRightBackTarget = br.getCurrentPosition() - (int) (inches * inches_per_rev);
+                newLeftBackTarget = bl.getCurrentPosition() + (int) (inches * inches_per_rev);
                 fl.setTargetPosition(newLeftFrontTarget);
+                fr.setTargetPosition(newRightFrontTarget);
                 br.setTargetPosition(newRightBackTarget);
+                bl.setTargetPosition(newLeftBackTarget);
 
                 // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
                 fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-                fr.setPower(power * -1.0);
+                fr.setPower(power); //Set front right motor to run backwards
                 fl.setPower(power);
                 br.setPower(power);
-                bl.setPower(power * -1.0);
+                bl.setPower(power);
             }
-
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while (opModeIsActive() &&
                     (fl.isBusy() && br.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1", "Running to %7d :%7d", newLeftTarget, newRightTarget);
+                telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightFrontTarget, newLeftBackTarget, newRightBackTarget);
                 telemetry.addData("Path2", "Running at %7d :%7d",
                         fl.getCurrentPosition(),
                         br.getCurrentPosition());
@@ -99,7 +103,9 @@ public class fourEncoder extends LancerLinearOpMode {
 
             // Turn off RUN_TO_POSITION
             fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }

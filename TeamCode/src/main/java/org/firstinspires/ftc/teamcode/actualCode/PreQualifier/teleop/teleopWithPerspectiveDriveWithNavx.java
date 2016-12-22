@@ -51,10 +51,10 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         }
 
         //Sets controls for shooter
-        if(gamepad2.a){
+        if(gamepad2.right_trigger >.15){
             shoot(1);
         }
-        else if(gamepad2.b) {
+        else if(gamepad2.right_trigger > .15) {
             shoot(0);
         }
 
@@ -113,7 +113,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         }
 
         //Control servo toggling for beacon pushers and beacon pushers
-        beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
+        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.left_bumper, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {
             beaconPushLeftButtonPressed = true;
@@ -121,7 +121,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
             beaconPushLeftButtonPressed = false;
         }
 
-        beaconPushRightToggleReturnArray = servoToggle(gamepad1.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
+        beaconPushRightToggleReturnArray = servoToggle(gamepad2.right_bumper, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
         if (beaconPushRightToggleReturnArray[1] == 1) {
             beaconPushRightButtonPressed = true;

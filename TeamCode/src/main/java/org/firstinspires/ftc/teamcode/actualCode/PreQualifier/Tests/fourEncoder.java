@@ -13,13 +13,22 @@ public class fourEncoder extends LancerLinearOpMode {
     @Override
     public void runOpMode() {
 
+        fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
     public void strafe(double inches, boolean left, double power) {
-        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder
-        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set back right motor to run using the encoder
-        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(opModeIsActive()) {
+            fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder
+            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set back right motor to run using the encoder
+            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
         int newRightBackTarget;
@@ -28,7 +37,7 @@ public class fourEncoder extends LancerLinearOpMode {
         if (opModeIsActive()) {
 //Left goes fl forward, bl backward, fr backward, br forward
 
-            if (left) { //If the boolean left is true, then run this if statement
+            if (opModeIsActive() && left) { //If the boolean left is true, then run this if statement
 
                 // Determine new target position, and pass to motor controller
                 newRightFrontTarget = fr.getCurrentPosition() - (int) (inches * inches_per_rev);
@@ -116,6 +125,11 @@ public class fourEncoder extends LancerLinearOpMode {
 
             //Tells the back right and (if forwards) front left motors to switch to the encoder mode
             if(opModeIsActive()) {
+                fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
                 fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

@@ -54,7 +54,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         if(gamepad2.right_trigger >.15){
             shoot(1);
         }
-        else if(gamepad2.right_trigger > .15) {
+        else if(gamepad2.left_trigger > .15) {
             shoot(0);
         }
 
@@ -127,14 +127,6 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
             beaconPushRightButtonPressed = true;
         } else {
             beaconPushRightButtonPressed = false;
-        }
-
-        latchToggleReturnArray = servoToggle(gamepad2.y, latch, latchPositions, latchPos, latchButtonPressed);
-        latchPos = latchToggleReturnArray[0];
-        if(latchToggleReturnArray[1] == 1) {
-            latchButtonPressed = true;
-        } else {
-            latchButtonPressed = false;
         }
 
 

@@ -30,14 +30,25 @@ public abstract class LancerOpMode extends OpMode{
     public static double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
     public static int beaconPushRightPos;
     public static int beaconPushRightToggleReturnArray[] = new int[2];
-    public static boolean clampLeftButtonPressed = false;
-    public static double[] clampLeftPositions = {Keys.LEFT_CLAMP_INITIAL_STATE, Keys.LEFT_CLAMP_UP, Keys.LEFT_CLAMP_CLAMP};
-    public static int clampLeftPos;
-    public static int clampLeftToggleReturnArray[] = new int[3];
-    public static boolean clampRightButtonPressed = false;
-    public static double[] clampRightPositions = {Keys.RIGHT_CLAMP_INTITIAL_STATE, Keys.RIGHT_CLAMP_UP, Keys.RIGHT_CLAMP_CLAMP};
-    public static int clampRightPos;
-    public static int clampRightToggleReturnArray[] = new int[3];
+
+    public static boolean clampLeftButtonPressedX = false;
+    public static double[] clampLeftPositionsX = {Keys.LEFT_CLAMP_INITIAL_STATE, Keys.LEFT_CLAMP_UP};
+    public static int clampLeftPosX;
+    public static int clampLeftToggleReturnArrayX[] = new int[2];
+    public static boolean clampRightButtonPressedX = false;
+    public static double[] clampRightPositionsX = {Keys.RIGHT_CLAMP_INTITIAL_STATE, Keys.RIGHT_CLAMP_UP};
+    public static int clampRightPosX;
+    public static int clampRightToggleReturnArrayX[] = new int[2];
+
+    public static boolean clampLeftButtonPressedB = false;
+    public static double[] clampLeftPositionsB = {Keys.LEFT_CLAMP_UP, Keys.LEFT_CLAMP_CLAMP};
+    public static int clampLeftPosB;
+    public static int clampLeftToggleReturnArrayB[] = new int[2];
+    public static boolean clampRightButtonPressedB = false;
+    public static double[] clampRightPositionsB = {Keys.RIGHT_CLAMP_UP, Keys.RIGHT_CLAMP_CLAMP};
+    public static int clampRightPosB;
+    public static int clampRightToggleReturnArrayB[] = new int[2];
+
     public static DeviceInterfaceModule cdim;
 
     public void init() {
@@ -88,10 +99,12 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
-        clampLeftPos = 1;
-        clampLeft.setPosition(clampLeftPositions[0]);
-        clampRightPos = 1;
-        clampRight.setPosition(clampRightPositions[0]);
+        clampLeftPosX = 1;
+        clampLeft.setPosition(clampLeftPositionsX[0]);
+        clampRightPosX = 1;
+        clampRight.setPosition(clampRightPositionsX[0]);
+        clampLeftPosB = 1;
+        clampRightPosB = 1;
 
     }
 

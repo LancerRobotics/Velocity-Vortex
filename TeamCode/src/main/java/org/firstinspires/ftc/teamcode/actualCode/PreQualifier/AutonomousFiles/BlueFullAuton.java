@@ -21,9 +21,9 @@ public class BlueFullAuton extends LancerLinearOpMode{
         startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        if(opModeIsActive()) moveStraight(24, false, .3);
+        if(opModeIsActive()) moveStraight(30, false, .3);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive())gyroAngle(45, .2);
+        /*if(opModeIsActive())gyroAngle(45, .2);
         if(opModeIsActive()) restAndSleep();
         if(opModeIsActive()) moveStraight(50.91, false, .3); //did not work first match
         if(opModeIsActive()) restAndSleep();
@@ -110,6 +110,6 @@ public class BlueFullAuton extends LancerLinearOpMode{
         if(opModeIsActive()) setMotorPowerUniform(.3, true);
         sleep(1750);
         if(opModeIsActive()) setMotorPowerUniform(0, false);
-        if(opModeIsActive()) telemetryAddData("Done?", "Yes");
+        if(opModeIsActive()) telemetryAddData("Done?", "Yes"); */
     }
 }

@@ -15,14 +15,13 @@ public class fourEncoder2 extends LancerLinearOpMode {
         setup();
         waitForStart();
         startUp();
-        strafe(10, true, .5);
+        /*strafe(10, true, .5);
         sleep(10000);
         strafe(10, false, .5);
         sleep(10000);
-        moveStraight(10, true, .5);
-        sleep(10000);
+        */
         moveStraight(10, false, .5);
-        sleep(10000);
+        moveStraight(10, true, .5);
     }
 
     public void strafe(double inches, boolean left, double power) {
@@ -93,8 +92,7 @@ public class fourEncoder2 extends LancerLinearOpMode {
             }
 
             // keep looping while we are still active, and there is time left, and both motors are running.
-            while (opModeIsActive() &&
-                    (fl.isBusy() && br.isBusy())) {
+            while (opModeIsActive() && fl.isBusy() && br.isBusy() && fr.isBusy() && bl.isBusy()) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightFrontTarget, newLeftBackTarget, newRightBackTarget);
@@ -184,28 +182,17 @@ public class fourEncoder2 extends LancerLinearOpMode {
         if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
         //Keeps the robot moving while the encoded motors are turning to the correct position.
         //Returns back data to make sure the method is working properly
-        if(opModeIsActive() && !backwards) {
-            while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
+        while (opModeIsActive() && fl.isBusy() && br.isBusy() && fr.isBusy() && bl.isBusy()) {
                 telemetry.addData("FR Power", fr.getPower());
                 telemetry.addData("BR Power", br.getPower());
                 telemetry.addData("FL Power", fl.getPower());
                 telemetry.addData("BL Power", bl.getPower());
-                telemetry.addData("Moving Left", fl.isBusy());
-                telemetry.addData("Moving Right", br.isBusy());
+                telemetry.addData("Moving Front Left", fl.isBusy());
+                telemetry.addData("Moving Back Right", br.isBusy());
+                telemetry.addData("Moving Front Right", fr.isBusy());
+                telemetry.addData("Moving Back Left", bl.isBusy());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
                 if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
-            }
-        }
-        else {
-            while (opModeIsActive() && br.isBusy()) {
-                telemetry.addData("FR Power", fr.getPower());
-                telemetry.addData("BR Power", br.getPower());
-                telemetry.addData("FL Power", fl.getPower());
-                telemetry.addData("BL Power", bl.getPower());
-                telemetry.addData("Moving Left", br.isBusy());
-                telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
-                if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
-            }
         }
         //Returns the motors to the no-encoder mode
         if(opModeIsActive()) {

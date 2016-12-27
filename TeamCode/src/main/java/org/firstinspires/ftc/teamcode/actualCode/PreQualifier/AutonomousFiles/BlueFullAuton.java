@@ -88,28 +88,30 @@ public class BlueFullAuton extends LancerLinearOpMode{
         if (beaconBlue || !beaconBlue) {
             if(opModeIsActive()) restAndSleep();
             if(opModeIsActive()) moveStraight(8, false, .2);
-            if(opModeIsActive()) restAndSleep();
-            sleep(500);
-            if(opModeIsActive()) moveStraight(8, true, .3);
-            if(opModeIsActive()) restAndSleep();
-        }
-        if (!beaconBlue) {
-            beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
-        } else {
             beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         }
         if(opModeIsActive()) moveStraight(23, true, .3);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroAngle(135, .1);
+        sleep(500);
+        if(opModeIsActive()) moveStraight(8, true, .3);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) moveStraight(50.91, false, .3);
-        if(opModeIsActive()) restAndSleep();
+
+    if (!beaconBlue) {
+        beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
+    }
+    else {
+        if (opModeIsActive()) restAndSleep();
+        if (opModeIsActive()) gyroAngle(135, .1);
+        if (opModeIsActive()) restAndSleep();
+        if (opModeIsActive()) moveStraight(50.91, false, .3);
+        if (opModeIsActive()) restAndSleep();
         //This code hits the cap ball and stops on the ramp.
 
         //Whats this down here
-        if(opModeIsActive()) setMotorPowerUniform(.3, true);
+        if (opModeIsActive()) setMotorPowerUniform(.3, true);
         sleep(1750);
-        if(opModeIsActive()) setMotorPowerUniform(0, false);
-        if(opModeIsActive()) telemetryAddData("Done?", "Yes");
+        if (opModeIsActive()) setMotorPowerUniform(0, false);
+        if (opModeIsActive()) telemetryAddData("Done?", "Yes");
+        }
     }
 }

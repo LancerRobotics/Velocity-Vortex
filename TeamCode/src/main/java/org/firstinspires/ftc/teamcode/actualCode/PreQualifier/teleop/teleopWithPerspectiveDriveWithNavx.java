@@ -18,12 +18,10 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
     public void init() {
         setup();
         //Sets up navX
-        if (cdim.isI2cPortReady(Keys.NAVX_DIM_I2C_PORT)) {
-            navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
-                    Keys.NAVX_DIM_I2C_PORT,
-                    AHRS.DeviceDataType.kProcessedData,
-                    Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        }
+        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
+                Keys.NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
         //Prevents robot from running before callibration is complete
         if (navx_device.isConnected()) {
             while (navx_device.isCalibrating()) {
@@ -133,9 +131,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
             } else {
                 clampLeftButtonPressedX = false;
             }
-        }
-
-        else if (clampLeftPosX == 2) {
+        } else if (clampLeftPosX == 2) {
             clampLeftToggleReturnArrayB = servoToggle(gamepad2.b, clampLeft, clampLeftPositionsB, clampLeftPosB, clampLeftButtonPressedB);
             clampLeftPosB = clampLeftToggleReturnArrayB[0];
             if (clampLeftToggleReturnArrayB[1] == 1) {
@@ -153,9 +149,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
             } else {
                 clampRightButtonPressedX = false;
             }
-        }
-
-        else if (clampRightPosX == 2) {
+        } else if (clampRightPosX == 2) {
             clampRightToggleReturnArrayB = servoToggle(gamepad2.b, clampRight, clampRightPositionsB, clampRightPosB, clampRightButtonPressedB);
             clampRightPosB = clampRightToggleReturnArrayB[0];
             if (clampRightToggleReturnArrayB[1] == 1) {

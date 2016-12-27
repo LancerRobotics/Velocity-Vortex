@@ -118,6 +118,42 @@ public class teleopWithPerspectiveDriveWithMRGyro extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
+        if (clampLeftPosB == 1) {
+            clampLeftToggleReturnArrayX = servoToggle(gamepad2.x, clampLeft, clampLeftPositionsX, clampLeftPosX, clampLeftButtonPressedX);
+            clampLeftPosX = clampLeftToggleReturnArrayX[0];
+            if (clampLeftToggleReturnArrayX[1] == 1) {
+                clampLeftButtonPressedX = true;
+            } else {
+                clampLeftButtonPressedX = false;
+            }
+        } else if (clampLeftPosX == 2) {
+            clampLeftToggleReturnArrayB = servoToggle(gamepad2.b, clampLeft, clampLeftPositionsB, clampLeftPosB, clampLeftButtonPressedB);
+            clampLeftPosB = clampLeftToggleReturnArrayB[0];
+            if (clampLeftToggleReturnArrayB[1] == 1) {
+                clampLeftButtonPressedB = true;
+            } else {
+                clampLeftButtonPressedB = false;
+            }
+        }
+
+        if (clampRightPosB == 1) {
+            clampRightToggleReturnArrayX = servoToggle(gamepad2.x, clampRight, clampRightPositionsX, clampRightPosX, clampRightButtonPressedX);
+            clampRightPosX = clampRightToggleReturnArrayX[0];
+            if (clampRightToggleReturnArrayX[1] == 1) {
+                clampRightButtonPressedX = true;
+            } else {
+                clampRightButtonPressedX = false;
+            }
+        } else if (clampRightPosX == 2) {
+            clampRightToggleReturnArrayB = servoToggle(gamepad2.b, clampRight, clampRightPositionsB, clampRightPosB, clampRightButtonPressedB);
+            clampRightPosB = clampRightToggleReturnArrayB[0];
+            if (clampRightToggleReturnArrayB[1] == 1) {
+                clampRightButtonPressedB = true;
+            } else {
+                clampRightButtonPressedB = false;
+            }
+        }
+
 
 
         //Returns important data to the driver.

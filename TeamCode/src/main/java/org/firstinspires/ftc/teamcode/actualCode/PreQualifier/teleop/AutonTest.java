@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 /**
  * Created by shlok.khandelwal on 12/26/2016.
  */
-
+@TeleOp(name="Auton Testing?", group = "Teleop")
 public class AutonTest extends LancerOpMode{
     int encoder;
     public void init(){
@@ -23,9 +23,24 @@ public class AutonTest extends LancerOpMode{
         if(gamepad1.right_bumper){
         encoder-=.5;
         }
+        if(gamepad1.a){
+            encoder-=1;
+        }
+        if(gamepad1.y){
+            encoder+=1;
+        }
+        if(gamepad1.x){
+            encoder-=.1;
+        }
+        if(gamepad1.b){
+            encoder+=.1;
+        }
         if(gamepad1.left_bumper){
             moveStraight(encoder, false, .3);
         }
         telemetry.addData("Inches: ", encoder);
+    }
+    public void stop(){
+
     }
 }

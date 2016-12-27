@@ -35,18 +35,26 @@ public class Keys {
     public static final String servo = "servo";
     public static final String beaconPushLeft = "beacon_left";
     public static final String beaconPushRight = "beacon_right";
-    public static final String latch = "latch";
+    public static final String clampLeft = "clamp_left";
+    public static final String clampRight = "clamp right";
     public static final double LEFT_BEACON_INITIAL_STATE = 156.0/255;
     public static final double LEFT_BEACON_PUSH = 1.0/255;
     public static final double RIGHT_BEACON_INITIAL_STATE = 155.0/255;
     public static final double RIGHT_BEACON_PUSH = 0;
-    public static final double LATCH_UP = 0;
-    public static final double LATCH_DOWN = 148.0/255;
+    public static final double LEFT_CLAMP_INITIAL_STATE;
+    public static final double LEFT_CLAMP_UP;
+    public static final double LEFT_CLAMP_CLAMP;
+    public static final double RIGHT_CLAMP_INTITIAL_STATE;
+    public static final double RIGHT_CLAMP_UP;
+    public static final double RIGHT_CLAMP_CLAMP;
 
     /*
     public static final double CAP_BALL_LEFT_INITIAL_STATE = 0;
     public static final double CAP_BALL_LEFT_OUT = 1;
     public static final double CAP_BALL_RIGHT_INITIAL_STATE = 1;
     public static final double CAP_BALL_RIGHT_OUT = 0;
+    public static final double ARM_UP = 0;
+    public static final double ARM_DOWN = 148.0/255;
+    public static final String arm = "arm";
     */
 }

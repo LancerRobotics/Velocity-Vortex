@@ -96,14 +96,6 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
-        latchToggleReturnArray = servoToggle(gamepad2.y, latch, latchPositions, latchPos, latchButtonPressed);
-        latchPos = latchToggleReturnArray[0];
-        if (latchToggleReturnArray[1] == 1) {
-            latchButtonPressed = true;
-        } else {
-            latchButtonPressed = false;
-        }
-
 
         //Returns important data to the driver.
         telemetry.addData("Status", "Running: " + runtime.toString());

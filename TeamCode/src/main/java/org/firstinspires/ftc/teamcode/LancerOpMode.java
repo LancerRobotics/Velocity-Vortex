@@ -21,7 +21,7 @@ public abstract class LancerOpMode extends OpMode{
     public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
-    public static Servo beaconPushLeft, beaconPushRight, latch;
+    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
     public static boolean beaconPushLeftButtonPressed = false;
     public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static int beaconPushLeftPos;
@@ -30,10 +30,25 @@ public abstract class LancerOpMode extends OpMode{
     public static double[] beaconPushRightPositions = {Keys.RIGHT_BEACON_INITIAL_STATE, Keys.RIGHT_BEACON_PUSH};
     public static int beaconPushRightPos;
     public static int beaconPushRightToggleReturnArray[] = new int[2];
-    public static boolean latchButtonPressed = false;
-    public static double[] latchPositions = {Keys.LATCH_DOWN, Keys.LATCH_UP};
-    public static int latchPos;
-    public static int latchToggleReturnArray[] = new int[2];
+
+    public static boolean clampLeftButtonPressedX = false;
+    public static double[] clampLeftPositionsX = {Keys.LEFT_CLAMP_INITIAL_STATE, Keys.LEFT_CLAMP_UP};
+    public static int clampLeftPosX;
+    public static int clampLeftToggleReturnArrayX[] = new int[2];
+    public static boolean clampRightButtonPressedX = false;
+    public static double[] clampRightPositionsX = {Keys.RIGHT_CLAMP_INTITIAL_STATE, Keys.RIGHT_CLAMP_UP};
+    public static int clampRightPosX;
+    public static int clampRightToggleReturnArrayX[] = new int[2];
+
+    public static boolean clampLeftButtonPressedB = false;
+    public static double[] clampLeftPositionsB = {Keys.LEFT_CLAMP_UP, Keys.LEFT_CLAMP_CLAMP};
+    public static int clampLeftPosB;
+    public static int clampLeftToggleReturnArrayB[] = new int[2];
+    public static boolean clampRightButtonPressedB = false;
+    public static double[] clampRightPositionsB = {Keys.RIGHT_CLAMP_UP, Keys.RIGHT_CLAMP_CLAMP};
+    public static int clampRightPosB;
+    public static int clampRightToggleReturnArrayB[] = new int[2];
+
     public static DeviceInterfaceModule cdim;
 
     public void init() {
@@ -67,7 +82,8 @@ public abstract class LancerOpMode extends OpMode{
         //Tells robot where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-        latch = hardwareMap.servo.get(Keys.latch);
+        clampLeft = hardwareMap.servo.get(Keys.clampLeft);
+        clampRight = hardwareMap.servo.get(Keys.clampRight);
 
         //Sets the zero power behavior of the flywheel and collector motors to float to prevent them from burning out due to the
         //design of the flywheel and collector.
@@ -79,12 +95,17 @@ public abstract class LancerOpMode extends OpMode{
         flywheelLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Initializes Servos
-        latchPos = 1;
-        latch.setPosition(latchPositions[0]);
         beaconPushLeftPos = 1;
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
+        clampLeftPosX = 1;
+        clampLeft.setPosition(clampLeftPositionsX[0]);
+        clampRightPosX = 1;
+        clampRight.setPosition(clampRightPositionsX[0]);
+        clampLeftPosB = 1;
+        clampRightPosB = 1;
+
     }
 
     //Method that allows for servos to toggle on one button

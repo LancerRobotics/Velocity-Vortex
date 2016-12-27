@@ -25,7 +25,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     //Names all motors, variables, servos, and sensors needed
     public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
     public static AHRS navx_device;
-    public static Servo beaconPushLeft, beaconPushRight, latch;
+    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
     public static ColorSensor color;
     public static int red, green, blue;
     public static boolean beaconBlue;
@@ -77,12 +77,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         //Declares where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
-        latch = hardwareMap.servo.get(Keys.latch);
+        clampLeft = hardwareMap.servo.get(Keys.clampLeft);
+        clampRight = hardwareMap.servo.get(Keys.clampRight);
 
         //Initializes The Servos
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
-        latch.setPosition(Keys.LATCH_DOWN);
+        clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
+        clampRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
 
         //Set up color sensor
         color = hardwareMap.colorSensor.get(Keys.colorSensor);

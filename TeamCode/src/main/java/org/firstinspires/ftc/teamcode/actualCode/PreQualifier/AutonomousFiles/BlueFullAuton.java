@@ -23,6 +23,16 @@ public class BlueFullAuton extends LancerLinearOpMode{
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         if(opModeIsActive()) moveStraight(30, false, .3);
         if(opModeIsActive()) restAndSleep();
+        sleep(5000);
+        if(opModeIsActive()) moveStraight(30, true, .3);
+        if(opModeIsActive()) restAndSleep();
+        sleep(5000);
+        if(opModeIsActive()) strafe(30, false, .3);
+        if(opModeIsActive()) restAndSleep();
+        sleep(5000);
+        if(opModeIsActive()) strafe(30, true, .3);
+        if(opModeIsActive()) restAndSleep();
+        sleep(5000);
         /*if(opModeIsActive())gyroAngle(45, .2);
         if(opModeIsActive()) restAndSleep();
         if(opModeIsActive()) moveStraight(50.91, false, .3); //did not work first match

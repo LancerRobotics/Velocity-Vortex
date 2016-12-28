@@ -183,7 +183,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             while (opModeIsActive() &&
-                    (fl.isBusy() && br.isBusy())) {
+                    (fl.isBusy() && br.isBusy() && fr.isBusy() && bl.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightFrontTarget, newLeftBackTarget, newRightBackTarget);
@@ -194,8 +194,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 telemetry.addData("BR Power", br.getPower());
                 telemetry.addData("FL Power", fl.getPower());
                 telemetry.addData("BL Power", bl.getPower());
-                telemetry.addData("Moving Left", fl.isBusy());
-                telemetry.addData("Moving Right", br.isBusy());
+                telemetry.addData("Moving Front Left", fl.isBusy());
+                telemetry.addData("Moving Back Right", br.isBusy());
+                telemetry.addData("Moving Front Right", fr.isBusy());
+                telemetry.addData("Moving Back Left", bl.isBusy());
+                telemetry.addData("FL Ticks", fl.getCurrentPosition());
+                telemetry.addData("BL Ticks", bl.getCurrentPosition());
+                telemetry.addData("FR Ticks", fr.getCurrentPosition());
+                telemetry.addData("BR Ticks", br.getCurrentPosition());
                 telemetry.addData("Distance Int", (int) (inches_per_rev * inches));
                 telemetry.addData("Distance Double", inches_per_rev * inches);
                 telemetry.update();
@@ -260,30 +266,50 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         telemetry.addData("BR Power", br.getPower());
         telemetry.addData("FL Power", fl.getPower());
         telemetry.addData("BL Power", bl.getPower());
-        telemetry.addData("Moving Left", br.isBusy());
+        telemetry.addData("Moving Front Left", fl.isBusy());
+        telemetry.addData("Moving Back Right", br.isBusy());
+        telemetry.addData("Moving Front Right", fr.isBusy());
+        telemetry.addData("Moving Back Left", bl.isBusy());
+        telemetry.addData("FL Ticks", fl.getCurrentPosition());
+        telemetry.addData("BL Ticks", bl.getCurrentPosition());
+        telemetry.addData("FR Ticks", fr.getCurrentPosition());
+        telemetry.addData("BR Ticks", br.getCurrentPosition());
         telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
         if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
         //Keeps the robot moving while the encoded motors are turning to the correct position.
         //Returns back data to make sure the method is working properly
         if(opModeIsActive() && !backwards) {
-            while (opModeIsActive() && fl.isBusy() && br.isBusy()) {
+            while (opModeIsActive() && fl.isBusy() && br.isBusy() && bl.isBusy() && fr.isBusy()) {
                 telemetry.addData("FR Power", fr.getPower());
                 telemetry.addData("BR Power", br.getPower());
                 telemetry.addData("FL Power", fl.getPower());
                 telemetry.addData("BL Power", bl.getPower());
-                telemetry.addData("Moving Left", fl.isBusy());
-                telemetry.addData("Moving Right", br.isBusy());
+                telemetry.addData("Moving Front Left", fl.isBusy());
+                telemetry.addData("Moving Back Right", br.isBusy());
+                telemetry.addData("Moving Front Right", fr.isBusy());
+                telemetry.addData("Moving Back Left", bl.isBusy());
+                telemetry.addData("FL Ticks", fl.getCurrentPosition());
+                telemetry.addData("BL Ticks", bl.getCurrentPosition());
+                telemetry.addData("FR Ticks", fr.getCurrentPosition());
+                telemetry.addData("BR Ticks", br.getCurrentPosition());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
                 if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
             }
         }
         else {
-            while (opModeIsActive() && br.isBusy()) {
+            while (opModeIsActive() && fl.isBusy() && bl.isBusy() && fr.isBusy() && br.isBusy()) {
                 telemetry.addData("FR Power", fr.getPower());
                 telemetry.addData("BR Power", br.getPower());
                 telemetry.addData("FL Power", fl.getPower());
                 telemetry.addData("BL Power", bl.getPower());
-                telemetry.addData("Moving Left", br.isBusy());
+                telemetry.addData("Moving Front Left", fl.isBusy());
+                telemetry.addData("Moving Back Right", br.isBusy());
+                telemetry.addData("Moving Front Right", fr.isBusy());
+                telemetry.addData("Moving Back Left", bl.isBusy());
+                telemetry.addData("FL Ticks", fl.getCurrentPosition());
+                telemetry.addData("BL Ticks", bl.getCurrentPosition());
+                telemetry.addData("FR Ticks", fr.getCurrentPosition());
+                telemetry.addData("BR Ticks", br.getCurrentPosition());
                 telemetry.addData("Distance Int", (int)(inches_per_rev * inches));
                 if(opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
             }
@@ -311,6 +337,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl.setPower(direction * power);
         bl.setPower(direction * power);
         br.setPower(direction * power);
+    }
+
+    public void setMotorPowerUniformNew(double power, boolean backwards) {
+
     }
 
     //Stops all motors on the drive train

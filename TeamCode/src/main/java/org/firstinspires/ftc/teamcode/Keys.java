@@ -44,7 +44,7 @@ public class Keys {
     public static final double LEFT_CLAMP_INITIAL_STATE = 1;
     public static final double LEFT_CLAMP_UP = 0;
     public static final double LEFT_CLAMP_CLAMP = 70.0/255;
-    public static final double RIGHT_CLAMP_INTITIAL_STATE = 0;
+    public static final double RIGHT_CLAMP_INITIAL_STATE = 0;
     public static final double RIGHT_CLAMP_UP = 1;
     public static final double RIGHT_CLAMP_CLAMP = 180.0/255;
     public static final String ods = "ods";

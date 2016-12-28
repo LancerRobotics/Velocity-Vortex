@@ -83,7 +83,7 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
-        clampRight.setPosition(Keys.RIGHT_CLAMP_INTITIAL_STATE);
+        clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
 
     }
 

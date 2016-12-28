@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 /**
  * Created by spork on 10/5/2016.
  */
-public abstract class LancerLinearOpMode extends LinearOpMode {
+public abstract class  LancerLinearOpMode extends LinearOpMode {
 
     //Names all motors, variables, servos, and sensors needed
     public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
@@ -84,7 +84,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
-        clampRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
+        clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
 
         //Set up color sensor
         color = hardwareMap.colorSensor.get(Keys.colorSensor);

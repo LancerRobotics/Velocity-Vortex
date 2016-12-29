@@ -222,7 +222,7 @@ public abstract class  LancerLinearOpMode extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
-    public void moveStraight(double inches, boolean backwards, double power) {
+    public void moveStraightCoast(double inches, boolean backwards, double power) {
         //Determines the number of inches traveled per wheel revolution
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
 
@@ -260,7 +260,14 @@ public abstract class  LancerLinearOpMode extends LinearOpMode {
         }
 
         //Sets the desired speed to all the motors.
-        if(opModeIsActive()) {fl.setPower(power); fr.setPower(power); bl.setPower(power); br.setPower(power);}
+        if(opModeIsActive()) {
+            for(int i = 0; i<=bl.getTargetPosition(); i+=50){
+                setMotorPowerUniform(coast(bl.getTargetPosition(), i), backwards);
+            }
+
+            //fr.setPower(power); bl.setPower(power); br.setPower(power);
+
+        }
 
         telemetry.addData("FR Power", fr.getPower());
         telemetry.addData("BR Power", br.getPower());
@@ -326,6 +333,117 @@ public abstract class  LancerLinearOpMode extends LinearOpMode {
             rest();
         }
     }
+    public void moveStraight(double inches, boolean backwards, double power) {
+        //Determines the number of inches traveled per wheel revolution
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
+
+        //Tells the back right and (if forwards) front left motors to switch to the encoder mode
+        if (opModeIsActive()) {
+            fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        //Sets the position of the encoded motors
+        if (opModeIsActive() && backwards) {
+            fl.setTargetPosition(fl.getCurrentPosition() - (int) (inches_per_rev * inches));
+            fr.setTargetPosition(fr.getCurrentPosition() - (int) (inches_per_rev * inches));
+            bl.setTargetPosition(bl.getCurrentPosition() - (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
+        } else {
+            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            fr.setTargetPosition(fr.getCurrentPosition() + (int) (inches_per_rev * inches));
+            bl.setTargetPosition(bl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
+        }
+
+        //Tells encoded motors to move to the correct position
+        if (opModeIsActive()) {
+            fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        //Sets the desired speed to all the motors.
+        if (opModeIsActive()) {
+            setMotorPowerUniform(.3, backwards);
+        }
+
+        //fr.setPower(power); bl.setPower(power); br.setPower(power);
+
+        telemetry.addData("FR Power", fr.getPower());
+        telemetry.addData("BR Power", br.getPower());
+        telemetry.addData("FL Power", fl.getPower());
+        telemetry.addData("BL Power", bl.getPower());
+        telemetry.addData("Moving Front Left", fl.isBusy());
+        telemetry.addData("Moving Back Right", br.isBusy());
+        telemetry.addData("Moving Front Right", fr.isBusy());
+        telemetry.addData("Moving Back Left", bl.isBusy());
+        telemetry.addData("FL Ticks", fl.getCurrentPosition());
+        telemetry.addData("BL Ticks", bl.getCurrentPosition());
+        telemetry.addData("FR Ticks", fr.getCurrentPosition());
+        telemetry.addData("BR Ticks", br.getCurrentPosition());
+        telemetry.addData("Distance Int", (int) (inches_per_rev * inches));
+        if (opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
+        //Keeps the robot moving while the encoded motors are turning to the correct position.
+        //Returns back data to make sure the method is working properly
+        if (opModeIsActive() && !backwards) {
+            while (opModeIsActive() && fl.isBusy() && br.isBusy() && bl.isBusy() && fr.isBusy()) {
+                telemetry.addData("FR Power", fr.getPower());
+                telemetry.addData("BR Power", br.getPower());
+                telemetry.addData("FL Power", fl.getPower());
+                telemetry.addData("BL Power", bl.getPower());
+                telemetry.addData("Moving Front Left", fl.isBusy());
+                telemetry.addData("Moving Back Right", br.isBusy());
+                telemetry.addData("Moving Front Right", fr.isBusy());
+                telemetry.addData("Moving Back Left", bl.isBusy());
+                telemetry.addData("FL Ticks", fl.getCurrentPosition());
+                telemetry.addData("BL Ticks", bl.getCurrentPosition());
+                telemetry.addData("FR Ticks", fr.getCurrentPosition());
+                telemetry.addData("BR Ticks", br.getCurrentPosition());
+                telemetry.addData("Distance Int", (int) (inches_per_rev * inches));
+                if (opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
+            }
+        } else {
+            while (opModeIsActive() && fl.isBusy() && bl.isBusy() && fr.isBusy() && br.isBusy()) {
+                telemetry.addData("FR Power", fr.getPower());
+                telemetry.addData("BR Power", br.getPower());
+                telemetry.addData("FL Power", fl.getPower());
+                telemetry.addData("BL Power", bl.getPower());
+                telemetry.addData("Moving Front Left", fl.isBusy());
+                telemetry.addData("Moving Back Right", br.isBusy());
+                telemetry.addData("Moving Front Right", fr.isBusy());
+                telemetry.addData("Moving Back Left", bl.isBusy());
+                telemetry.addData("FL Ticks", fl.getCurrentPosition());
+                telemetry.addData("BL Ticks", bl.getCurrentPosition());
+                telemetry.addData("FR Ticks", fr.getCurrentPosition());
+                telemetry.addData("BR Ticks", br.getCurrentPosition());
+                telemetry.addData("Distance Int", (int) (inches_per_rev * inches));
+                if (opModeIsActive()) telemetryAddData("Distance Double", inches_per_rev * inches);
+            }
+        }
+        //Returns the motors to the no-encoder mode
+        if (opModeIsActive()) {
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        //Breaks
+        if (opModeIsActive()) {
+            rest();
+        }
+    }
+
+    public void newMoveStraight(double inches, boolean backwards, double power) {
+
+    }
 
     //Sets all motors to the exact same power
     public void setMotorPowerUniform(double power, boolean backwards) {
@@ -333,14 +451,19 @@ public abstract class  LancerLinearOpMode extends LinearOpMode {
         if (backwards) {
             direction = -1;
         }
+
         fr.setPower(direction * power);
         fl.setPower(direction * power);
         bl.setPower(direction * power);
         br.setPower(direction * power);
     }
 
-    public void setMotorPowerUniformNew(double power, boolean backwards) {
-
+    public static double coast(int target, int currentPosition){
+        target = Math.abs(target);
+        currentPosition = Math.abs(currentPosition);
+        double power = (currentPosition*1.0)/target;
+        power = .8/(1+Math.pow(2.7182, 1.65*power));
+        return power;
     }
 
     //Stops all motors on the drive train
@@ -526,7 +649,5 @@ public abstract class  LancerLinearOpMode extends LinearOpMode {
         flywheelLeft.setPower(power);
         flywheelRight.setPower(power);
     }
-
-
 
 }

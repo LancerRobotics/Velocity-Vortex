@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Keys;
+import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by yibin.long on 10/27/2016.
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Keys;
 
 
 @Autonomous (name = "TestEncoderStrafe", group = "Test")
-public class TestEncoderStrafe extends LancerLinearOpMode{
+public class TestEncoderStrafe extends LancerLinearOpMode {
 
     public void runOpMode() {
         setup(); //Robot sets up

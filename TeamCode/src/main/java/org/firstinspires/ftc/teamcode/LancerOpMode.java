@@ -31,23 +31,6 @@ public abstract class LancerOpMode extends OpMode{
     public static int beaconPushRightPos;
     public static int beaconPushRightToggleReturnArray[] = new int[2];
 
-    public static boolean clampLeftButtonPressedX = false;
-    public static double[] clampLeftPositionsX = {Keys.LEFT_CLAMP_INITIAL_STATE, Keys.LEFT_CLAMP_UP};
-    public static int clampLeftPosX;
-    public static int clampLeftToggleReturnArrayX[] = new int[2];
-    public static boolean clampRightButtonPressedX = false;
-    public static double[] clampRightPositionsX = {Keys.RIGHT_CLAMP_INTITIAL_STATE, Keys.RIGHT_CLAMP_UP};
-    public static int clampRightPosX;
-    public static int clampRightToggleReturnArrayX[] = new int[2];
-
-    public static boolean clampLeftButtonPressedB = false;
-    public static double[] clampLeftPositionsB = {Keys.LEFT_CLAMP_UP, Keys.LEFT_CLAMP_CLAMP};
-    public static int clampLeftPosB;
-    public static int clampLeftToggleReturnArrayB[] = new int[2];
-    public static boolean clampRightButtonPressedB = false;
-    public static double[] clampRightPositionsB = {Keys.RIGHT_CLAMP_UP, Keys.RIGHT_CLAMP_CLAMP};
-    public static int clampRightPosB;
-    public static int clampRightToggleReturnArrayB[] = new int[2];
 
     public static DeviceInterfaceModule cdim;
 
@@ -99,12 +82,8 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushLeft.setPosition(beaconPushLeftPositions[0]);
         beaconPushRightPos = 1;
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
-        clampLeftPosX = 1;
-        clampLeft.setPosition(clampLeftPositionsX[0]);
-        clampRightPosX = 1;
-        clampRight.setPosition(clampRightPositionsX[0]);
-        clampLeftPosB = 1;
-        clampRightPosB = 1;
+        clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
+        clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
 
     }
 
@@ -212,5 +191,60 @@ public abstract class LancerOpMode extends OpMode{
         flywheelLeft.setPower(power);
         flywheelRight.setPower(power);
     }
+    public void moveStraight(double inches, boolean backwards, double power) {
+        //Determines the number of inches traveled per wheel revolution
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
 
+        //Tells the back right and (if forwards) front left motors to switch to the encoder mode
+        if(true) {
+            fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        //Sets the position of the encoded motors
+        if (true && backwards) {
+            fl.setTargetPosition(fl.getCurrentPosition() - (int) (inches_per_rev * inches));
+            fr.setTargetPosition(fr.getCurrentPosition() - (int) (inches_per_rev * inches));
+            bl.setTargetPosition(bl.getCurrentPosition() - (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
+        } else {
+            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            fr.setTargetPosition(fr.getCurrentPosition() + (int) (inches_per_rev * inches));
+            bl.setTargetPosition(bl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
+        }
+
+        //Tells encoded motors to move to the correct position
+        if(true) {
+            fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        //Sets the desired speed to all the motors.
+        if(true){ fl.setPower(power); fr.setPower(power); bl.setPower(power);; br.setPower(power);};
+
+
+        //Returns the motors to the no-encoder mode
+        if(true) {
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        //Breaks
+        if(true){
+            fl.setPower(0);
+            fr.setPower(0);
+            bl.setPower(0);
+            br.setPower(0);
+        }
+    }
 }

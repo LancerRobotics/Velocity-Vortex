@@ -96,6 +96,15 @@ public class teleopWithoutPerspectiveDrive extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
+        if(gamepad2.a) {
+            clampLeft.setPosition(Keys.LEFT_CLAMP_CLAMP);
+            clampRight.setPosition(Keys.RIGHT_CLAMP_CLAMP);
+        }
+        else if (gamepad2.y) {
+            clampLeft.setPosition(Keys.LEFT_CLAMP_UP);
+            clampRight.setPosition(Keys.RIGHT_CLAMP_UP);
+        }
+
 
         //Returns important data to the driver.
         telemetry.addData("Status", "Running: " + runtime.toString());

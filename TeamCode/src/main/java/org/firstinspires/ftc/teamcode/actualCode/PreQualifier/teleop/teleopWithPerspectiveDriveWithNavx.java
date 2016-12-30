@@ -17,21 +17,15 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
     public void init() {
         setup();
         //Sets up navX
-        if (cdim.isI2cPortReady(Keys.NAVX_DIM_I2C_PORT)) {
-            navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
-                    Keys.NAVX_DIM_I2C_PORT,
-                    AHRS.DeviceDataType.kProcessedData,
-                    Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
-        }
+        navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
+                Keys.NAVX_DIM_I2C_PORT,
+                AHRS.DeviceDataType.kProcessedData,
+                Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
         //Prevents robot from running before callibration is complete
-        if (navx_device.isConnected()) {
-            while (navx_device.isCalibrating()) {
-                telemetryAddData("Ready?", "No");
-            }
-            telemetryAddData("Ready?", "Yes");
-        } else {
-            telemetryAddData("Ready?", "Yes, but no perspective drive exists");
+        while (navx_device.isCalibrating()) {
+            telemetryAddData("Ready?", "No");
         }
+        telemetryAddData("Ready?", "Yes");
         navx_device.zeroYaw();
     }
 
@@ -49,9 +43,9 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         }
 
         //Sets controls for shooter
-        if (gamepad2.right_trigger > .15) {
+        if (gamepad1.left_trigger > .15) {
             shoot(1);
-        } else if (gamepad2.left_trigger > .15) {
+        } else if (gamepad1.left_bumper) {
             shoot(0);
         }
 
@@ -108,7 +102,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         }
 
         //Control servo toggling for beacon pushers and clamps
-        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.left_bumper, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
+        beaconPushLeftToggleReturnArray = servoToggle(gamepad2.left_trigger > .15, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
         if (beaconPushLeftToggleReturnArray[1] == 1) {
             beaconPushLeftButtonPressed = true;
@@ -116,7 +110,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
             beaconPushLeftButtonPressed = false;
         }
 
-        beaconPushRightToggleReturnArray = servoToggle(gamepad2.right_bumper, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
+        beaconPushRightToggleReturnArray = servoToggle(gamepad2.right_trigger > .15, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
         if (beaconPushRightToggleReturnArray[1] == 1) {
             beaconPushRightButtonPressed = true;
@@ -124,44 +118,13 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
             beaconPushRightButtonPressed = false;
         }
 
-        if (clampLeftPosB == 1) {
-            clampLeftToggleReturnArrayX = servoToggle(gamepad2.x, clampLeft, clampLeftPositionsX, clampLeftPosX, clampLeftButtonPressedX);
-            clampLeftPosX = clampLeftToggleReturnArrayX[0];
-            if (clampLeftToggleReturnArrayX[1] == 1) {
-                clampLeftButtonPressedX = true;
-            } else {
-                clampLeftButtonPressedX = false;
-            }
+        if(gamepad2.a) {
+            clampLeft.setPosition(Keys.LEFT_CLAMP_CLAMP);
+            clampRight.setPosition(Keys.RIGHT_CLAMP_CLAMP);
         }
-
-        else if (clampLeftPosX == 2) {
-            clampLeftToggleReturnArrayB = servoToggle(gamepad2.b, clampLeft, clampLeftPositionsB, clampLeftPosB, clampLeftButtonPressedB);
-            clampLeftPosB = clampLeftToggleReturnArrayB[0];
-            if (clampLeftToggleReturnArrayB[1] == 1) {
-                clampLeftButtonPressedB = true;
-            } else {
-                clampLeftButtonPressedB = false;
-            }
-        }
-
-        if (clampRightPosB == 1) {
-            clampRightToggleReturnArrayX = servoToggle(gamepad2.x, clampRight, clampRightPositionsX, clampRightPosX, clampRightButtonPressedX);
-            clampRightPosX = clampRightToggleReturnArrayX[0];
-            if (clampRightToggleReturnArrayX[1] == 1) {
-                clampRightButtonPressedX = true;
-            } else {
-                clampRightButtonPressedX = false;
-            }
-        }
-
-        else if (clampRightPosX == 2) {
-            clampRightToggleReturnArrayB = servoToggle(gamepad2.b, clampRight, clampRightPositionsB, clampRightPosB, clampRightButtonPressedB);
-            clampRightPosB = clampRightToggleReturnArrayB[0];
-            if (clampRightToggleReturnArrayB[1] == 1) {
-                clampRightButtonPressedB = true;
-            } else {
-                clampRightButtonPressedB = false;
-            }
+        else if (gamepad2.y) {
+            clampLeft.setPosition(Keys.LEFT_CLAMP_UP);
+            clampRight.setPosition(Keys.RIGHT_CLAMP_UP);
         }
 
         //Returns important data to the driver.

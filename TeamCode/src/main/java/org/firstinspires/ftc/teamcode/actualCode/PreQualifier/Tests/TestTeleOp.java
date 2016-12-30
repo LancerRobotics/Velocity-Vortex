@@ -24,14 +24,14 @@ public class TestTeleOp extends LancerOpMode {
     }
 
     public void move(){
-        if(gamepad1.right_stick_y > 0.1){
+        if(gamepad1.left_stick_y > 0.1){
             fl.setPower(Keys.MAX_MOTOR_SPEED);
             fr.setPower(Keys.MAX_MOTOR_SPEED);
             bl.setPower(Keys.MAX_MOTOR_SPEED);
             br.setPower(Keys.MAX_MOTOR_SPEED);
         }
 
-        else if(gamepad1.right_stick_y < -0.1){
+        else if(gamepad1.left_stick_y < -0.1){
             fl.setPower(-Keys.MAX_MOTOR_SPEED);
             fr.setPower(-Keys.MAX_MOTOR_SPEED);
             bl.setPower(-Keys.MAX_MOTOR_SPEED);

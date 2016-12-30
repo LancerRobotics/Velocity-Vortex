@@ -1,10 +1,5 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
-
 /**
  * Created by shlok.khandelwal on 11/9/2016.
  */

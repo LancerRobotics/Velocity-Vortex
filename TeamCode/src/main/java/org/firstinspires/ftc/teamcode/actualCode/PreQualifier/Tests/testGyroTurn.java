@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
-
 /**
  * Created by spork on 10/22/2016.
  */

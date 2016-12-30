@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by shlok.khandelwal on 12/12/2016.

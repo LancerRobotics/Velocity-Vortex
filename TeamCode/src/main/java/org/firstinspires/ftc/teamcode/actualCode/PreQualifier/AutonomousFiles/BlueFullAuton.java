@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.AutonomousFiles;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
 /**
  * Created by prateek.kapoor on 10/27/2016.

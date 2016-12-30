@@ -3,26 +3,10 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 /**
  * Created by david.lin on 11/15/2016.
  */
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.kauailabs.navx.ftc.AHRS;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
+import org.firstinspires.ftc.teamcode.Keys;
 
 /**
  * This file illustrates the concept of driving a path based on Gyro heading and encoder counts.

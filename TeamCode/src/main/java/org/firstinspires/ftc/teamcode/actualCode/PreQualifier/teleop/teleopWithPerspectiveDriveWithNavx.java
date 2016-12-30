@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Keys;
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 import org.firstinspires.ftc.teamcode.LancerOpMode;
 
 /**

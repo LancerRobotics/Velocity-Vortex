@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
-
 /**
  * Created by shlok.khandelwal on 11/9/2016.
  */

@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
-import org.firstinspires.ftc.teamcode.LancerOpMode;
 import org.firstinspires.ftc.teamcode.Keys;
 
 /**

@@ -9,19 +9,18 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by spork on 10/22/2016.
  */
 @Autonomous(name="Gyro Test", group = "Test")
-@Disabled
+//
+// @Disabled
 public class testGyroTurn extends LancerLinearOpMode {
     public void runOpMode() {
         setup();
         waitForStart();
-        telemetryAddData("Turn", "90 degrees");
-        gyroAngle(90, .15);
-        telemetryAddData("Turn", "One Is Done");
-        rest();
-        sleep(10000);
-        telemetryAddData("Turn", "-90 degrees");
-        gyroAngle(-90, .15);
-        telemetryAddData("Turn", "Two Is Done");
-        rest();
+        startUp();
+        while (opModeIsActive()) {
+            if(gamepad1.right_stick_button && gamepad1.left_stick_button) {
+                navx_device.zeroYaw();
+            }
+            telemetryAddData("Yaw", navx_device.getYaw());
+        }
     }
 }

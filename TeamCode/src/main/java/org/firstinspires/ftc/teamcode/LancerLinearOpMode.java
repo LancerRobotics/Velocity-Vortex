@@ -453,10 +453,15 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
         //Sets the position of the encoded motors
         if (opModeIsActive() && backwards) {
@@ -499,6 +504,111 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (opModeIsActive()) {
             rest();
         }
+
+        fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        gyroTurn(.2, 2.34);
+    }
+
+    public void newStrafe(double inches, boolean left, double power) {
+        //Sets the position of the encoded motors
+        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
+        int newLeftFrontTarget;
+        int newRightBackTarget;
+        int newLeftBackTarget;
+        int newRightFrontTarget;
+
+        if (opModeIsActive()) {
+//Left goes fl forward, bl backward, fr backward, br forward
+            fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            if (opModeIsActive() && left) { //If the boolean left is true, then run this if statement
+
+                // Determine new target position, and pass to motor controller
+                newRightFrontTarget = fr.getCurrentPosition() - (int) (inches * inches_per_rev);
+                newLeftFrontTarget = fl.getCurrentPosition() + (int) (inches * inches_per_rev);
+                newRightBackTarget = br.getCurrentPosition() + (int) (inches * inches_per_rev);
+                newLeftBackTarget = bl.getCurrentPosition() - (int) (inches * inches_per_rev);
+                fl.setTargetPosition(newLeftFrontTarget);
+                fr.setTargetPosition(newRightFrontTarget);
+                br.setTargetPosition(newRightBackTarget);
+                bl.setTargetPosition(newLeftBackTarget);
+
+            } else { //If boolean left is fase, then run this else statement
+
+                // Determine new target position, and pass to motor controller
+                newRightFrontTarget = fr.getCurrentPosition() + (int) (inches * inches_per_rev);
+                newLeftFrontTarget = fl.getCurrentPosition() - (int) (inches * inches_per_rev);
+                newRightBackTarget = br.getCurrentPosition() - (int) (inches * inches_per_rev);
+                newLeftBackTarget = bl.getCurrentPosition() + (int) (inches * inches_per_rev);
+                fl.setTargetPosition(newLeftFrontTarget);
+                fr.setTargetPosition(newRightFrontTarget);
+                br.setTargetPosition(newRightBackTarget);
+                bl.setTargetPosition(newLeftBackTarget);
+
+                // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
+                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+            if (opModeIsActive()) {
+                int smallest = 10000;
+                for (int i = 0; i <= smallest; i += 50) {
+                    smallest = smallest(fl.getTargetPosition(), bl.getTargetPosition(), fr.getTargetPosition(), br.getTargetPosition());
+                    power = coast(smallest, i);
+                    if (left) {
+                        fl.setPower(-power);
+                        fr.setPower(power);
+                        br.setPower(power);
+                        bl.setPower(-power);
+                    } else {
+                        fl.setPower(power);
+                        fr.setPower(-power);
+                        br.setPower(-power);
+                        bl.setPower(power);
+                    }
+                    telemetry.addData("FR Power", fr.getPower());
+                    telemetry.addData("BR Power", br.getPower());
+                    telemetry.addData("FL Power", fl.getPower());
+                    telemetry.addData("BL Power", bl.getPower());
+                    telemetry.addData("FL Ticks", fl.getCurrentPosition());
+                    telemetry.addData("BL Ticks", bl.getCurrentPosition());
+                    telemetry.addData("FR Ticks", fr.getCurrentPosition());
+                    telemetry.addData("BR Ticks", br.getCurrentPosition());
+                    telemetry.addData("Distance Int", (int) (inches_per_rev * inches));
+                    if (opModeIsActive())
+                        telemetryAddData("Distance Double", inches_per_rev * inches);
+                }
+            }
+
+            if (opModeIsActive()) {
+                fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+            //Breaks
+            if (opModeIsActive()) {
+                rest();
+            }
+
+            fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
     }
 
     public int smallest (int a, int b, int c, int d) {
@@ -535,8 +645,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         target = Math.abs(target);
         currentPosition = Math.abs(currentPosition);
         double power = (currentPosition * 1.0) / target;
-        power = .8 / (1 + Math.pow(2.7182, 1.65 * power));
-        return power;
+        power = .9 / (1 + Math.pow(2.7182, 1.65 * power));
+        return Range.clip(power,-1,1);
     }
 
     //Stops all motors on the drive train

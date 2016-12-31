@@ -510,11 +510,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        gyroTurn(.2, 2.34);
+        gyroTurn(.3, 2.34);
     }
 
     public void newStrafe(double inches, boolean left, double power) {
         //Sets the position of the encoded motors
+
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
         int newRightBackTarget;
@@ -532,6 +533,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             if (opModeIsActive() && left) { //If the boolean left is true, then run this if statement
 
                 // Determine new target position, and pass to motor controller

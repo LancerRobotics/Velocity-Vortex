@@ -640,7 +640,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (backwards) {
             direction = -1;
         }
-
+        power = Range.clip(power, -1, 1);
         fr.setPower(direction * power);
         fl.setPower(direction * power);
         bl.setPower(direction * power);

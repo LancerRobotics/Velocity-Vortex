@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Names all motors, variables, servos, and sensors needed
-    public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
+    public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static AHRS navx_device;
     public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
     public static ColorSensor color;
@@ -45,14 +45,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
-        flywheelLeft = hardwareMap.dcMotor.get(Keys.flywheelLeft);
-        flywheelRight = hardwareMap.dcMotor.get(Keys.flywheelRight);
-        lift = hardwareMap.dcMotor.get(Keys.lift);
+        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
+        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
 
         //Reverses the left motors
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
-        flywheelLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Sets the mode of the motors to not use encoders
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -60,9 +59,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flywheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flywheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Tells the motors to brake when they stop.
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -70,9 +69,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Declares where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
@@ -828,8 +827,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Method to run both flywheel motors at the same power
     public void shoot(double power) {
-        flywheelLeft.setPower(power);
-        flywheelRight.setPower(power);
+        flywheel.setPower(power);
     }
 
 }

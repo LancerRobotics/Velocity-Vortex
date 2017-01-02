@@ -118,7 +118,6 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (opModeIsActive()) {
             fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder

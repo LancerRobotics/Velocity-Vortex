@@ -23,12 +23,77 @@ public class BlueFullAuton extends LancerLinearOpMode {
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
         if(opModeIsActive()) newMoveStraight(30, false, .35);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroTurn(.4, 31);
+        if(opModeIsActive()) gyroTurn(.35, 31);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) newMoveStraight(52, false, .35);
+        if(opModeIsActive()) newMoveStraight(50.2, false, .35);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroTurn(.4, 40);
+        if(opModeIsActive()) gyroTurn(.35, 35);
         if(opModeIsActive()) restAndSleep();
+
+        // theoretical code: to be adjusted and stuff
+
+        if(opModeIsActive()) newMoveStraight(16, false, .2);
+        if(opModeIsActive()) restAndSleep();
+       /*
+       if(opModeIsActive()) restAndSleep();
+       sleep(500);
+       if(opModeIsActive()) detectColor();
+       if(opModeIsActive()) telemetryAddData("Beacon Color Blue", beaconBlue);
+       //Color sensor is on the LEFT side of robot
+       //Want to press: blue button
+       if(beaconBlue){
+           beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
+           telemetryAddData("Beacon Push Left", beaconBlue);
+       } else {
+           beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
+           telemetryAddData("Beacon Push ", beaconBlue);
+       } /*else {
+           if(opModeIsActive()) telemetryAddData("FAIL", "WILL NOT HIT BUTTON");
+           sleep(2000);
+       }*/ //This code will never run, will push either left or right servo
+
+        //move backwards
+        if(opModeIsActive()) moveStraight(12, true, .2);
+        if(opModeIsActive()) restAndSleep();
+        /*
+        if(opModeIsActive()) gyroTurn(.3,180);
+        if(opModeIsActive()) restAndSleep();
+        */
+        if(opModeIsActive()) newStrafe(48,false, .3 ); //For some reason this always veers off course...
+        if(opModeIsActive()) restAndSleep();
+        /*
+        if(opModeIsActive()) gyroTurn(.3,180);
+        if(opModeIsActive()) restAndSleep();
+        */
+        if(opModeIsActive()) newMoveStraight(18, false, .3);
+
+        if(opModeIsActive()) restAndSleep();
+        sleep(500);
+       /*if(opModeIsActive()) detectColor();
+       if(opModeIsActive()) telemetryAddData("Beacon Color Blue", beaconBlue);
+       //Color sensor is on the LEFT side of robot
+       //Want to press: blue button
+       if(beaconBlue){
+           beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
+           telemetryAddData("Beacon Push Left", beaconBlue);
+       } else {
+           beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
+           telemetryAddData("Beacon Push ", beaconBlue);
+       }
+       */
+
+        //Now move back and hit the ball
+        if(opModeIsActive()) moveStraight(36, true, .3);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) gyroTurn(.4, 67.5);
+        if(opModeIsActive()) restAndSleep();
+        if(opModeIsActive()) newMoveStraight(52, false, .3);
+        if(opModeIsActive()) restAndSleep();
+
+
+
+
+
         //if(opModeIsActive()) moveStraightCoast(30, true, .5);
         //if(opModeIsActive()) restAndSleep();
 

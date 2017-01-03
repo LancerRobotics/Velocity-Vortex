@@ -19,9 +19,7 @@ public class fourEncoder extends LancerLinearOpMode {
     /*strafe(10, true, .5);
     strafe(10, false, .5);
     sleep(10000);*/
-        moveStraight(10, true, .5);
-        sleep(1000);
-        moveStraight(10, false, .5);
+        newStrafe(30, true, .3);
     }
 
     public void strafe(double inches, boolean left, double power) {

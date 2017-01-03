@@ -113,6 +113,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     //Encoded movement
+    //EVERYTHINGS BACKWARDS LEFT = RIGHT
     public void strafe(double inches, boolean left, double power) {
         if (opModeIsActive()) {
             fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -531,6 +532,11 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+            fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            br.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             if (opModeIsActive() && left) { //If the boolean left is true, then run this if statement
 
                 // Determine new target position, and pass to motor controller
@@ -542,6 +548,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 fr.setTargetPosition(newRightFrontTarget);
                 br.setTargetPosition(newRightBackTarget);
                 bl.setTargetPosition(newLeftBackTarget);
+                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             } else { //If boolean left is fase, then run this else statement
 
@@ -570,13 +580,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                     if (left) {
                         fl.setPower(-power);
                         fr.setPower(power);
-                        br.setPower(power);
-                        bl.setPower(-power);
+                        br.setPower(-power);
+                        bl.setPower(power);
                     } else {
                         fl.setPower(power);
                         fr.setPower(-power);
-                        br.setPower(-power);
-                        bl.setPower(power);
+                        br.setPower(power);
+                        bl.setPower(-power);
                     }
                     telemetry.addData("FR Power", fr.getPower());
                     telemetry.addData("BR Power", br.getPower());

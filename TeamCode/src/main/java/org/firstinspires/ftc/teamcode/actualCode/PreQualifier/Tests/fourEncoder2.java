@@ -15,26 +15,26 @@ public class fourEncoder2 extends LancerLinearOpMode {
         setup();
         waitForStart();
         startUp();
-        /*strafe(10, true, .5);
-        sleep(10000);
-        strafe(10, false, .5);
-        sleep(10000);
-        */
-        moveStraight(10, false, .5);
-        moveStraight(10, true, .5);
+        strafe(10, true, .3);
+        sleep(1000);
+        strafe(10, false, .3);
+        sleep(1000);
+        moveStraight(10, false, .3);
+        sleep(1000);
+        moveStraight(10, true, .3);
     }
 
     public void strafe(double inches, boolean left, double power) {
         if(opModeIsActive()) {
             fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            //bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set front left motor to run using the encoder
             br.setMode(DcMotor.RunMode.RUN_USING_ENCODER); //Set back right motor to run using the encoder
-            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            //bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
@@ -47,20 +47,21 @@ public class fourEncoder2 extends LancerLinearOpMode {
             if (opModeIsActive() && left) { //If the boolean left is true, then run this if statement
 
                 // Determine new target position, and pass to motor controller
-                newRightFrontTarget = fr.getCurrentPosition() - (int) (inches * inches_per_rev);
+                //newRightFrontTarget = fr.getCurrentPosition() - (int) (inches * inches_per_rev);
                 newLeftFrontTarget = fl.getCurrentPosition() + (int) (inches * inches_per_rev);
                 newRightBackTarget = br.getCurrentPosition() + (int) (inches * inches_per_rev);
-                newLeftBackTarget = bl.getCurrentPosition() - (int) (inches * inches_per_rev);
+                //newLeftBackTarget = bl.getCurrentPosition() - (int) (inches * inches_per_rev);
                 fl.setTargetPosition(newLeftFrontTarget);
-                fr.setTargetPosition(newRightFrontTarget);
+                //fr.setTargetPosition(newRightFrontTarget);
                 br.setTargetPosition(newRightBackTarget);
-                bl.setTargetPosition(newLeftBackTarget);
-
+                //bl.setTargetPosition(newLeftBackTarget);
+                //fr.setPower(fl.getPower());
+                //bl.setPower(br.getPower());
                 // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
                 fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                 fr.setPower(power*-1.0); //Set front right motor to run backwards
                 fl.setPower(power);
@@ -70,20 +71,20 @@ public class fourEncoder2 extends LancerLinearOpMode {
             } else { //If boolean left is fase, then run this else statement
 
                 // Determine new target position, and pass to motor controller
-                newRightFrontTarget = fr.getCurrentPosition() + (int) (inches * inches_per_rev);
+                //newRightFrontTarget = fr.getCurrentPosition() + (int) (inches * inches_per_rev);
                 newLeftFrontTarget = fl.getCurrentPosition() - (int) (inches * inches_per_rev);
                 newRightBackTarget = br.getCurrentPosition() - (int) (inches * inches_per_rev);
-                newLeftBackTarget = bl.getCurrentPosition() + (int) (inches * inches_per_rev);
+               // newLeftBackTarget = bl.getCurrentPosition() + (int) (inches * inches_per_rev);
                 fl.setTargetPosition(newLeftFrontTarget);
-                fr.setTargetPosition(newRightFrontTarget);
+                //fr.setTargetPosition(newRightFrontTarget);
                 br.setTargetPosition(newRightBackTarget);
-                bl.setTargetPosition(newLeftBackTarget);
+                //bl.setTargetPosition(newLeftBackTarget);
 
                 // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
                 fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
                 fr.setPower(power); //Set front right motor to run backwards
                 fl.setPower(power*-1.0);
@@ -95,7 +96,7 @@ public class fourEncoder2 extends LancerLinearOpMode {
             while (opModeIsActive() && fl.isBusy() && br.isBusy() && fr.isBusy() && bl.isBusy()) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightFrontTarget, newLeftBackTarget, newRightBackTarget);
+                telemetry.addData("Path1", "Running to %7d :%7d", newLeftFrontTarget, newRightBackTarget);
                 telemetry.addData("Path2", "Running at %7d :%7d",
                         fl.getCurrentPosition(),
                         br.getCurrentPosition());
@@ -144,21 +145,21 @@ public class fourEncoder2 extends LancerLinearOpMode {
         //Sets the position of the encoded motors
         if (opModeIsActive() && backwards) {
             fl.setTargetPosition(fl.getCurrentPosition() - (int) (inches_per_rev * inches));
-            fr.setTargetPosition(fr.getCurrentPosition() - (int) (inches_per_rev * inches));
-            bl.setTargetPosition(bl.getCurrentPosition() - (int) (inches_per_rev * inches));
+            //fr.setTargetPosition(fr.getCurrentPosition() - (int) (inches_per_rev * inches));
+            //bl.setTargetPosition(bl.getCurrentPosition() - (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
         } else {
             fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            fr.setTargetPosition(fr.getCurrentPosition() + (int) (inches_per_rev * inches));
-            bl.setTargetPosition(bl.getCurrentPosition() + (int) (inches_per_rev * inches));
+            //fr.setTargetPosition(fr.getCurrentPosition() + (int) (inches_per_rev * inches));
+            //bl.setTargetPosition(bl.getCurrentPosition() + (int) (inches_per_rev * inches));
             br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
         }
 
         //Tells encoded motors to move to the correct position
         if(opModeIsActive()) {
             fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            //bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
 

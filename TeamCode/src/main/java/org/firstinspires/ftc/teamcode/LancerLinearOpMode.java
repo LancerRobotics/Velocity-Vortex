@@ -510,11 +510,12 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        gyroTurn(.2, 2.34);
+        gyroTurn(.3, 2.34);
     }
 
     public void newStrafe(double inches, boolean left, double power) {
         //Sets the position of the encoded motors
+
         double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
         int newRightBackTarget;
@@ -548,10 +549,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 fr.setTargetPosition(newRightFrontTarget);
                 br.setTargetPosition(newRightBackTarget);
                 bl.setTargetPosition(newLeftBackTarget);
-                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                /*fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
             } else { //If boolean left is fase, then run this else statement
 
@@ -566,10 +567,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 bl.setTargetPosition(newLeftBackTarget);
 
                 // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
-                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                /*fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
             }
 
             if (opModeIsActive()) {
@@ -643,7 +644,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         if (backwards) {
             direction = -1;
         }
-
+        power = Range.clip(power, -1, 1);
         fr.setPower(direction * power);
         fl.setPower(direction * power);
         bl.setPower(direction * power);

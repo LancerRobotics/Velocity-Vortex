@@ -582,7 +582,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                         fl.setPower(-power);
                         fr.setPower(power);
                         br.setPower(-power);
-                        bl.setPower(power);
+                        bl.setPower(power + .1);
                     } else {
                         fl.setPower(power);
                         fr.setPower(-power);

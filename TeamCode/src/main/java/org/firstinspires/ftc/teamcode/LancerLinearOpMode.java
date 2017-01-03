@@ -576,10 +576,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             }
 
             if (opModeIsActive()) {
-                int smallest = 10000;
-                for (int i = 0; i <= smallest; i += 50) {
-                    smallest = smallest(fl.getTargetPosition(), bl.getTargetPosition(), fr.getTargetPosition(), br.getTargetPosition());
-                    power = coast(smallest, i);
+                int smallestTarget = smallest(fl.getTargetPosition(), fr.getTargetPosition(), bl.getTargetPosition(), br.getTargetPosition());
+                while(smallest(fl.getCurrentPosition(), fr.getCurrentPosition(), bl.getCurrentPosition(), br.getCurrentPosition()) < smallestTarget) {
                     if (left) {
                         fl.setPower(-power);
                         fr.setPower(power);

@@ -510,7 +510,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        gyroTurn(.3, 2.34);
+        if(opModeIsActive() && !backwards) {
+            gyroTurn(.3, 2.34);
+        }
     }
 
     public void newStrafe(double inches, boolean left, double power) {
@@ -623,17 +625,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public int smallest (int a, int b, int c, int d) {
         int smallest;
-        if(a > b) {
-            smallest = b;
+        if(Math.abs(a) > Math.abs(b)) {
+            smallest = Math.abs(b);
         }
         else {
-            smallest = a;
+            smallest = Math.abs(a);
         }
-        if(smallest > c) {
-            smallest = c;
+        if(smallest > Math.abs(c)) {
+            smallest = Math.abs(c);
         }
-        if(smallest > d) {
-            smallest = d;
+        if(smallest > Math.abs(d)) {
+            smallest = Math.abs(d);
         }
         return smallest;
     }

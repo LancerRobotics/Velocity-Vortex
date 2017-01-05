@@ -52,8 +52,12 @@ public class TestGyroDrive extends LancerLinearOpMode {
         setup();
         waitForStart();
         startUp();
+        /*
         TestGyroMove(0.2, 30, false); //Moving backwards 30 inches with power 0.2
         TestGyroMove(0.2,30,true); //Moving forwards 30 inches with power 0.2
+        */
+        moveStraight(20,true,0.3);
+        newMoveStraight(20,false,0.3);
     }
 
     public void TestGyroMove(double power, double inches, boolean backwards) {

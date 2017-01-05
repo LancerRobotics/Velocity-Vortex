@@ -16,9 +16,9 @@ public class Keys {
     public static final String fl = "front_left";
     public static final String br = "back_right";
     public static final String bl = "back_left";
-    public static final String lift = "lift";
-    public static final String flywheelLeft  = "flywheel_left";
-    public static final String flywheelRight = "flywheel_right";
+    public static final String liftLeft = "lift_left";
+    public static final String liftRight = "lift_right";
+    public static final String flywheel  = "flywheel";
     public static final String collector = "collector";
 
     //Sensor and Module Names and Values

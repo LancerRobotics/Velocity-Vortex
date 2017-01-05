@@ -18,7 +18,7 @@ public abstract class LancerOpMode extends OpMode{
     public static AHRS navx_device;
     public static GyroSensor gyro;
     public static ElapsedTime runtime = new ElapsedTime();
-    public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
+    public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
     public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
@@ -58,9 +58,9 @@ public abstract class LancerOpMode extends OpMode{
         br = hardwareMap.dcMotor.get(Keys.br);
         bl = hardwareMap.dcMotor.get(Keys.bl);
         collector = hardwareMap.dcMotor.get(Keys.collector);
-        flywheelLeft = hardwareMap.dcMotor.get(Keys.flywheelLeft);
-        flywheelRight = hardwareMap.dcMotor.get(Keys.flywheelRight);
-        lift = hardwareMap.dcMotor.get(Keys.lift);
+        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
+        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
 
         //Tells robot where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
@@ -70,12 +70,8 @@ public abstract class LancerOpMode extends OpMode{
 
         //Sets the zero power behavior of the flywheel and collector motors to float to prevent them from burning out due to the
         //design of the flywheel and collector.
-        flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-
-        //Reverses one of the flywheel motors
-        flywheelLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Initializes Servos
         beaconPushLeftPos = 1;
@@ -156,7 +152,8 @@ public abstract class LancerOpMode extends OpMode{
     }
 
     public void lift(double power) {
-        lift.setPower(power);
+        liftLeft.setPower(power);
+        liftRight.setPower(power);
     }
 
 
@@ -188,8 +185,7 @@ public abstract class LancerOpMode extends OpMode{
 
     //Method to run flywheel motors at the same power
     public void shoot (double power){
-        flywheelLeft.setPower(power);
-        flywheelRight.setPower(power);
+        flywheel.setPower(power);
     }
     public void moveStraight(double inches, boolean backwards, double power) {
         //Determines the number of inches traveled per wheel revolution

@@ -33,10 +33,12 @@ public class teleopWithPerspectiveDriveWithMRGyro extends LancerOpMode {
 
         //Sets controls for linear slides on forklift
         if(Math.abs(gamepad2.right_stick_y) > .15) {
-            lift.setPower(Range.clip(gamepad2.right_stick_y, -1, 1));
+            liftLeft.setPower(Range.clip(gamepad2.right_stick_y, -1, 1));
+            liftLeft.setPower(Range.clip(gamepad2.right_stick_y, -1, 1));
         }
         else {
-            lift.setPower(0);
+            liftLeft.setPower(0);
+            liftRight.setPower(0);
         }
 
         //Sets controls for shooter

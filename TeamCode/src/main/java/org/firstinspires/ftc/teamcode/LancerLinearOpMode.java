@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.drivers.ColorSensorAdafruit;
 public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Names all motors, variables, servos, and sensors needed
-    public static DcMotor fl, fr, bl, br, collector, flywheelLeft, flywheelRight, lift;
+    public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static AHRS navx_device;
     public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
     public static ColorSensor color;
@@ -45,14 +45,13 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fl = hardwareMap.dcMotor.get(Keys.fl);
         fr = hardwareMap.dcMotor.get(Keys.fr);
         br = hardwareMap.dcMotor.get(Keys.br);
-        flywheelLeft = hardwareMap.dcMotor.get(Keys.flywheelLeft);
-        flywheelRight = hardwareMap.dcMotor.get(Keys.flywheelRight);
-        lift = hardwareMap.dcMotor.get(Keys.lift);
+        flywheel = hardwareMap.dcMotor.get(Keys.flywheel);
+        liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
+        liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
 
         //Reverses the left motors
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
-        flywheelLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Sets the mode of the motors to not use encoders
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -60,9 +59,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flywheelLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        flywheelRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheel.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //Tells the motors to brake when they stop.
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -70,9 +69,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         collector.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        flywheelLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        flywheelRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flywheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Declares where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
@@ -114,6 +113,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     }
 
     //Encoded movement
+    //EVERYTHINGS BACKWARDS LEFT = RIGHT
     public void strafe(double inches, boolean left, double power) {
         if (opModeIsActive()) {
             fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -509,7 +509,9 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         bl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        gyroTurn(.3, 2.34);
+        if(opModeIsActive() && !backwards) {
+            gyroTurn(.3, 2.34);
+        }
     }
 
     public void newStrafe(double inches, boolean left, double power) {
@@ -548,6 +550,10 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 fr.setTargetPosition(newRightFrontTarget);
                 br.setTargetPosition(newRightBackTarget);
                 bl.setTargetPosition(newLeftBackTarget);
+                /*fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
 
             } else { //If boolean left is fase, then run this else statement
 
@@ -562,27 +568,25 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 bl.setTargetPosition(newLeftBackTarget);
 
                 // Turn On RUN_TO_POSITION for front left, front right, back left, back right motors
-                fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                /*fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);*/
             }
 
             if (opModeIsActive()) {
-                int smallest = 10000;
-                for (int i = 0; i <= smallest; i += 50) {
-                    smallest = smallest(fl.getTargetPosition(), bl.getTargetPosition(), fr.getTargetPosition(), br.getTargetPosition());
-                    power = coast(smallest, i);
+                int smallestTarget = smallest(fl.getTargetPosition(), fr.getTargetPosition(), bl.getTargetPosition(), br.getTargetPosition());
+                while(smallest(fl.getCurrentPosition(), fr.getCurrentPosition(), bl.getCurrentPosition(), br.getCurrentPosition()) < smallestTarget) {
                     if (left) {
                         fl.setPower(-power);
                         fr.setPower(power);
-                        br.setPower(power);
-                        bl.setPower(-power);
+                        br.setPower(-power);
+                        bl.setPower(power + .1);
                     } else {
                         fl.setPower(power);
                         fr.setPower(-power);
-                        br.setPower(-power);
-                        bl.setPower(power);
+                        br.setPower(power);
+                        bl.setPower(-power);
                     }
                     telemetry.addData("FR Power", fr.getPower());
                     telemetry.addData("BR Power", br.getPower());
@@ -618,17 +622,17 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     public int smallest (int a, int b, int c, int d) {
         int smallest;
-        if(a > b) {
-            smallest = b;
+        if(Math.abs(a) > Math.abs(b)) {
+            smallest = Math.abs(b);
         }
         else {
-            smallest = a;
+            smallest = Math.abs(a);
         }
-        if(smallest > c) {
-            smallest = c;
+        if(smallest > Math.abs(c)) {
+            smallest = Math.abs(c);
         }
-        if(smallest > d) {
-            smallest = d;
+        if(smallest > Math.abs(d)) {
+            smallest = Math.abs(d);
         }
         return smallest;
     }
@@ -833,8 +837,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
 
     //Method to run both flywheel motors at the same power
     public void shoot(double power) {
-        flywheelLeft.setPower(power);
-        flywheelRight.setPower(power);
+        flywheel.setPower(power);
     }
 
 }

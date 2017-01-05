@@ -517,7 +517,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     public void newStrafe(double inches, boolean left, double power) {
         //Sets the position of the encoded motors
 
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
+        double inches_per_rev = 2688.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
         int newRightBackTarget;
         int newLeftBackTarget;

@@ -52,6 +52,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         //Reverses the left motors
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Sets the mode of the motors to not use encoders
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

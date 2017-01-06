@@ -62,6 +62,10 @@ public abstract class LancerOpMode extends OpMode{
         liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
         liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
 
+        //Reverses The Lift Motors
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //Tells robot where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);

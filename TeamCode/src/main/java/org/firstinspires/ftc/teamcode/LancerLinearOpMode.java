@@ -128,7 +128,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
+        double inches_per_rev = 2440.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
         int newRightBackTarget;
         int newLeftBackTarget;
@@ -658,7 +658,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         currentPosition = Math.abs(currentPosition);
         double power = (currentPosition * 1.0) / target;
         power = .9 / (1 + Math.pow(2.7182, 1.65 * power));
-        return Range.clip(power,-1,1);
+        return power;
     }
 
     //Stops all motors on the drive train

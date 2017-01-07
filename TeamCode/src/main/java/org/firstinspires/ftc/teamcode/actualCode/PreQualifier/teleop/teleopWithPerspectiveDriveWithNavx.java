@@ -106,19 +106,11 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         //Control servo toggling for beacon pushers and clamps
         beaconPushLeftToggleReturnArray = servoToggle(gamepad2.left_trigger > .15, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
-        if (beaconPushLeftToggleReturnArray[1] == 1) {
-            beaconPushLeftButtonPressed = true;
-        } else {
-            beaconPushLeftButtonPressed = false;
-        }
+        beaconPushLeftButtonPressed = beaconPushLeftToggleReturnArray[1] == 1;
 
         beaconPushRightToggleReturnArray = servoToggle(gamepad2.right_trigger > .15, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
-        if (beaconPushRightToggleReturnArray[1] == 1) {
-            beaconPushRightButtonPressed = true;
-        } else {
-            beaconPushRightButtonPressed = false;
-        }
+        beaconPushRightButtonPressed = beaconPushRightToggleReturnArray[1] == 1;
 
         if(gamepad2.a) {
             clampLeft.setPosition(Keys.LEFT_CLAMP_CLAMP);

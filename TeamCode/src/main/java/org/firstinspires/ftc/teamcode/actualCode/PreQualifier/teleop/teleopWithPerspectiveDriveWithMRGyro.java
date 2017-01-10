@@ -106,19 +106,11 @@ public class teleopWithPerspectiveDriveWithMRGyro extends LancerOpMode {
         //Control servo toggling for beacon pushers and beacon pushers
         beaconPushLeftToggleReturnArray = servoToggle(gamepad1.x, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
-        if (beaconPushLeftToggleReturnArray[1] == 1) {
-            beaconPushLeftButtonPressed = true;
-        } else {
-            beaconPushLeftButtonPressed = false;
-        }
+        beaconPushLeftButtonPressed = beaconPushLeftToggleReturnArray[1] == 1;
 
         beaconPushRightToggleReturnArray = servoToggle(gamepad1.b, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
-        if (beaconPushRightToggleReturnArray[1] == 1) {
-            beaconPushRightButtonPressed = true;
-        } else {
-            beaconPushRightButtonPressed = false;
-        }
+        beaconPushRightButtonPressed = beaconPushRightToggleReturnArray[1] == 1;
 
         if(gamepad2.a) {
             clampLeft.setPosition(Keys.LEFT_CLAMP_CLAMP);

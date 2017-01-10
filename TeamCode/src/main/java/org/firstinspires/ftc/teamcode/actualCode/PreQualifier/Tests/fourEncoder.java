@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  * Created by shlok.khandelwal on 12/12/2016.
  */
 @Autonomous(name = "Four Encoder", group = "Test")
+
 public class fourEncoder extends LancerLinearOpMode {
     @Override
     public void runOpMode() {

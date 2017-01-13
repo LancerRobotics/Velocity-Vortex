@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 /**
      * Created by Aluminati on 9/23/2015.
      */
+@Autonomous(name = "Encoders", group = "Test")
     public class Encoders extends LancerLinearOpMode {
 
 
@@ -90,6 +92,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
             telemetry.addData("1 Right Current", fr.getCurrentPosition());
             telemetry.addData("2 Left Current", bl.getCurrentPosition());
             telemetry.addData("2 Right Current", br.getCurrentPosition());
+            telemetry.update();
         }
 
 

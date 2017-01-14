@@ -63,7 +63,6 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
         public void runOpMode(){
 
             // Do operation based on the current state.
-            setup();
             switch (currentState) {
                 case STATE_DO_MOVE:
                     doMove();

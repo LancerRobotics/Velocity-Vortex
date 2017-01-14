@@ -98,7 +98,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
 
         //Prevents the robot from working without the sensor being calibrated
-        while (navx_device.isCalibrating()) {
+        if (navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "NO");
         }
         telemetryAddData("Ready?", "Yes");

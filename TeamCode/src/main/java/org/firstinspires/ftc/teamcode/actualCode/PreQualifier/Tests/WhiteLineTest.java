@@ -40,8 +40,17 @@ public class WhiteLineTest extends LinearOpMode {
         boolean secondWhiteLine = findSecondWhiteLine();
         telemetry.addData("FIRST WHITE LINE", firstWhiteLine);
         telemetry.addData("SECOND WHITE LINE", secondWhiteLine);
-        telemetry.update();
-        sleep(10000);
+        telemetryAddLine("Please press A to check for center base on red side. Press B for blue side");
+        while(!gamepad1.a || !gamepad1.b) {
+            sleep(1);
+        }
+        if(gamepad1.a) {
+            findCenterBase(false);
+        }
+        else if (gamepad1.b) {
+            findCenterBase(true);
+        }
+        sleep(5000);
     }
 
     public boolean findFirstWhiteLine() {

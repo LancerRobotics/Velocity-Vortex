@@ -54,34 +54,37 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
         setup();
         waitForStart();
         startUp();
-        switch (currentState) {
-            case STATE_DO_MOVE:
-                doMove();
-                break;
+        currentState = States.STATE_DO_MOVE;
+        while (!(currentState == States.STATE_DONE)) {
+            switch (currentState) {
+                case STATE_DO_MOVE:
+                    doMove();
+                    break;
 
-            case STATE_WAIT_FOR_ENCODER_RESET:
-                waitForEncoderReset(true,distanceToMove,powerToUse);
-                break;
+                case STATE_WAIT_FOR_ENCODER_RESET:
+                    waitForEncoderReset(true, distanceToMove, powerToUse);
+                    break;
 
-            case STATE_WAIT_FOR_MOVE_START:
-                // Check to see if the robot has started moving
-                waitForMoveStart();
-                break;
+                case STATE_WAIT_FOR_MOVE_START:
+                    // Check to see if the robot has started moving
+                    waitForMoveStart();
+                    break;
 
-            case STATE_MOVING:
-                // Check to see when the robot has finished moving
-                moving();
-                break;
+                case STATE_MOVING:
+                    // Check to see when the robot has finished moving
+                    moving();
+                    break;
 
-            case STATE_DONE:
-                // Do Nothing
-                break;
+                case STATE_DONE:
+                    // Do Nothing
+                    break;
+            }
+
+            telemetry.addData("1 Left Current", fl.getCurrentPosition());
+            telemetry.addData("1 Right Current", fr.getCurrentPosition());
+            telemetry.addData("2 Left Current", bl.getCurrentPosition());
+            telemetry.addData("2 Right Current", br.getCurrentPosition());
         }
-
-        telemetryAddData("1 Left Current", fl.getCurrentPosition());
-        telemetryAddData("1 Right Current", fr.getCurrentPosition());
-        telemetryAddData("2 Left Current", bl.getCurrentPosition());
-        telemetryAddData("2 Right Current", br.getCurrentPosition());
     }
     public void doMove()
     {

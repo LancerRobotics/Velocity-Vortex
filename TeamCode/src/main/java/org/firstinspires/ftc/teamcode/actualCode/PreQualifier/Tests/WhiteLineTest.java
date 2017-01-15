@@ -29,6 +29,7 @@ public class WhiteLineTest extends LinearOpMode {
 
     public void setup() {
         colorSensor = hardwareMap.colorSensor.get("Color");
+        colorSensor.enableLed(true);
         telemetry.addData("Status", "Initialized");
     }
 

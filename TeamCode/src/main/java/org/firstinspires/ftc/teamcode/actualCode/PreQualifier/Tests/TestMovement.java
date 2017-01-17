@@ -45,24 +45,26 @@ public class TestMovement extends LancerLinearOpMode{
         dinaBoolean = false;
 
         if(direction.equals("left")) {
-            while(!dinaBoolean) {
-                dinaMethod();
+            while (firstWhiteLine) {
+                findFirstWhiteLine();
                 bl.setPower(power);
                 br.setPower(-power);
                 fl.setPower(-power);
                 fr.setPower(power);
 
             }
-            if(direction.equals("right")) {
-                while(!dinaBoolean) {
-                    dinaMethod();
+        }
+            else if(direction.equals("right")) {
+                while (firstWhiteLine) {
+                    findFirstWhiteLine();
                     bl.setPower(-power);
                     br.setPower(power);
                     fl.setPower(power);
                     fr.setPower(-power);
 
                 }
-                if(direction.equals("up")) {
+            }
+                else if(direction.equals("up")) {
                     while(!dinaBoolean) {
                         dinaMethod();
                         bl.setPower(power);
@@ -71,7 +73,7 @@ public class TestMovement extends LancerLinearOpMode{
                         fr.setPower(power);
                     }
                 }
-                if(direction.equals("down")) {
+                else if(direction.equals("down")) {
                     while(!dinaBoolean) {
                         dinaMethod();
                         bl.setPower(-power);
@@ -80,34 +82,37 @@ public class TestMovement extends LancerLinearOpMode{
                         fr.setPower(-power);
                     }
                 }
-                if(direction.equals("leftDown")) {
+                else if(direction.equals("leftDown")) {
                     while(!dinaBoolean) {
                         dinaMethod();
                         bl.setPower(-power);
                         fr.setPower(-power);
                     }
                 }
-                if(direction.equals("rightDown")) {
+                else if(direction.equals("rightDown")) {
                     while(!dinaBoolean) {
                         dinaMethod();
                         br.setPower(-power);
                         fl.setPower(-power);
                     }
                 }
-                if(direction.equals("leftUp")) {
+                else if(direction.equals("leftUp")) {
                     while(!dinaBoolean) {
                         dinaMethod();
                         bl.setPower(power);
                         fr.setPower(power);
                     }
                 }
-                if(direction.equals("rightUp")) {
+                else if(direction.equals("rightUp")) {
                     while(!dinaBoolean) {
                         dinaMethod();
                         br.setPower(power);
                         fl.setPower(power);
                     }
                 }
+                else {
+                    telemetry.addLine("nothing detected");
+                    telemetry.update();
             }
 
         }
@@ -116,7 +121,7 @@ public class TestMovement extends LancerLinearOpMode{
 
 
 
-    }
+
 
     public void moveAnywhere (String direction, double inches, double power) {
 

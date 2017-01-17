@@ -24,25 +24,106 @@ public class TestMovement extends LancerLinearOpMode{
 
 
 
+    boolean dinaBoolean;
+
     public void runOpMode() {
         waitForStart();
         startUp();
-        moveAll("right", 5, 0.3);
+        moveUntilLine("up",0.3);
+        //Shlok method to adjust
+        moveUntilLine("left",0.3);
+        moveUntilLine("right",0.3);
 
-        moveAll("left", 5, 0.3);
-
-        moveAll("forward", 5, 0.3);
-
-        moveAll("backward", 5, 0.3);
+       /* moveAnywhere("right", 5, 0.3);
+        moveAnywhere("left", 5, 0.3);
+        moveAnywhere("forward", 5, 0.3);
+        moveAnywhere("backward", 5, 0.3); */
 
     }
 
-    public void moveAll (String direction, double inches, double power) {
+    public void moveUntilLine (String direction, double power) {
+        dinaBoolean = false;
+
+        if(direction.equals("left")) {
+            while(!dinaBoolean) {
+                dinaMethod();
+                bl.setPower(power);
+                br.setPower(-power);
+                fl.setPower(-power);
+                fr.setPower(power);
+
+            }
+            if(direction.equals("right")) {
+                while(!dinaBoolean) {
+                    dinaMethod();
+                    bl.setPower(-power);
+                    br.setPower(power);
+                    fl.setPower(power);
+                    fr.setPower(-power);
+
+                }
+                if(direction.equals("up")) {
+                    while(!dinaBoolean) {
+                        dinaMethod();
+                        bl.setPower(power);
+                        br.setPower(power);
+                        fl.setPower(power);
+                        fr.setPower(power);
+                    }
+                }
+                if(direction.equals("down")) {
+                    while(!dinaBoolean) {
+                        dinaMethod();
+                        bl.setPower(-power);
+                        br.setPower(-power);
+                        fl.setPower(-power);
+                        fr.setPower(-power);
+                    }
+                }
+                if(direction.equals("leftDown")) {
+                    while(!dinaBoolean) {
+                        dinaMethod();
+                        bl.setPower(-power);
+                        fr.setPower(-power);
+                    }
+                }
+                if(direction.equals("rightDown")) {
+                    while(!dinaBoolean) {
+                        dinaMethod();
+                        br.setPower(-power);
+                        fl.setPower(-power);
+                    }
+                }
+                if(direction.equals("leftUp")) {
+                    while(!dinaBoolean) {
+                        dinaMethod();
+                        bl.setPower(power);
+                        fr.setPower(power);
+                    }
+                }
+                if(direction.equals("rightUp")) {
+                    while(!dinaBoolean) {
+                        dinaMethod();
+                        br.setPower(power);
+                        fl.setPower(power);
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
+    }
+
+    public void moveAnywhere (String direction, double inches, double power) {
 
         boolean positive; //Going right or left? Up or down?
         boolean frontBack; //Is the robot going up or down?
 
-//I DONT UNDERSTAND THIS PART
+
 
         if (direction.equals("left")) {
             positive = false;

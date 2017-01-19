@@ -21,7 +21,7 @@ public abstract class LancerOpMode extends OpMode{
     public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
-    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
+    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight, rollerRelease ;
     public static boolean beaconPushLeftButtonPressed = false;
     public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static int beaconPushLeftPos;
@@ -71,6 +71,7 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
         clampLeft = hardwareMap.servo.get(Keys.clampLeft);
         clampRight = hardwareMap.servo.get(Keys.clampRight);
+        rollerRelease = hardwareMap.servo.get(Keys.rollerRelease);
 
         //Sets the zero power behavior of the flywheel and collector motors to float to prevent them from burning out due to the
         //design of the flywheel and collector.

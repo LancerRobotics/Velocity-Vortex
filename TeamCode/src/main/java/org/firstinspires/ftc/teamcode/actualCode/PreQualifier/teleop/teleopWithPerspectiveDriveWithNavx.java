@@ -134,6 +134,10 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         telemetryAddData("Yaw", convertYaw(navx_device.getYaw()));
     }
 
+    public void start() {
+        rollerRelease.setPosition(Keys.ROLLER_RELEASE_OUT);
+    }
+
     public void stop() {
         navx_device.close();
     }

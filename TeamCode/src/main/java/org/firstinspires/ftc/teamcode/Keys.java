@@ -37,6 +37,7 @@ public class Keys {
     public static final String beaconPushRight = "beacon_right";
     public static final String clampLeft = "clamp_left";
     public static final String clampRight = "clamp_right";
+    public static final String rollerRelease = "roller_release";
     public static final double LEFT_BEACON_INITIAL_STATE = 156.0/255;
     public static final double LEFT_BEACON_PUSH = 1.0/255;
     public static final double RIGHT_BEACON_INITIAL_STATE = 155.0/255;
@@ -47,6 +48,7 @@ public class Keys {
     public static final double RIGHT_CLAMP_INITIAL_STATE = 0;
     public static final double RIGHT_CLAMP_UP = 1;
     public static final double RIGHT_CLAMP_CLAMP = 180.0/255;
+    public static final double ROLLER_RELEASE_OUT = 153.0/255;
     public static final String ods = "ods";
 
     /*

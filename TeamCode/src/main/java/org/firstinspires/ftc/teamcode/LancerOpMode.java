@@ -21,7 +21,7 @@ public abstract class LancerOpMode extends OpMode{
     public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
-    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight, rollerRelease ;
+    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight, rollerRelease;
     public static boolean beaconPushLeftButtonPressed = false;
     public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static int beaconPushLeftPos;
@@ -85,6 +85,7 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
         clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
+        rollerRelease.setPosition(Keys.ROLLER_RELEASE_OUT);
 
     }
 

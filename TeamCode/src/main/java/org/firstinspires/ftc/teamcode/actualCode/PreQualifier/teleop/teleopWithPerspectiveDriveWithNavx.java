@@ -16,6 +16,8 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
     public void init() {
         setup();
+        //rollerRelease.setPosition(153.0/255);
+        rollerRelease.setPosition(0.0/255.0);
         //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -27,10 +29,12 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         }
         telemetryAddData("Ready?", "Yes");
         navx_device.zeroYaw();
+        telemetryAddData("Servo Position", rollerRelease.getPosition());
     }
 
     public void loop() {
         //Controls the recalibration of the gyro
+
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }

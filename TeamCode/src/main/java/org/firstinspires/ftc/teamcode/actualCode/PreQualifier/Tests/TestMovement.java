@@ -26,8 +26,7 @@ public class TestMovement extends LancerLinearOpMode{
 
     boolean dinaBoolean;
 
-    public void runOpMode() {
-        waitForStart();
+    public void runOpMode() {waitForStart();
         startUp();
         moveUntilLine("up",0.3);
         //Shlok method to adjust

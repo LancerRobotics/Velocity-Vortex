@@ -48,7 +48,8 @@ public class Keys {
     public static final double RIGHT_CLAMP_INITIAL_STATE = 0;
     public static final double RIGHT_CLAMP_UP = 1;
     public static final double RIGHT_CLAMP_CLAMP = 180.0/255;
-    public static final double ROLLER_RELEASE_OUT = 153.0/255;
+    //public static final double ROLLER_RELEASE_OUT = 153.0/255;
+    public static final double ROLLER_RELEASE_OUT = 0.0;
     public static final String ods = "ods";
 
     /*

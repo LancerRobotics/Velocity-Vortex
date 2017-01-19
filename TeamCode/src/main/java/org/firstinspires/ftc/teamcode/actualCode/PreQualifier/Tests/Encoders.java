@@ -31,13 +31,13 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
     private static final double countsPerInch = countsPerRotation / circumference * gearRatio;
     private static final double countsPerDegree = 29000.0 / 5.0 / 360.0;
 
-    private static final double distanceToMove = 24.0;  // inches
-    private static final double powerToUse = 1.0;       // Positive forward, negative backwards.
+    private static final double distanceToMove = 6;  // inches
+    private static final double powerToUse = .4;       // Positive forward, negative backwards.
 
     // To go straight, Left Counts increases, Right Counts decreases
     // To go backward, Left Counts decreases, Right Counts increases
     private static final boolean leftReversed = false;
-    private static final boolean rightReversed = true;
+    private static final boolean rightReversed = false;
     private enum States
     {
         STATE_DO_MOVE,

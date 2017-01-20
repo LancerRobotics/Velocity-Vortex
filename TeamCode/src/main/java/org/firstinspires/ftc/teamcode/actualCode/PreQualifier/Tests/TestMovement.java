@@ -21,10 +21,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 @Autonomous (name = "TestMovement", group = "Test")
 public class TestMovement extends LancerLinearOpMode{
 
-
-
-
     boolean dinaBoolean;
+    boolean firstWhiteLine = false;
 
     public void runOpMode() {waitForStart();
         startUp();
@@ -44,8 +42,8 @@ public class TestMovement extends LancerLinearOpMode{
         dinaBoolean = false;
 
         if(direction.equals("left")) {
-            while (firstWhiteLine) {
-                findFirstWhiteLine();
+            while(firstWhiteLine) {
+                firstWhiteLine = findFirstWhiteLine();
                 bl.setPower(power);
                 br.setPower(-power);
                 fl.setPower(-power);
@@ -55,7 +53,7 @@ public class TestMovement extends LancerLinearOpMode{
         }
             else if(direction.equals("right")) {
                 while (firstWhiteLine) {
-                    findFirstWhiteLine();
+                    firstWhiteLine = findFirstWhiteLine();
                     bl.setPower(-power);
                     br.setPower(power);
                     fl.setPower(power);
@@ -65,7 +63,6 @@ public class TestMovement extends LancerLinearOpMode{
             }
                 else if(direction.equals("up")) {
                     while(!dinaBoolean) {
-                        dinaMethod();
                         bl.setPower(power);
                         br.setPower(power);
                         fl.setPower(power);
@@ -74,7 +71,6 @@ public class TestMovement extends LancerLinearOpMode{
                 }
                 else if(direction.equals("down")) {
                     while(!dinaBoolean) {
-                        dinaMethod();
                         bl.setPower(-power);
                         br.setPower(-power);
                         fl.setPower(-power);
@@ -83,28 +79,24 @@ public class TestMovement extends LancerLinearOpMode{
                 }
                 else if(direction.equals("leftDown")) {
                     while(!dinaBoolean) {
-                        dinaMethod();
                         bl.setPower(-power);
                         fr.setPower(-power);
                     }
                 }
                 else if(direction.equals("rightDown")) {
                     while(!dinaBoolean) {
-                        dinaMethod();
                         br.setPower(-power);
                         fl.setPower(-power);
                     }
                 }
                 else if(direction.equals("leftUp")) {
                     while(!dinaBoolean) {
-                        dinaMethod();
                         bl.setPower(power);
                         fr.setPower(power);
                     }
                 }
                 else if(direction.equals("rightUp")) {
                     while(!dinaBoolean) {
-                        dinaMethod();
                         br.setPower(power);
                         fl.setPower(power);
                     }
@@ -117,7 +109,87 @@ public class TestMovement extends LancerLinearOpMode{
         }
 
 
+    public boolean findFirstWhiteLine() {
+        detectColor();
+        boolean firstWhiteLine = false;
+        if (red == 2 && blue == 2 && green == 2) {
+            firstWhiteLine = true;
+            telemetryAddLine("White line detected");
+        } else {
+            firstWhiteLine = false;
+            telemetryAddLine("No white line detected");
+        }
+        return firstWhiteLine;
+    }
 
+    public boolean findSecondWhiteLine() {
+        boolean secondWhiteLine = false;
+        sleep(500);
+        detectColor();
+        if (red == 2 && blue == 2 && green == 2) {
+            secondWhiteLine = true;
+            telemetryAddLine("White line detected");
+        } else {
+            secondWhiteLine = false;
+            telemetryAddLine("No white line detected");
+        }
+        return (secondWhiteLine);
+    }
+
+    public boolean findCenterBase(boolean blueAlliance) {
+        boolean centerBase = false;
+        if (blueAlliance) {
+            detectColor();
+            if (blue == 2) {
+                //stop robot
+                centerBase = true;
+                telemetryAddLine("Blue center tape detected");
+            } else {
+                centerBase = false;
+                telemetryAddLine("Blue center tape not detected");
+            }
+        } else if (!blueAlliance) {
+            detectColor();
+            if (red == 2) {
+                //stop robot
+                centerBase = true;
+                telemetryAddLine("Red center tape detected");
+            } else {
+                centerBase = false;
+                telemetryAddLine("Red center tape not detected");
+            }
+        }
+        return (centerBase);
+    }
+
+    public void detectColor() {
+        //Detect color
+        if (opModeIsActive()) getRGB();
+
+        //Set the color sensor values into an array to work with
+        int[] rgb = {red, green, blue};
+
+        //Check for if there is more blue than red or red than blue to determine beacon color.
+        if (rgb[0] > rgb[2]) {
+            beaconBlue = false;
+            if (opModeIsActive()) telemetryAddLine("detected red");
+        } else if (rgb[0] < rgb[2]) {
+            beaconBlue = true;
+            if (opModeIsActive()) telemetryAddLine("detected blue");
+        } else {
+            if (opModeIsActive()) telemetryAddLine("unable to determine beacon color");
+        }
+
+    }
+
+    public void getRGB() {
+        red = colorSensor.red(); // store the values the color sensor returns
+        blue = colorSensor.blue();
+        green = colorSensor.green();
+        telemetry.addData("Red", red);
+        telemetry.addData("Blue", blue);
+        telemetry.addData("Green", green);
+    }
 
 
 

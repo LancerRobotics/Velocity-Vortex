@@ -85,8 +85,7 @@ public abstract class LancerOpMode extends OpMode{
         beaconPushRight.setPosition(beaconPushRightPositions[0]);
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
         clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
-        rollerRelease.setPosition(Keys.ROLLER_RELEASE_OUT);
-
+        rollerRelease.setPosition(Keys.ROLLER_RELEASE_IN);
     }
 
     //Method that allows for servos to toggle on one button

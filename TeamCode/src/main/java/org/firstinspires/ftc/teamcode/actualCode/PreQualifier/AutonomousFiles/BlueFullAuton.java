@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.AutonomousFiles;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -201,4 +200,3 @@ public class BlueFullAuton extends LancerLinearOpMode {
 
   }
 }
->>>>>>> 669f5eebacad244b60f3180f37174084f3c025da

@@ -111,7 +111,7 @@ public class TestMovement extends LancerLinearOpMode {
     public boolean findFirstWhiteLine() {
         detectColor();
         boolean firstWhiteLine = false;
-        if (red == 2 && blue == 2 && green == 2) {
+        if (red >= 210 && blue >= 210 && green >= 210) {
             firstWhiteLine = true;
             telemetryAddLine("White line detected");
         } else {
@@ -125,7 +125,7 @@ public class TestMovement extends LancerLinearOpMode {
         boolean secondWhiteLine = false;
         sleep(500);
         detectColor();
-        if (red == 2 && blue == 2 && green == 2) {
+        if (red >= 210 && blue >= 210 && green >= 210) {
             secondWhiteLine = true;
             telemetryAddLine("White line detected");
         } else {
@@ -139,7 +139,7 @@ public class TestMovement extends LancerLinearOpMode {
         boolean centerBase = false;
         if (blueAlliance) {
             detectColor();
-            if (blue == 2) {
+            if (blue >= 210) {
                 //stop robot
                 centerBase = true;
                 telemetryAddLine("Blue center tape detected");
@@ -149,7 +149,7 @@ public class TestMovement extends LancerLinearOpMode {
             }
         } else if (!blueAlliance) {
             detectColor();
-            if (red == 2) {
+            if (red >= 210) {
                 //stop robot
                 centerBase = true;
                 telemetryAddLine("Red center tape detected");

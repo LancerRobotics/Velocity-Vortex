@@ -25,7 +25,7 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         while (navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "No");
         }
-        telemetryAddData("Ready?", "Yes");
+        telemetry.addData("Ready?", "Yes");
         navx_device.zeroYaw();
         telemetryAddData("Servo Position", rollerRelease.getPosition());
     }

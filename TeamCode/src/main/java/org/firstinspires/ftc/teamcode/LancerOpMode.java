@@ -86,7 +86,6 @@ public abstract class LancerOpMode extends OpMode{
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
         clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
 
-        telemetryAddData("beaconPushRight pos", beaconPushRight.getPosition());
         telemetryAddData("rollerRelease pos", rollerRelease.getPosition());
         rollerRelease.setPosition(Keys.ROLLER_RELEASE_IN);
     }

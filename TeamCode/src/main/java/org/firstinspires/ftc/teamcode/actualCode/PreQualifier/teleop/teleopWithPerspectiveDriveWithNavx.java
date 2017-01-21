@@ -16,15 +16,6 @@ import org.firstinspires.ftc.teamcode.LancerOpMode;
 public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
     public void init() {
         setup();
-<<<<<<< HEAD
-        //rollerRelease.setPosition(153.0/255);
-        //rollerRelease.setPosition(0.0/255.0);
-       // rollerRelease.setPosition(255.0/255.0);
-       // telemetryAddData("rollerReleaser Init", rollerRelease.getPosition());
-       // telemetryAddData("testing:", 255.0);
-
-=======
->>>>>>> 87d3108f1da9546f15e1ccefbfbfa38f38ebaf63
         //Sets up navX
         navx_device = AHRS.getInstance(hardwareMap.deviceInterfaceModule.get(Keys.cdim),
                 Keys.NAVX_DIM_I2C_PORT,
@@ -33,16 +24,8 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         //Prevents robot from running before callibration is complete
         while (navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "No");
-         //   telemetryAddData("rollerReleaser Init Position", rollerRelease.getPosition());
-           // telemetryAddData("testing:", 255.0);
         }
-<<<<<<< HEAD
         telemetryAddData("Ready?", "Yes");
-      //  telemetryAddData("rollerReleaser Init Position", rollerRelease.getPosition());
-      //  telemetryAddData("testing:", 255.0);
-=======
-        telemetry.addData("Ready?", "Yes");
->>>>>>> 87d3108f1da9546f15e1ccefbfbfa38f38ebaf63
         navx_device.zeroYaw();
         telemetryAddData("Servo Position", rollerRelease.getPosition());
     }

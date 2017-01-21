@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
  */
 @Autonomous(name="Test Sonar", group="Test")
 //@Disabled
-public class testSonar extends LinearOpMode {
+public class testSonar extends LancerLinearOpMode {
 
     AnalogInput sonarBack;
 
@@ -31,4 +31,39 @@ public class testSonar extends LinearOpMode {
         value = value/0.009766;
         return value;
     }
+    public boolean closeToBeacon(double value){
+        if(value < 3.5){ //3.5 inches is the distance away to read sonar
+            return true;
+
+            }
+        else{
+            return false;
+        }
+    }
+    public void moveToBeacon(){
+        while(!(closeToBeacon(readSonar(sonarBack)))){
+            fr.setPower(.3);
+            fl.setPower(.3);
+            br.setPower(.3);
+            bl.setPower(.3);
+        }
+        fr.setPower(0);
+        fl.setPower(0);
+        br.setPower(0);
+        bl.setPower(0);
+    }
+    public void moveAwayBeacon(){
+        while(closeToBeacon(readSonar(sonarBack))){
+            //call the moveStraight method so that it moves back until it reaches enough distance away
+            fr.setPower(-.3);
+            fl.setPower(-.3);
+            br.setPower(-.3);
+            bl.setPower(-.3);
+        }
+        fr.setPower(0);
+        fl.setPower(0);
+        br.setPower(0);
+        bl.setPower(0);
+    }
 }
+

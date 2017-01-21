@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.actualCode.PreQualifier.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.teamcode.LancerLinearOpMode;
 import org.firstinspires.ftc.teamcode.Keys;
+
 import com.kauailabs.navx.ftc.AHRS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -18,18 +20,21 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Created by david.lin on 1/11/2017.
  */
 
-@Autonomous (name = "TestMovement", group = "Test")
-public class TestMovement extends LancerLinearOpMode{
+@Autonomous(name = "TestMovement", group = "Test")
+public class TestMovement extends LancerLinearOpMode {
 
     boolean dinaBoolean;
     boolean firstWhiteLine = false;
+    boolean secondWhiteLine = false;
 
-    public void runOpMode() {waitForStart();
+    public void runOpMode() {
+        setup();
+        waitForStart();
         startUp();
-        moveUntilLine("up",0.3);
+        moveUntilLine("up", 0.3);
         //Shlok method to adjust
-        moveUntilLine("left",0.3);
-        moveUntilLine("right",0.3);
+        moveUntilLine("left", 0.3);
+        moveUntilLine("right", 0.3);
 
        /* moveAnywhere("right", 5, 0.3);
         moveAnywhere("left", 5, 0.3);
@@ -38,75 +43,69 @@ public class TestMovement extends LancerLinearOpMode{
 
     }
 
-    public void moveUntilLine (String direction, double power) {
+    public void moveUntilLine(String direction, double power) {
         dinaBoolean = false;
 
-        if(direction.equals("left")) {
-            while(firstWhiteLine) {
-                firstWhiteLine = findFirstWhiteLine();
+        if (direction.equals("left")) {
+            while (!secondWhiteLine) {
+                secondWhiteLine = findSecondWhiteLine();
                 bl.setPower(power);
                 br.setPower(-power);
                 fl.setPower(-power);
                 fr.setPower(power);
 
             }
-        }
-            else if(direction.equals("right")) {
-                while (firstWhiteLine) {
-                    firstWhiteLine = findFirstWhiteLine();
-                    bl.setPower(-power);
-                    br.setPower(power);
-                    fl.setPower(power);
-                    fr.setPower(-power);
+        } else if (direction.equals("right")) {
+            while (!secondWhiteLine) {
+                secondWhiteLine = findSecondWhiteLine();
+                bl.setPower(-power);
+                br.setPower(power);
+                fl.setPower(power);
+                fr.setPower(-power);
 
-                }
             }
-                else if(direction.equals("up")) {
-                    while(!dinaBoolean) {
-                        bl.setPower(power);
-                        br.setPower(power);
-                        fl.setPower(power);
-                        fr.setPower(power);
-                    }
-                }
-                else if(direction.equals("down")) {
-                    while(!dinaBoolean) {
-                        bl.setPower(-power);
-                        br.setPower(-power);
-                        fl.setPower(-power);
-                        fr.setPower(-power);
-                    }
-                }
-                else if(direction.equals("leftDown")) {
-                    while(!dinaBoolean) {
-                        bl.setPower(-power);
-                        fr.setPower(-power);
-                    }
-                }
-                else if(direction.equals("rightDown")) {
-                    while(!dinaBoolean) {
-                        br.setPower(-power);
-                        fl.setPower(-power);
-                    }
-                }
-                else if(direction.equals("leftUp")) {
-                    while(!dinaBoolean) {
-                        bl.setPower(power);
-                        fr.setPower(power);
-                    }
-                }
-                else if(direction.equals("rightUp")) {
-                    while(!dinaBoolean) {
-                        br.setPower(power);
-                        fl.setPower(power);
-                    }
-                }
-                else {
-                    telemetry.addLine("nothing detected");
-                    telemetry.update();
+        } else if (direction.equals("up")) {
+            while (!firstWhiteLine) {
+                firstWhiteLine = findFirstWhiteLine();
+                bl.setPower(power);
+                br.setPower(power);
+                fl.setPower(power);
+                fr.setPower(power);
             }
-
+        } else if (direction.equals("down")) {
+            while (!firstWhiteLine) {
+                firstWhiteLine = findFirstWhiteLine();
+                bl.setPower(-power);
+                br.setPower(-power);
+                fl.setPower(-power);
+                fr.setPower(-power);
+            }
+        } else if (direction.equals("leftDown")) {
+            while (!findCenterBase(false)) {
+                bl.setPower(-power);
+                fr.setPower(-power);
+            }
+        } else if (direction.equals("rightDown")) {
+            while (!findCenterBase(true)) {
+                br.setPower(-power);
+                fl.setPower(-power);
+            }
+        } else if (direction.equals("leftUp")) {
+            while (!findCenterBase(false)) {
+                bl.setPower(power);
+                fr.setPower(power);
+            }
+        } else if (direction.equals("rightUp")) {
+            while (!findCenterBase(true)) {
+                br.setPower(power);
+                fl.setPower(power);
+            }
+        } else {
+            telemetry.addLine("nothing detected");
+            telemetry.update();
         }
+
+    }
 
 
     public boolean findFirstWhiteLine() {
@@ -192,13 +191,10 @@ public class TestMovement extends LancerLinearOpMode{
     }
 
 
-
-
-    public void moveAnywhere (String direction, double inches, double power) {
+    public void moveAnywhere(String direction, double inches, double power) {
 
         boolean positive; //Going right or left? Up or down?
         boolean frontBack; //Is the robot going up or down?
-
 
 
         if (direction.equals("left")) {

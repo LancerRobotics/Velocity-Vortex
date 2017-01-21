@@ -22,13 +22,15 @@ public class testSonar extends LinearOpMode {
         while(opModeIsActive()) {
             double sonarValue = readSonar(sonarBack);
             telemetry.addData("Sonar Value", sonarValue);
+            telemetry.addData("Sonar Value Original", readSonar(sonarBack));
             telemetry.update();
         }
     }
 
     public double readSonar(AnalogInput sonar) {
-        double value = sonarBack.getVoltage();
-        value = value/0.009766;
+        double value = sonar.getVoltage();
+        double conversionFactor = sonar.getMaxVoltage()/512.0;
+        value = value/conversionFactor;
         return value;
     }
 }

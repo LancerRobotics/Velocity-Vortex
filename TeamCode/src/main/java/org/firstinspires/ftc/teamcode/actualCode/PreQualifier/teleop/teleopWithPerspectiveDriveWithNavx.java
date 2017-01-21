@@ -25,12 +25,14 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         while (navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "No");
         }
-        telemetryAddData("Ready?", "Yes");
+        telemetry.addData("Ready?", "Yes");
         navx_device.zeroYaw();
+        telemetryAddData("Servo Position", rollerRelease.getPosition());
     }
 
     public void loop() {
         //Controls the recalibration of the gyro
+
         if (gamepad1.right_stick_button && gamepad1.left_stick_button) {
             navx_device.zeroYaw();
         }
@@ -106,19 +108,11 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         //Control servo toggling for beacon pushers and clamps
         beaconPushLeftToggleReturnArray = servoToggle(gamepad2.left_trigger > .15, beaconPushLeft, beaconPushLeftPositions, beaconPushLeftPos, beaconPushLeftButtonPressed);
         beaconPushLeftPos = beaconPushLeftToggleReturnArray[0];
-        if (beaconPushLeftToggleReturnArray[1] == 1) {
-            beaconPushLeftButtonPressed = true;
-        } else {
-            beaconPushLeftButtonPressed = false;
-        }
+        beaconPushLeftButtonPressed = beaconPushLeftToggleReturnArray[1] == 1;
 
         beaconPushRightToggleReturnArray = servoToggle(gamepad2.right_trigger > .15, beaconPushRight, beaconPushRightPositions, beaconPushRightPos, beaconPushRightButtonPressed);
         beaconPushRightPos = beaconPushRightToggleReturnArray[0];
-        if (beaconPushRightToggleReturnArray[1] == 1) {
-            beaconPushRightButtonPressed = true;
-        } else {
-            beaconPushRightButtonPressed = false;
-        }
+        beaconPushRightButtonPressed = beaconPushRightToggleReturnArray[1] == 1;
 
         if(gamepad2.a) {
             clampLeft.setPosition(Keys.LEFT_CLAMP_CLAMP);
@@ -140,6 +134,10 @@ public class teleopWithPerspectiveDriveWithNavx extends LancerOpMode {
         telemetry.addData("BR Power", br.getPower());
         telemetry.addData("BL Power", bl.getPower());
         telemetryAddData("Yaw", convertYaw(navx_device.getYaw()));
+    }
+
+    public void start() {
+        rollerRelease.setPosition(Keys.ROLLER_RELEASE_OUT);
     }
 
     public void stop() {

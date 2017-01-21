@@ -21,7 +21,7 @@ public abstract class LancerOpMode extends OpMode{
     public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static double x, y, z, trueX, trueY;
     public static double frPower, flPower, brPower, blPower;
-    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
+    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight, rollerRelease;
     public static boolean beaconPushLeftButtonPressed = false;
     public static double[] beaconPushLeftPositions = {Keys.LEFT_BEACON_INITIAL_STATE, Keys.LEFT_BEACON_PUSH};
     public static int beaconPushLeftPos;
@@ -62,11 +62,16 @@ public abstract class LancerOpMode extends OpMode{
         liftLeft = hardwareMap.dcMotor.get(Keys.liftLeft);
         liftRight = hardwareMap.dcMotor.get(Keys.liftRight);
 
+        //Reverses The Lift Motors
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         //Tells robot where the servos are
         beaconPushLeft = hardwareMap.servo.get(Keys.beaconPushLeft);
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
         clampLeft = hardwareMap.servo.get(Keys.clampLeft);
         clampRight = hardwareMap.servo.get(Keys.clampRight);
+        rollerRelease = hardwareMap.servo.get(Keys.rollerRelease);
 
         //Sets the zero power behavior of the flywheel and collector motors to float to prevent them from burning out due to the
         //design of the flywheel and collector.
@@ -81,6 +86,8 @@ public abstract class LancerOpMode extends OpMode{
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
         clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
 
+        telemetryAddData("rollerRelease pos", rollerRelease.getPosition());
+        rollerRelease.setPosition(Keys.ROLLER_RELEASE_IN);
     }
 
     //Method that allows for servos to toggle on one button
@@ -187,60 +194,5 @@ public abstract class LancerOpMode extends OpMode{
     public void shoot (double power){
         flywheel.setPower(power);
     }
-    public void moveStraight(double inches, boolean backwards, double power) {
-        //Determines the number of inches traveled per wheel revolution
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI);
 
-        //Tells the back right and (if forwards) front left motors to switch to the encoder mode
-        if(true) {
-            fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-        //Sets the position of the encoded motors
-        if (true && backwards) {
-            fl.setTargetPosition(fl.getCurrentPosition() - (int) (inches_per_rev * inches));
-            fr.setTargetPosition(fr.getCurrentPosition() - (int) (inches_per_rev * inches));
-            bl.setTargetPosition(bl.getCurrentPosition() - (int) (inches_per_rev * inches));
-            br.setTargetPosition(br.getCurrentPosition() - (int) (inches_per_rev * inches));
-        } else {
-            fl.setTargetPosition(fl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            fr.setTargetPosition(fr.getCurrentPosition() + (int) (inches_per_rev * inches));
-            bl.setTargetPosition(bl.getCurrentPosition() + (int) (inches_per_rev * inches));
-            br.setTargetPosition(br.getCurrentPosition() + (int) (inches_per_rev * inches));
-        }
-
-        //Tells encoded motors to move to the correct position
-        if(true) {
-            fl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            fr.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            bl.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            br.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        //Sets the desired speed to all the motors.
-        if(true){ fl.setPower(power); fr.setPower(power); bl.setPower(power);; br.setPower(power);};
-
-
-        //Returns the motors to the no-encoder mode
-        if(true) {
-            fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-        //Breaks
-        if(true){
-            fl.setPower(0);
-            fr.setPower(0);
-            bl.setPower(0);
-            br.setPower(0);
-        }
-    }
 }

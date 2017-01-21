@@ -22,15 +22,14 @@ public class BlueFullAuton extends LancerLinearOpMode {
         startUp();
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_INITIAL_STATE);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_INITIAL_STATE);
-        if(opModeIsActive()) newMoveStraight(30, false, .35);
 
-        if(opModeIsActive()) newMoveStraight(28, false, .3);
+        if(opModeIsActive()) newMoveStraight(31, false, .3);
         if(opModeIsActive()) restAndSleep();
         if(opModeIsActive()) gyroTurn(.35, 31);
         if(opModeIsActive()) restAndSleep();
         if(opModeIsActive()) newMoveStraight(50.2, false, .35);
         if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroTurn(.35, 35);
+        if(opModeIsActive()) gyroTurn(.35, 30);
         if(opModeIsActive()) restAndSleep();
 
         // theoretical code: to be adjusted and stuff
@@ -56,22 +55,22 @@ public class BlueFullAuton extends LancerLinearOpMode {
        }*/ //This code will never run, will push either left or right servo
 
         //move backwards
-        if(opModeIsActive()) moveStraight(12, true, .2);
-        if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) moveStraight(12, true, .2);
+        //if(opModeIsActive()) restAndSleep();
         /*
         if(opModeIsActive()) gyroTurn(.3,180);
         if(opModeIsActive()) restAndSleep();
         */
-        if(opModeIsActive()) newStrafe(48,false, .3 ); //For some reason this always veers off course...
-        if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) newStrafe(48,false, .3 ); //For some reason this always veers off course...
+        //if(opModeIsActive()) restAndSleep();
         /*
         if(opModeIsActive()) gyroTurn(.3,180);
         if(opModeIsActive()) restAndSleep();
         */
-        if(opModeIsActive()) newMoveStraight(18, false, .3);
+        //if(opModeIsActive()) newMoveStraight(18, false, .3);
 
-        if(opModeIsActive()) restAndSleep();
-        sleep(500);
+        //if(opModeIsActive()) restAndSleep();
+        //sleep(500);
        /*if(opModeIsActive()) detectColor();
        if(opModeIsActive()) telemetryAddData("Beacon Color Blue", beaconBlue);
        //Color sensor is on the LEFT side of robot
@@ -86,12 +85,12 @@ public class BlueFullAuton extends LancerLinearOpMode {
        */
 
         //Now move back and hit the ball
-        if(opModeIsActive()) moveStraight(36, true, .3);
-        if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroTurn(.4, 67.5);
-        if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) newMoveStraight(52, false, .3);
-        if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) moveStraight(36, true, .3);
+        //if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) gyroTurn(.4, 67.5);
+        //if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) newMoveStraight(52, false, .3);
+        //if(opModeIsActive()) restAndSleep();
 
 
 
@@ -193,10 +192,10 @@ public class BlueFullAuton extends LancerLinearOpMode {
     }
     **/
 
-        if(opModeIsActive()) newMoveStraight(34, false, .3);
-        if(opModeIsActive()) restAndSleep();
-        if(opModeIsActive()) gyroTurn(.4, 16);
-        if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) newMoveStraight(34, false, .3);
+        //if(opModeIsActive()) restAndSleep();
+        //if(opModeIsActive()) gyroTurn(.4, 16);
+        //if(opModeIsActive()) restAndSleep();
 
   }
 }

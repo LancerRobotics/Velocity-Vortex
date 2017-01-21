@@ -25,7 +25,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
     //Names all motors, variables, servos, and sensors needed
     public static DcMotor fl, fr, bl, br, collector, flywheel, liftLeft, liftRight;
     public static AHRS navx_device;
-    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight;
+    public static Servo beaconPushLeft, beaconPushRight, clampLeft, clampRight, rollerRelease;
     public static ColorSensor color;
     public static int red, green, blue;
     public static boolean beaconBlue;
@@ -52,6 +52,8 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         //Reverses the left motors
         fl.setDirection(DcMotorSimple.Direction.REVERSE);
         bl.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Sets the mode of the motors to not use encoders
         fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -78,12 +80,14 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         beaconPushRight = hardwareMap.servo.get(Keys.beaconPushRight);
         clampLeft = hardwareMap.servo.get(Keys.clampLeft);
         clampRight = hardwareMap.servo.get(Keys.clampRight);
+        rollerRelease = hardwareMap.servo.get(Keys.rollerRelease);
 
         //Initializes The Servos
         beaconPushLeft.setPosition(Keys.LEFT_BEACON_PUSH);
         beaconPushRight.setPosition(Keys.RIGHT_BEACON_PUSH);
         clampLeft.setPosition(Keys.LEFT_CLAMP_INITIAL_STATE);
         clampRight.setPosition(Keys.RIGHT_CLAMP_INITIAL_STATE);
+        rollerRelease.setPosition(Keys.ROLLER_RELEASE_IN);
 
         //Set up color sensor
         color = hardwareMap.colorSensor.get(Keys.colorSensor);
@@ -96,7 +100,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
                 Keys.NAVX_DEVICE_UPDATE_RATE_HZ);
 
         //Prevents the robot from working without the sensor being calibrated
-        while (navx_device.isCalibrating()) {
+        if (navx_device.isCalibrating()) {
             telemetryAddData("Ready?", "NO");
         }
         telemetryAddData("Ready?", "Yes");
@@ -125,7 +129,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
             fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-        double inches_per_rev = 560.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
+        double inches_per_rev = 2440.0 / (Keys.WHEEL_DIAMETER * Math.PI); //Converting
         int newLeftFrontTarget;
         int newRightBackTarget;
         int newLeftBackTarget;
@@ -655,7 +659,7 @@ public abstract class LancerLinearOpMode extends LinearOpMode {
         currentPosition = Math.abs(currentPosition);
         double power = (currentPosition * 1.0) / target;
         power = .9 / (1 + Math.pow(2.7182, 1.65 * power));
-        return Range.clip(power,-1,1);
+        return power;
     }
 
     //Stops all motors on the drive train

@@ -22,17 +22,17 @@ public class testSonar extends LancerLinearOpMode {
         while(opModeIsActive()) {
             double sonarValue = readSonar(sonarBack);
             telemetry.addData("Sonar Value", sonarValue);
-            telemetry.addData("Sonar Value Original", readSonar(sonarBack));
+            telemetry.addData("Sonar Value Original", sonarBack.getVoltage());
             telemetry.update();
         }
     }
 
     public double readSonar(AnalogInput sonar) {
-        double value = sonar.getVoltage();
-        double conversionFactor = sonar.getMaxVoltage()/512.0;
-        value = value/conversionFactor;
-        return value;
+        double sValue = sonar.getVoltage();
+        sValue = sValue / 0.00976;
+        return sValue;
     }
+
     public boolean closeToBeacon(double value){
         if(value < 3.5){ //3.5 inches is the distance away to read sonar
             return true;
@@ -54,6 +54,7 @@ public class testSonar extends LancerLinearOpMode {
         br.setPower(0);
         bl.setPower(0);
     }
+
     public void moveAwayBeacon(){
         while(closeToBeacon(readSonar(sonarBack))){
             //call the moveStraight method so that it moves back until it reaches enough distance away
